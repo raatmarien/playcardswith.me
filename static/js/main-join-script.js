@@ -1,19 +1,32 @@
 var myRoom = null;
 
+var CARD_WIDTH = 130;
+var CARD_HEIGHT = 300;
+
 // Set up drawing
 var elem = document.getElementById('draw-place');
 var params = { width: 1000, height: 700 };
 var two = new Two(params).appendTo(elem);
 
-card = two.makeRectangle(500, 200, 130, 300);
-card.fill = "#eeeeee";
-card.stroke = "red";
+var styles = {
+    family: 'proxima-nova, sans-serif',
+    size: 50,
+    leading: 50,
+    weight: 900
+};
+
 
 two.update();
 
 function updateState(state) {
-    card.translation.x = state.cardX;
-    card.translation.y = state.cardY;
+    two.clear()
+    for (let i = 0; i < state.length; i++) {
+        cardinfo = state[i];
+        card = two.makeRectangle(
+            cardinfo.x, cardinfo.y, CARD_WIDTH, CARD_HEIGHT);
+        cardtext = two.makeText(
+            cardinfo.name, cardinfo.x, cardinfo.y, styles);
+    }
     two.update();
 }
 
