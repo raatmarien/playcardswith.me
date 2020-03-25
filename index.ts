@@ -1,6 +1,7 @@
 import http from "http";
 import express from "express";
 import cors from "cors";
+import path from "path";
 import { Server } from "colyseus";
 import { monitor } from "@colyseus/monitor";
 // import socialRoutes from "@colyseus/social/express"
@@ -19,7 +20,7 @@ const gameServer = new Server({
 });
 
 // register your room handlers
-gameServer.define('my_room', MyRoom);
+gameServer.define('room', MyRoom);
 
 /**
  * Register @colyseus/social routes
@@ -28,6 +29,9 @@ gameServer.define('my_room', MyRoom);
  * - also uncomment the import statement
  */
 // app.use("/", socialRoutes);
+
+// for showing our client side stuff
+app.use('/', express.static(path.join(__dirname, "static")));
 
 // register colyseus monitor AFTER registering your room handlers
 app.use("/colyseus", monitor());
