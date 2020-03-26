@@ -1,7 +1,7 @@
 let myRoom = null;
 
-let CARD_WIDTH = 130;
-let CARD_HEIGHT = 300;
+let CARD_WIDTH = 80;
+let CARD_HEIGHT = 130;
 
 // Set up drawing
 let elem = document.getElementById('draw-place');
@@ -15,28 +15,47 @@ let styles = {
     weight: 900
 };
 
-
-two.update();
-
 let myState = null;
 
-function updateState(state) {
-    myState = state;
-    two.clear();
-    for (let i = 0; i < state.length; i++) {
-        cardinfo = state[i];
-        card = two.makeRectangle(
+function drawDecks(decks) {
+    for (let i = 0; i < decks.length; i++) {
+        let pad = 10;
+        let x = CARD_WIDTH / 2 + pad,
+            y = CARD_HEIGHT / 2 + pad + (CARD_HEIGHT + pad) * i;
+
+        let deck = two.makeRectangle(
+            x, y, CARD_WIDTH, CARD_HEIGHT);
+        deck.fill = '#55dd55';
+        two.makeText(decks[i].cards.length, x, y, styles);
+    }
+}
+
+function drawCards(cards) {
+    for (let i = 0; i < cards.length; i++) {
+        let cardinfo = cards[i];
+        let card = two.makeRectangle(
             cardinfo.x, cardinfo.y, CARD_WIDTH, CARD_HEIGHT);
 
         if (cardinfo.open) {
             card.fill = '#dddddd';
-            cardtext = two.makeText(
+            two.makeText(
                 cardinfo.name, cardinfo.x, cardinfo.y, styles);
         } else {
             card.fill = '#dd5555';
         }
     }
-    two.update();
+}
+
+function redraw() {
+    two.clear();
+    drawDecks(myState.decks);
+    drawCards(myState.table.cards);
+    two.update()
+}
+
+function updateState(state) {
+    myState = state;
+    redraw();
 }
 
 let client = new Colyseus.Client("ws://localhost:2567");
@@ -61,11 +80,6 @@ client.joinOrCreate("room").then(room => {
     });
 });
 
-
-function send_message() {
-    myRoom.send("Spammerdiespam!")
-}
-
 // Set up mouse listening
 function getTwoCoords(event) {
     let x = event.pageX - elem.offsetLeft,
@@ -86,9 +100,10 @@ function isInCard(pos, card) {
 }
 
 function getIntersectingCard(pos) {
-    for (let i = myState.length - 1; i >= 0; i--) {
-        if (isInCard(pos, myState[i])) {
-            return i;
+    for (let i = myState.table.cards.length - 1; i >= 0; i--) {
+        let card = myState.table.cards[i];
+        if (isInCard(pos, card)) {
+            return card.id;
         }
     }
     return -1;
