@@ -27,8 +27,14 @@ function updateState(state) {
         cardinfo = state[i];
         card = two.makeRectangle(
             cardinfo.x, cardinfo.y, CARD_WIDTH, CARD_HEIGHT);
-        cardtext = two.makeText(
-            cardinfo.name, cardinfo.x, cardinfo.y, styles);
+
+        if (cardinfo.open) {
+            card.fill = '#dddddd';
+            cardtext = two.makeText(
+                cardinfo.name, cardinfo.x, cardinfo.y, styles);
+        } else {
+            card.fill = '#dd5555';
+        }
     }
     two.update();
 }
@@ -89,24 +95,32 @@ function getIntersectingCard(pos) {
 }
 
 let clickedCardId = -1;
+let startCoords = null;
 let grabX = 0;
 let grabY = 0;
 
 function mouseDown(event) {
-    let coords = getTwoCoords(event);
-    clickedCardId = getIntersectingCard(coords);
+    startCoords = getTwoCoords(event);
+    clickedCardId = getIntersectingCard(startCoords);
     if (clickedCardId >= 0) {
         card = myState[clickedCardId];
-        grabX = coords.x - card.x;
-        grabY = coords.y - card.y;
+        grabX = startCoords.x - card.x;
+        grabY = startCoords.y - card.y;
     }
+}
+
+function movedEnough(pos) {
+    let difx = pos.x - startCoords.x,
+        dify = pos.y - startCoords.y,
+        sqDist = difx * difx + dify * dify;
+    return sqDist > 100;
 }
 
 function mouseMove(event) {
     let coords = getTwoCoords(event);
-    if (clickedCardId >= 0) {
+    if (clickedCardId >= 0 && movedEnough(coords)) {
         myRoom.send({
-            messageType: "card_update",
+            messageType: "card_move",
             cardId: clickedCardId,
             cardX: coords.x - grabX,
             cardY: coords.y - grabY
@@ -115,6 +129,14 @@ function mouseMove(event) {
 }
 
 function mouseUp(event) {
+    let coords = getTwoCoords(event);
+    if (clickedCardId >= 0 && !movedEnough(coords)) {
+        myRoom.send({
+            messageType: "card_turn",
+            cardId: clickedCardId
+        });
+    }
+    
     clickedCardId = -1;
 }
 
