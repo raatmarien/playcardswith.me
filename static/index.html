@@ -1,16 +1,16 @@
 <html>
   <head>
-    <title>Hello!</title>
+    <title>Cards</title>
     <!-- colyseus.js client -->
     <script type="text/javascript" src="https://raw.githack.com/colyseus/colyseus.js/master/dist/colyseus.js"></script>
     <script src="js/lib/two.js"></script>.
   </head>
   <body>
-    <h1>Helloah!</h1>
+    <div id="draw-place"
+         style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;" 
+         unselectable="on"
+         onselectstart="return false;"></div>
 
-    <div id="draw-place"></div>
-
-    <button onclick="send_message()">Spam!</button>
     <script type="text/javascript" src="js/main-join-script.js"></script>
   </body>
 </html>
