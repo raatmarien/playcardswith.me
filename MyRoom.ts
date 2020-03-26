@@ -30,7 +30,7 @@ export class MyRoom extends Room {
     onMessage (client: Client, message: any) {
         console.log("Message:", message);
         if (message.messageType = "card_update") {
-            let card = this.state[message.card_id];
+            let card = this.state[message.cardId];
             card.x = message.cardX;
             card.y = message.cardY;
         }
