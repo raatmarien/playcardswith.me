@@ -16,6 +16,7 @@ let styles = {
 };
 
 let myState = null;
+let deckRects = [];
 
 function drawDecks(decks) {
     for (let i = 0; i < decks.length; i++) {
@@ -27,6 +28,10 @@ function drawDecks(decks) {
             x, y, CARD_WIDTH, CARD_HEIGHT);
         deck.fill = '#55dd55';
         two.makeText(decks[i].cards.length, x, y, styles);
+
+        deckRects.push({
+            x: pad,
+            y: pad + (CARD_HEIGHT + pad) * i});
     }
 }
 
@@ -99,6 +104,14 @@ function isInCard(pos, card) {
         && pos.y > minY && pos.y < maxY;
 }
 
+function getIntersectingDeck(pos) {
+    for (let i = 0; i < deckRects.length; i++) {
+        if (isInCard(pos, deckRects[i])) {
+            return i;
+        }
+    }
+}
+
 function getIntersectingCard(pos) {
     for (let i = myState.table.cards.length - 1; i >= 0; i--) {
         let card = myState.table.cards[i];
@@ -109,6 +122,16 @@ function getIntersectingCard(pos) {
     return -1;
 }
 
+function getCardFromTable(cardId) {
+    for (let i = 0; i < myState.table.cards.length; i++) {
+        if (myState.table.cards[i].id == cardId) {
+            return myState.table.cards[i];
+        }
+    }
+    return null;
+}
+
+let clickedDeckId = -1;
 let clickedCardId = -1;
 let startCoords = null;
 let grabX = 0;
@@ -116,9 +139,13 @@ let grabY = 0;
 
 function mouseDown(event) {
     startCoords = getTwoCoords(event);
+    clickedDeckId = getIntersectingDeck(startCoords);
     clickedCardId = getIntersectingCard(startCoords);
-    if (clickedCardId >= 0) {
-        card = myState[clickedCardId];
+    if (clickedCardId < 0 && clickedDeckId >= 0) {
+        let deckCards = myState.decks[clickedDeckId].cards;
+        clickedCardId = deckCards[deckCards.length - 1].id;
+    } else if (clickedCardId >= 0) {
+        let card = getCardFromTable(clickedCardId);
         grabX = startCoords.x - card.x;
         grabY = startCoords.y - card.y;
     }

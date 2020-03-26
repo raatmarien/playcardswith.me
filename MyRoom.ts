@@ -34,6 +34,10 @@ class Deck {
         this.cards = cards;
     }
 
+    peakTop() {
+        return this.cards[this.cards.length - 1];
+    }
+
     takeTopCard() {
         return this.cards.pop();
     }
@@ -95,7 +99,18 @@ export class MyRoom extends Room {
     onMessage (client: Client, message: any) {
         console.log("Message:", message);
         if (message.messageType == "card_move") {
-            let card = this.state.table.getCard(message.cardId);
+            let card
+                = this.state.table.getCard(message.cardId);
+            if (!card) {
+                for (let i = 0;
+                     i < this.state.decks.length && !card; i++) {
+                    let deck = this.state.decks[i];
+                    if (deck.peakTop().id == message.cardId) {
+                        card = deck.takeTopCard()!;
+                        this.state.table.cards.push(card);
+                    }
+                }
+            }
             if (!card) {
                 console.log("Invalid card id:", message.cardId);
                 return;
