@@ -12,7 +12,6 @@ export default class App extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = initialState();
-
     }
 
     public componentDidMount() {
