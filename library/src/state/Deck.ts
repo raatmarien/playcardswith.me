@@ -46,7 +46,7 @@ function standardCards() : Card[] {
             } else {
                 face += ["J", "Q", "K", "A"][i-9];
             }
-            cards.push(new Card(0, 0, suit + face, false));
+            cards.push(new Card(suit + face, false));
         }
     }
     return cards;

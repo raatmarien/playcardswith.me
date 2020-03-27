@@ -1,9 +1,11 @@
 
 import Card from "./state/Card";
+import LocatedCard from "./state/LocatedCard";
 import { Deck } from "./state/Deck";
 import Table from "./state/Table";
 import { State, initialState } from "./state/State";
 import Player from "./state/Player";
+import { Vector } from "./Utils";
 
 export {
     Card,
@@ -12,5 +14,7 @@ export {
     State,
     Player,
     initialState,
+    Vector,
+    LocatedCard
 }
     

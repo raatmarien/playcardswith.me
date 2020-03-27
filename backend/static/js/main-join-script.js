@@ -37,14 +37,16 @@ function drawDecks(decks) {
 
 function drawCards(cards) {
     for (let i = 0; i < cards.length; i++) {
-        let cardinfo = cards[i];
+        let cardname = cards[i].card.name;
+        let cardopen = cards[i].card.open;
+        let cardinfo = cards[i].location;
         let card = two.makeRectangle(
             cardinfo.x, cardinfo.y, CARD_WIDTH, CARD_HEIGHT);
 
-        if (cardinfo.open) {
+        if (cardopen) {
             card.fill = '#dddddd';
             two.makeText(
-                cardinfo.name, cardinfo.x, cardinfo.y, styles);
+                cardname, cardinfo.x, cardinfo.y, styles);
         } else {
             card.fill = '#dd5555';
         }
@@ -54,7 +56,7 @@ function drawCards(cards) {
 function redraw() {
     two.clear();
     drawDecks(myState.decks);
-    drawCards(myState.table.cards);
+    drawCards(myState.table.locatedCards);
     two.update()
 }
 
@@ -113,19 +115,19 @@ function getIntersectingDeck(pos) {
 }
 
 function getIntersectingCard(pos) {
-    for (let i = myState.table.cards.length - 1; i >= 0; i--) {
-        let card = myState.table.cards[i];
-        if (isInCard(pos, card)) {
-            return card.id;
+    for (let i = myState.table.locatedCards.length - 1; i >= 0; i--) {
+        let card = myState.table.locatedCards[i];
+        if (isInCard(pos, card.location)) {
+            return card.card.id;
         }
     }
     return -1;
 }
 
 function getCardFromTable(cardId) {
-    for (let i = 0; i < myState.table.cards.length; i++) {
-        if (myState.table.cards[i].id == cardId) {
-            return myState.table.cards[i];
+    for (let i = 0; i < myState.table.locatedCards.length; i++) {
+        if (myState.table.locatedCards[i].card.id == cardId) {
+            return myState.table.locatedCards[i].location;
         }
     }
     return null;

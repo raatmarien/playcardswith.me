@@ -1,6 +1,6 @@
 import Table from "./Table";
 import { Deck, shuffledStandardDeck, standardDeck } from "./Deck";
-import Card from "./Card";
+import LocatedCard from "./LocatedCard";
 import Player from "./Player";
 
 export class State {
@@ -20,9 +20,9 @@ export class State {
 }
 
 export function initialState() {
-    let cards: Card[] = [];
+    let locatedCards: LocatedCard[] = [];
     let players: Player[] = [];
-    let table = new Table(cards);
+    let table = new Table(locatedCards);
     let decks = [shuffledStandardDeck(), standardDeck()];
     return new State(table, decks, players);
 }
