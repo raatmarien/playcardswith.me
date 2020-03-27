@@ -1,8 +1,5 @@
 import { Room, Client } from "colyseus";
-import { State, initialState } from "./state/State";
-import Card from "./state/Card";
-import { Deck } from "./state/Deck";
-
+import { State, initialState, Card, Deck } from "cards-library";
 
 export class MyRoom extends Room {
     state: State;

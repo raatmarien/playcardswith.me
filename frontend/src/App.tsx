@@ -1,21 +1,17 @@
 import React from 'react';
 import './App.css';
 import * as Colyseus from "colyseus.js";
+import {State, initialState} from "cards-library";
 
 type Props = {};
 
-type State = {
-    numberOfDecks: number;
-};
 
 export default class App extends React.Component<Props, State> {
     public client: any;
 
     constructor(props: Props) {
         super(props);
-        this.state = {
-            numberOfDecks: 0
-        };
+        this.state = initialState();
 
     }
 
@@ -38,16 +34,14 @@ export default class App extends React.Component<Props, State> {
 
     private updateRoomState(state: any) {
         console.log("room state:", state);
-        this.setState({
-            numberOfDecks: state.decks.length,
-        });
+        this.setState(state!);
     }
 
 
     public render() {
         return (
             <div className="App">
-                {this.state.numberOfDecks}
+                Number of decks = {this.state.decks.length}
             </div>
         );
     }
