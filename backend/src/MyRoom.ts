@@ -2,7 +2,7 @@ import { Room, Client } from "colyseus";
 import { State, initialState } from "./state/State";
 import Card from "./state/Card";
 import { Deck } from "./state/Deck";
-
+import Player from "./state/Player";
 
 export class MyRoom extends Room {
     state: State;
@@ -17,7 +17,13 @@ export class MyRoom extends Room {
     }
 
     onJoin (client: Client, options: any) {
-        console.log("Someone joined")
+        console.log(`${client.id} joined`);
+
+        let hand: Card[] = [];
+        let pointer : [number, number] = [0,0];
+        let player = new Player(client.id, hand, pointer, client.id);
+
+        this.state.addPlayer(player);
     }
 
     onMessage (client: Client, message: any) {
