@@ -1,26 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import * as Colyseus from "colyseus.js";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    let client = new Colyseus.Client("ws://localhost:3000");
+    client.joinOrCreate("room").then(room => {
+        console.log("joined");
+        room.onStateChange.once(function(state) {
+            console.log("initial room state:", state);
+        });
+
+        // new room state
+        room.onStateChange(function(state) {
+            // this signal is triggered on each patch
+            console.log("New state:", state);
+        });
+
+        // listen to patches coming from the server
+        room.onMessage(function(message) {
+            console.log("New message", message);
+        });
+    });
+
+
+    return (
+        <div className="App">
+            Hoi!
+        </div>
+    );
 }
 
 export default App;

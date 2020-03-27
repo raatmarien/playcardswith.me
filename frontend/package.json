@@ -1,7 +1,7 @@
 {
   "name": "card-stable",
   "version": "0.1.0",
-  "private": true,
+  "proxy": "http://localhost:2567",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -10,6 +10,7 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "colyseus.js": "^0.12.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
