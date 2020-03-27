@@ -1,4 +1,4 @@
-let nextId = 0;
+import { nextUID } from "../Utils";
 
 export default class Card {
     id: number;
@@ -9,7 +9,7 @@ export default class Card {
 
     constructor(x: number, y: number,
                 name: string, open: boolean) {
-        this.id = nextId++;
+        this.id = nextUID();
         this.x = x;
         this.y = y;
         this.name = name;
