@@ -30,8 +30,8 @@ function drawDecks(decks) {
         two.makeText(decks[i].cards.length, x, y, styles);
 
         deckRects.push({
-            x: pad,
-            y: pad + (CARD_HEIGHT + pad) * i});
+            x: x,
+            y: y });
     }
 }
 
