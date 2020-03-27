@@ -16,7 +16,7 @@ export default class App extends React.Component<Props, State> {
     }
 
     public componentDidMount() {
-        let client = new Colyseus.Client("ws://localhost:3000");
+        let client = new Colyseus.Client("ws://localhost:2567");
         client.joinOrCreate("room").then(room => {
             console.log("joined");
             room.onStateChange.once(this.updateRoomState.bind(this));
