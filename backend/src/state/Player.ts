@@ -14,4 +14,20 @@ export default class Player {
         this.name = name;
         this.pointer = pointer;
     }
+    
+    addCardToHand(card: Card) {
+        this.hand.push(card);
+        return card;
+    }
+
+    removeCardFromHand(card: Card) {
+        const index : number = this.hand.indexOf(card);
+        if (index > -1) {
+          this.hand.splice(index, 1);
+        }
+        else {
+            console.log(`Card ${card.id} is not present in deck 
+                and can therefore not be removed`);
+        }
+    }
 }
