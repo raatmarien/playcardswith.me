@@ -41,7 +41,12 @@ export default class App extends React.Component<Props, State> {
     public render() {
         return (
             <div className="App">
-                Number of decks = {this.state.decks.length}
+                <span>Number of cards: {this.state.table.cards.length}</span>
+                <ul>
+                {this.state.table.cards.map((card) => {
+                    return <li>{card.name}</li>;
+                })}
+                </ul>
             </div>
         );
     }
