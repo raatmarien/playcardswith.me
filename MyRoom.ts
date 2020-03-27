@@ -1,7 +1,7 @@
 import { Room, Client } from "colyseus";
 import { State, initialState } from "./state/State";
 import Card from "./state/Card";
-import Deck from "./state/Deck";
+import { Deck } from "./state/Deck";
 
 
 export class MyRoom extends Room {
@@ -31,7 +31,7 @@ export class MyRoom extends Room {
                     let deck = this.state.decks[i];
                     if (deck.peakTop().id == message.cardId) {
                         card = deck.takeTopCard()!;
-                        this.state.table.cards.push(card);
+                        this.state.table.cards.push(card!);
                     }
                 }
             }
