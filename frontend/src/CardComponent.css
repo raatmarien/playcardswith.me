@@ -23,6 +23,7 @@
     border-radius: 5%;
     backface-visibility: hidden;
     box-shadow: 2px 2px 3px 0px #00000022;
+    transition: box-shadow 0.2s;
 }
 
 .card-open {

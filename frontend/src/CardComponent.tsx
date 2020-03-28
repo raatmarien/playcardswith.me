@@ -88,6 +88,13 @@ export default class CardComponent extends React.Component<Props, State> {
 
         let styles = {
             zIndex: this.props.locatedCard.zIndex,
+        };
+
+        let stylesCardFace = {};
+        if (this.props.locatedCard.draggingPlayerID !== null) {
+            stylesCardFace = {
+                boxShadow: "2px 2px 3px 0px #00000022, 0px 0px 10px red"
+            };
         }
 
         return (
@@ -107,12 +114,12 @@ export default class CardComponent extends React.Component<Props, State> {
 
                 <div className="card" style={styles}>
                     <div className={classNamesFaceHolder}>
-                        <div className="cardFace card-open">
+                        <div className="cardFace card-open" style={stylesCardFace}>
                             <p className="card-open-content">
                             {this.props.locatedCard.card.name}
                             </p>
                         </div>
-                        <div className="cardFace card-closed">
+                        <div className="cardFace card-closed" style={stylesCardFace}>
                         </div>
                     </div>
                 </div>
