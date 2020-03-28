@@ -16,7 +16,7 @@ export class Deck {
         this.cards.forEach((card) => card.deckId = this.id);
     }
 
-    peakTop() {
+    public peakTop() {
         return this.cards[this.cards.length - 1];
     }
 
