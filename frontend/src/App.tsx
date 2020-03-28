@@ -5,6 +5,7 @@ import * as Colyseus from "colyseus.js";
 import {State, initialState} from "cards-library";
 import TableComponent from "./TableComponent";
 import DecksComponent from "./DecksComponent";
+import RoomHelper from "./RoomHelper";
 import PointersComponent from "./PointersComponent";
 
 type Props = {};
@@ -20,20 +21,21 @@ export default class App extends React.Component<Props, State> {
 
     public componentDidMount() {
         let client = new Colyseus.Client("ws://localhost:2567");
-        client.joinOrCreate("room").then(room => {
-            console.log("joined");
-            this.room = room;
+        RoomHelper.connect(client).then((r:Colyseus.Room) => this.onRoomJoin(r));
+    }
 
-            room.onStateChange.once(this.updateRoomState.bind(this));
+    private onRoomJoin(room: Colyseus.Room) {
+        console.log("joined");
+        this.room = room;
 
-            // new room state
-            room.onStateChange(this.updateRoomState.bind(this));
+        room.onStateChange.once(this.updateRoomState.bind(this));
 
-            // listen to patches coming from the server
-            room.onMessage(function(message) {
-                console.log("New message", message);
-            });
+        // new room state
+        room.onStateChange(this.updateRoomState.bind(this));
 
+        // listen to patches coming from the server
+        room.onMessage(function(message) {
+            console.log("New message", message);
         });
     }
 
