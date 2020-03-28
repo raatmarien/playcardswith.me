@@ -19,6 +19,9 @@ export default class RoomHelper {
             });
         }
 
-        return client.joinById(roomID);
+        return client.joinById(roomID).catch(reason => {
+            alert("That room does not exist!");
+            throw reason;
+        });
     }
 }
