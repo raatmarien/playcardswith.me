@@ -4,16 +4,19 @@ import PointerComponent from "./PointerComponent";
 
 type Props = {
     players: Player[],
+    currentPlayerId: string,
 };
 
 export default class PointersComponent extends React.PureComponent<Props> {
     public render() {
         return (
             <div className="pointers">
-                {this.props.players.map((player) =>
-                    <PointerComponent key={player.id}
-                                      location={player.pointer}
-                                      id={player.id} />
+                {this.props.players
+                     .filter((player) => player.id !== this.props.currentPlayerId)
+                     .map((player) =>
+                        <PointerComponent key={player.id}
+                                          location={player.pointer}
+                                          id={player.id} />
                 )}
             </div>
         );
