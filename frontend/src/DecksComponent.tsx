@@ -13,8 +13,8 @@ export default class DecksComponent extends React.Component<Props, {}> {
         return (
             <ul className="decks">
                 {
-                    this.props.decks.map((deck) =>
-                        <DeckComponent deck={deck}/>)
+                    this.props.decks.map((deck, i) =>
+                        <DeckComponent key={i} deck={deck}/>)
                 }
             </ul>
         );
