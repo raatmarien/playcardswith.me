@@ -10,7 +10,6 @@ type Props = {
 
 export default class DecksComponent extends React.Component<Props, {}> {
     private onDeckClick(id: number, event: any) {
-        console.log("Hello");
         this.props.sendMessage({
             messageType: "pick_from_deck",
             deckId: id,
