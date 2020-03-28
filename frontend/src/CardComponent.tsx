@@ -20,6 +20,7 @@ export default class CardComponent extends React.Component<Props, {}> {
         let styles = {
             left: loc.x,
             top: loc.y,
+            zIndex: this.props.locatedCard.zIndex,
         }
 
         return (
