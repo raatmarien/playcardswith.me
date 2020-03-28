@@ -6,6 +6,7 @@ import {State, initialState} from "cards-library";
 import TableComponent from "./TableComponent";
 import RoomHelper from "./RoomHelper";
 import PointersComponent from "./PointersComponent";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 type Props = {};
 
@@ -39,7 +40,6 @@ export default class App extends React.Component<Props, State> {
     }
 
     private updateRoomState(state: any) {
-        console.log("room state:", state);
         this.setState(state!);
     }
 

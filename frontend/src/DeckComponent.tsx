@@ -1,6 +1,7 @@
 import React from "react";
 import {Deck, Card} from "cards-library";
 import "./DeckComponent.css";
+import {DropdownButton, Dropdown} from "react-bootstrap";
 import {DraggableCore, DraggableData} from 'react-draggable';
 
 type Props = {
@@ -15,7 +16,10 @@ type State = {
 export default class DeckComponent extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
-        this.setState({draggingCard: null});
+
+        this.state = {
+            draggingCard: null,
+        };
     }
 
     private recallToThisDeck() {
@@ -53,19 +57,26 @@ export default class DeckComponent extends React.Component<Props, State> {
 
     public render() {
         return (
-            <DraggableCore
-                onStart={(e, data) => this.onDragStart(data)}
-                onDrag={(e, data) => this.onDragMove(data)}
-                onStop={(e, data) => this.onDragStop(data)}>
-                <div className="deck">
-                    <button onClick={this.recallToThisDeck.bind(this)}>&#8942;</button>
+            <div className="deck">
+                <DropdownButton title="&#8942;" id="deck-menu-button"
+                                bsPrefix="custom-menu-btn">
+                    <Dropdown.Item onClick={this.recallToThisDeck.bind(this)}>
+                        Recall
+                    </Dropdown.Item>
+                    <Dropdown.Item>Shuffle</Dropdown.Item>
+                </DropdownButton>
+
+                <DraggableCore
+                    onStart={(e, data) => this.onDragStart(data)}
+                    onDrag={(e, data) => this.onDragMove(data)}
+                    onStop={(e, data) => this.onDragStop(data)}>
                     <div className="inner-deck">
                         <div>
                             {this.props.deck.cards.length} cards
                         </div>
                     </div>
-                </div>
-            </DraggableCore>
+                </DraggableCore>
+            </div>
         );
     }
 }
