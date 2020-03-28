@@ -62,6 +62,18 @@ export class State {
             let cards = this.table.removeCardsBelongingToDeck(deckId);
 
             deck.addAll(cards);
+        } else {
+            console.log("Invalid deckId:", deckId);
+        }
+    }
+
+    public shuffleDeck(deckId: number) {
+        let deck = this.getDeck(deckId);
+
+        if (deck !== null) {
+            deck.shuffleDeck();
+        } else {
+            console.log("Invalid deckId:", deckId);
         }
     }
 }
