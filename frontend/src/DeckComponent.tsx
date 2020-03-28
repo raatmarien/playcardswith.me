@@ -6,7 +6,6 @@ import {DraggableCore, DraggableData} from 'react-draggable';
 type Props = {
     deck: Deck,
     sendMessage: (msg: any) => void,
-    onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void,
 }
 
 type State = {
@@ -27,7 +26,6 @@ export default class DeckComponent extends React.Component<Props, State> {
     }
 
     private onDragStart(data: DraggableData) {
-        console.log("drag start");
         this.props.sendMessage({
             messageType: "pick_from_deck",
             deckId: this.props.deck.id,
@@ -61,7 +59,7 @@ export default class DeckComponent extends React.Component<Props, State> {
                 onStop={(e, data) => this.onDragStop(data)}>
                 <div className="deck">
                     <button onClick={this.recallToThisDeck.bind(this)}>&#8942;</button>
-                    <div className="inner-deck" onClick={this.props.onClick}>
+                    <div className="inner-deck">
                         <div>
                             {this.props.deck.cards.length} cards
                         </div>
