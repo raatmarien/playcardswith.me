@@ -59,6 +59,13 @@ export class MyRoom extends Room {
             card.open = !card.open;
 
             this.state.table.bringCardToFront(locatedCard);
+        } else if (message.messageType == "pointer_move") {
+            let player = this.state.getPlayer(message.playerId);
+
+            if (player !== null) {
+                player.pointer.x = message.pointerX;
+                player.pointer.y = message.pointerY;
+            }
         }
     }
 
