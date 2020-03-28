@@ -44,6 +44,13 @@ export class State {
             return null;
         }
     }
+
+    public getDeck(id: number): Deck | null {
+        if (id >= this.decks.length || id < 0) {
+            return null
+        }
+        return this.decks[id];
+    }
 }
 
 export function initialState() {

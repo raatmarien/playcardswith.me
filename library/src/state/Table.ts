@@ -1,5 +1,6 @@
 import LocatedCard from "./LocatedCard";
 import Card from "./Card";
+import { Vector } from "../Utils";
 
 export default class Table {
     locatedCards: LocatedCard[];
@@ -31,5 +32,11 @@ export default class Table {
         let highestZIndex = this.getHighestZIndex();
         if (locatedCard.zIndex != highestZIndex)
             locatedCard.zIndex = highestZIndex + 1;
+    }
+
+    public addNewCard(card: Card, location: Vector) {
+        this.locatedCards.push(
+            new LocatedCard(card, location,
+                            this.getHighestZIndex() + 1));
     }
 }
