@@ -59,9 +59,12 @@ export class MyRoom extends Room {
                 console.log("Invalid deck id:", message.deckId);
                 return;
             }
-            let card = deck.takeTopCard()!;
-            this.state.table.addNewCard(
-                card, new Vector(message.cardX, message.cardY));
+            let card = deck.takeTopCard();
+
+            if (card !== undefined) {
+                this.state.table.addNewCard(
+                    card, new Vector(message.cardX, message.cardY));
+            }
         } else if (message.messageType === "recall_to_deck") {
             this.state.recallToDeck(message.deckId);
         }
