@@ -22,8 +22,8 @@ export default class RoomHelper {
             this.changeRoomIDInUrl(room.id);
             return room;
         }).catch(reason => {
-            alert("That room does not exist!");
-            throw reason;
+            alert("That room does not exist! Creating a new one.");
+            return this.createPrivateRoom(client);
         });
     }
 
