@@ -1,5 +1,6 @@
 import { nextUID, Vector } from "../Utils";
 import Card from "./Card";
+import Table from "./Table";
 
 export default class Player {
     hand: Card[];
@@ -29,5 +30,10 @@ export default class Player {
             console.log(`Card ${card.id} is not present in deck 
                 and can therefore not be removed`);
         }
+    }
+
+    /** Get which card this player is dragging on the given table */
+    getDraggingCard(table: Table) {
+        return table.locatedCards.find(lc => lc.draggingPlayerID == this.id);
     }
 }

@@ -69,6 +69,10 @@ export default class CardComponent extends React.Component<Props, State> {
             dragging: false,
         });
 
+        this.props.sendMessage({
+            messageType: "card_release"
+        });
+
         if (this.countAsClick(data)) {
             this.onCardClick(locatedCard.card.id);
         }

@@ -6,6 +6,7 @@ export default class LocatedCard {
     location: Vector;
     /** The Z-Index of this card. A higher number will lie on top. */
     zIndex: number;
+    draggingPlayerID: string | null = null;
 
     constructor(card: Card, location: Vector, zIndex: number) {
         this.card = card;

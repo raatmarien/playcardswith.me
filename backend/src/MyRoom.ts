@@ -32,14 +32,51 @@ export class MyRoom extends Room {
                 console.log("Invalid card id:", message.cardId);
                 return;
             }
+            
+            if (locatedCard.draggingPlayerID !== null &&
+                locatedCard.draggingPlayerID !== message.playerID) {
+                //maybe send a message to the client?
+                return;
+            }
+
+            let player = this.state.getPlayer(message.playerId);
+            if (player == null) {
+                console.log("That player does not exist:" + player);
+                return;
+            }
+            let playerDraggingCard = player.getDraggingCard(this.state.table);
+            if (locatedCard.draggingPlayerID == null && playerDraggingCard == undefined) {
+                //The player tries to drag two cards at once,
+                //this is not allowed
+                return;
+            }
+            
             locatedCard.location.x = message.cardX;
             locatedCard.location.y = message.cardY;
+            locatedCard.draggingPlayerID = message.playerID;
 
             this.state.table.bringCardToFront(locatedCard);
+        } else if (message.messageType == "card_release") {
+            let player = this.state.getPlayer(message.playerId);
+            if (player == null) {
+                console.log("That player does not exist:" + player);
+                return;
+            }
+            let draggingCard = player.getDraggingCard(this.state.table);
+            if (draggingCard == null) {
+                console.log("Player requested to release without dragging:", message.player);
+                return;
+            }
+            draggingCard.draggingPlayerID = null;
         } else if (message.messageType == "card_turn") {
             let locatedCard = this.state.table.getLocatedCard(message.cardId);
             if (!locatedCard) {
                 console.log("Invalid card id:", message.cardId);
+                return;
+            }
+            if (locatedCard.draggingPlayerID !== null &&
+                locatedCard.draggingPlayerID !== message.playerID) {
+                //maybe send a message to the client?
                 return;
             }
             let card = locatedCard.card;
