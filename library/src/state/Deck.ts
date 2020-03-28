@@ -56,9 +56,9 @@ export function standardDeck() : Deck {
 
 function standardCards() : Card[] {
     let cards = []
-    for (let c = 0; c < 1; c++) {
+    for (let c = 0; c < 4; c++) {
         let suit = ["♠", "♥", "♦", "♣"][c];
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < 13; i++) {
             let face = "";
             if (i < 9) {
                 face += (i+2);
