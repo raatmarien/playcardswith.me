@@ -36,10 +36,13 @@ function drawDecks(decks) {
 }
 
 function drawCards(cards) {
-    for (let i = 0; i < cards.length; i++) {
-        let cardname = cards[i].card.name;
-        let cardopen = cards[i].card.open;
-        let cardinfo = cards[i].location;
+    let sortedCards = cards.sort((a, b) => a.zIndex - b.zIndex);
+
+    for (let i = 0; i < sortedCards.length; i++) {
+        let cardname = sortedCards[i].card.name;
+        let cardopen = sortedCards[i].card.open;
+        let cardinfo = sortedCards[i].location;
+
         let card = two.makeRectangle(
             cardinfo.x, cardinfo.y, CARD_WIDTH, CARD_HEIGHT);
 
@@ -115,13 +118,17 @@ function getIntersectingDeck(pos) {
 }
 
 function getIntersectingCard(pos) {
+    let bestZIndex = -1;
+    let cardID = -1;
+
     for (let i = myState.table.locatedCards.length - 1; i >= 0; i--) {
         let card = myState.table.locatedCards[i];
-        if (isInCard(pos, card.location)) {
-            return card.card.id;
+        if (isInCard(pos, card.location) && card.zIndex > bestZIndex) {
+            bestZIndex = card.zIndex;
+            cardID = card.card.id;
         }
     }
-    return -1;
+    return cardID;
 }
 
 function getCardFromTable(cardId) {
