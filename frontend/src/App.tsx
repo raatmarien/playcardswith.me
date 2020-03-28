@@ -28,7 +28,7 @@ export default class App extends React.Component<Props, AppState> {
     }
 
     public componentDidMount() {
-        let client = new Colyseus.Client("ws://localhost:2567");
+        let client = new Colyseus.Client("ws://invulns.nl:2567");
         RoomHelper.connect(client).then((r:Colyseus.Room) => this.onRoomJoin(r));
     }
 
