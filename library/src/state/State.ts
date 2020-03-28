@@ -17,6 +17,33 @@ export class State {
     addPlayer(player: Player) {
         this.players.push(player);
     }
+
+    public removePlayer(id: string) {
+        let index = this.getPlayerIndex(id);
+
+        if (index !== null) {
+            this.players.splice(index, 1);
+        }
+    }
+
+    private getPlayerIndex(id: string): number | null {
+        for (let i = 0; i < this.players.length; i++) {
+            if (this.players[i].id === id) {
+                return i;
+            }
+        }
+
+        return null;
+    }
+
+    public getPlayer(id: string): Player | null {
+        let index = this.getPlayerIndex(id);
+        if (index !== null) {
+            return this.players[index];
+        } else {
+            return null;
+        }
+    }
 }
 
 export function initialState() {
