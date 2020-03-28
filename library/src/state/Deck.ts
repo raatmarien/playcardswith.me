@@ -1,11 +1,19 @@
 import Card from "./Card";
-import { shuffle } from "../Utils";
+import { shuffle, nextUID } from "../Utils";
 
 export class Deck {
+    id: number;
     cards: Card[];
 
     constructor(cards: Card[]) {
+        this.id = nextUID();
         this.cards = cards;
+
+        this.annotateCardsWithThisDeck();
+    }
+
+    private annotateCardsWithThisDeck() {
+        this.cards.forEach((card) => card.deckId = this.id);
     }
 
     peakTop() {
@@ -18,6 +26,7 @@ export class Deck {
 
     addToTop(card: Card) {
         card.open = false;
+        card.deckId = this.id;
         this.cards.push(card);
     }
 }

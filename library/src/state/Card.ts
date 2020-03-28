@@ -2,6 +2,7 @@ import { nextUID } from "../Utils";
 
 export default class Card {
     id: number;
+    deckId: number | null = null;
     name: string;
     open: boolean;
 
