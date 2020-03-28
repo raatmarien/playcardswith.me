@@ -1,4 +1,5 @@
 import LocatedCard from "./LocatedCard";
+import Card from "./Card";
 
 export default class Table {
     locatedCards: LocatedCard[];
@@ -14,5 +15,21 @@ export default class Table {
             }
         }
         return null;
+    }
+
+    /** Get the highest z-index of all cards on the table */
+    getHighestZIndex() {
+        var highestZIndex = -1;
+        for (let card of this.locatedCards) {
+            if (card.zIndex > highestZIndex)
+                highestZIndex = card.zIndex;
+        }
+        return highestZIndex;
+    }
+
+    bringCardToFront(locatedCard:LocatedCard) {
+        let highestZIndex = this.getHighestZIndex();
+        if (locatedCard.zIndex != highestZIndex)
+            locatedCard.zIndex = highestZIndex + 1;
     }
 }

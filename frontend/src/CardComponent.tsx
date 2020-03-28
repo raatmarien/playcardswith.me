@@ -84,7 +84,12 @@ export default class CardComponent extends React.Component<Props, State> {
         }
         let locatedCard = this.props.locatedCard;
 
+        let styles = {
+            zIndex: this.props.locatedCard.zIndex,
+        }
+
         return (
+            <div style={styles}>
             <Draggable
                 key={locatedCard.card.id}
                 position={
@@ -98,13 +103,14 @@ export default class CardComponent extends React.Component<Props, State> {
                 onStop={(e, data) =>
                     this.onDragStop(locatedCard, data)}>
 
-                <div className={className}>
+                <div className={className} style={styles}>
                     {this.props.locatedCard.card.open
                     ? this.props.locatedCard.card.name
                     : ""}
                 </div>
 
             </Draggable>
+            </div>
         );
     }
 }
