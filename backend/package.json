@@ -2,7 +2,7 @@
   "name": "my-app",
   "version": "1.0.0",
   "description": "npm init template for bootstraping an empty Colyseus project",
-  "license": "AGPL-3.0-or-later",
+  "license": "MIT",
   "main": "lib/index.js",
   "scripts": {
     "start": "ts-node index.ts",
