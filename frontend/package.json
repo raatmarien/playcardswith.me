@@ -1,6 +1,7 @@
 {
   "name": "card-stable",
   "version": "0.1.0",
+  "license": "MIT",
   "proxy": "http://localhost:2567",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
