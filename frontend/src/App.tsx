@@ -2,7 +2,8 @@ import React from 'react';
 import './App.css';
 import * as Colyseus from "colyseus.js";
 import {State, initialState} from "cards-library";
-import CardComponent from "./CardComponent";
+import TableComponent from "./TableComponent";
+import DecksComponent from "./DecksComponent";
 
 type Props = {};
 
@@ -39,28 +40,19 @@ export default class App extends React.Component<Props, State> {
         this.setState(state!);
     }
 
-    private onCardClick(id: number) {
+    private sendMessage(msg: any) {
         if (this.room) {
-            this.room.send({
-                messageType: "card_turn",
-                cardId: id,
-            });
+            this.room.send(msg);
         }
     }
-
 
     public render() {
         return (
             <div className="App">
-                <span>Number of cards: {this.state.table.locatedCards.length}</span>
-                <ul>
-                {this.state.table.locatedCards.map((locatedCard) => {
-                    return <CardComponent
-                               locatedCard={locatedCard}
-                               onClick={() => this.onCardClick(locatedCard.card.id)}
-                    />
-                })}
-                </ul>
+                <DecksComponent decks={this.state.decks} />
+                <TableComponent table={this.state.table}
+                                sendMessage={this.sendMessage.bind(this)}
+                />
             </div>
         );
     }
