@@ -21,8 +21,6 @@
     height: 115px;
     border: 1px solid #ccc;
     border-radius: 5%;
-    transition: 0.3s all;
-    transition-property: background, font, border;
     backface-visibility: hidden;
     box-shadow: 2px 2px 3px 0px #00000022;
 }
