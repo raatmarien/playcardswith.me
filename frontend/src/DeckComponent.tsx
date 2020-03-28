@@ -9,7 +9,7 @@ type Props = {
 }
 
 type State = {
-    draggingCard: Card | null;
+    draggingCard: Card | null,
 }
 
 export default class DeckComponent extends React.Component<Props, State> {
