@@ -45,7 +45,7 @@ export default class App extends React.Component<Props, State> {
         if (this.room) {
             this.room.send(msg);
         }
-    }p
+    }
 
     private onMouseMove(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
         if (this.room) {
