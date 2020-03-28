@@ -1,6 +1,6 @@
 import React from 'react';
 import Draggable, { DraggableData } from "react-draggable";
-import './App.css';
+import './TableComponent.css';
 import {Deck, Table, LocatedCard} from "cards-library";
 import CardComponent from "./CardComponent";
 import DecksComponent from "./DecksComponent";
@@ -58,24 +58,25 @@ export default class TableComponent extends React.Component<Props, {}> {
     public render() {
         return (
             <div className="table">
-                <div className="decks">
-                    <DecksComponent
-                        decks={this.props.decks}></DecksComponent>
-                </div>
+                <DecksComponent
+                    decks={this.props.decks}></DecksComponent>
                 {this.props.table.locatedCards.map((locatedCard) => {
                     return <Draggable
+                               key={locatedCard.card.id}
                                position={{
                                    x: locatedCard.location.x,
                                    y: locatedCard.location.y}}
                                onStart={(e, data) =>
-        this.onDragStart(locatedCard, data)}
+                                   this.onDragStart(locatedCard, data)}
                                onDrag={(e, data) =>
-        this.onDragMove(locatedCard, data)}
+                                   this.onDragMove(locatedCard, data)}
                                onStop={(e, data) =>
-        this.onDragStop(locatedCard, data)}>
-    <div style={{width: 0 }}><CardComponent
-        locatedCard={locatedCard}
-         /></div>
+                                   this.onDragStop(locatedCard, data)}>
+                        <div style={{width: 0}}>
+                            <CardComponent
+                                locatedCard={locatedCard}
+                            />
+                        </div>
                     </Draggable>;})}
             </div>)
     }
