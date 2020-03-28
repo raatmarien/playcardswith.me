@@ -2,12 +2,13 @@ import React from 'react';
 import './App.css';
 import * as Colyseus from "colyseus.js";
 import {State, initialState} from "cards-library";
+import CardComponent from "./CardComponent";
 
 type Props = {};
 
 
 export default class App extends React.Component<Props, State> {
-    public client: any;
+    public room: Colyseus.Room<unknown> | null = null;
 
     constructor(props: Props) {
         super(props);
@@ -18,6 +19,8 @@ export default class App extends React.Component<Props, State> {
         let client = new Colyseus.Client("ws://localhost:2567");
         client.joinOrCreate("room").then(room => {
             console.log("joined");
+            this.room = room;
+
             room.onStateChange.once(this.updateRoomState.bind(this));
 
             // new room state
@@ -36,6 +39,15 @@ export default class App extends React.Component<Props, State> {
         this.setState(state!);
     }
 
+    private onCardClick(id: number) {
+        if (this.room) {
+            this.room.send({
+                messageType: "card_turn",
+                cardId: id,
+            });
+        }
+    }
+
 
     public render() {
         return (
@@ -43,7 +55,10 @@ export default class App extends React.Component<Props, State> {
                 <span>Number of cards: {this.state.table.locatedCards.length}</span>
                 <ul>
                 {this.state.table.locatedCards.map((locatedCard) => {
-                    return <li>{locatedCard.card.name}</li>;
+                    return <CardComponent
+                               locatedCard={locatedCard}
+                               onClick={() => this.onCardClick(locatedCard.card.id)}
+                    />
                 })}
                 </ul>
             </div>
