@@ -16,7 +16,7 @@ export class Deck {
         this.cards.forEach((card) => card.deckId = this.id);
     }
 
-    peakTop() {
+    public peakTop() {
         return this.cards[this.cards.length - 1];
     }
 
@@ -28,6 +28,16 @@ export class Deck {
         card.open = false;
         card.deckId = this.id;
         this.cards.push(card);
+    }
+
+    addAll(cards: Card[]) {
+        for (let card of cards) {
+            this.addToTop(card);
+        }
+    }
+
+    shuffleDeck() {
+        this.cards = shuffle(this.cards);
     }
 }
 

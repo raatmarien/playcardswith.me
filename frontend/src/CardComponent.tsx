@@ -112,7 +112,7 @@ export default class CardComponent extends React.Component<Props, State> {
                 onStop={(e, data) =>
                     this.onDragStop(locatedCard, data)}>
 
-                <div className="card" style={styles}>
+                <div className="playing-card" style={styles}>
                     <div className={classNamesFaceHolder}>
                         <div className="cardFace card-open" style={stylesCardFace}>
                             <p className="card-open-content">

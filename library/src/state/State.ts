@@ -51,10 +51,23 @@ export class State {
     }
 
     public getDeck(id: number): Deck | null {
-        if (id >= this.decks.length || id < 0) {
-            return null
+        for (let deck of this.decks) {
+            if (deck.id === id) {
+                return deck;
+            }
         }
-        return this.decks[id];
+
+        return null;
+    }
+
+    public recallToDeck(deckId: number) {
+        let deck = this.getDeck(deckId);
+
+        if (deck !== null) {
+            let cards = this.table.removeCardsBelongingToDeck(deckId);
+
+            deck.addAll(cards);
+        }
     }
 }
 
