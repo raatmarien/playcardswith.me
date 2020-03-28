@@ -22,7 +22,7 @@ export class MyRoom extends Room {
 
         this.state.addPlayer(player);
     }
-b
+
     onMessage (client: Client, message: any) {
         console.log("Message:", message);
         if (message.messageType == "card_drag") {
