@@ -8,7 +8,7 @@ type Props = {
     decks: Deck[],
     table: Table,
     sendMessage: (msg: any) => void,
-    thisPlayerID: string | null,
+    currentPlayerId: string | null,
     players: Player[],
 };
 
@@ -25,7 +25,7 @@ export default class TableComponent extends React.Component<Props> {
                     return <CardComponent locatedCard={locatedCard}
                                           sendMessage={this.props.sendMessage}
                                           key={locatedCard.card.id}
-                                          thisPlayerID={this.props.thisPlayerID}
+                                          currentPlayerId={this.props.currentPlayerId}
                                           players={this.props.players}/>
                     ;})}
 

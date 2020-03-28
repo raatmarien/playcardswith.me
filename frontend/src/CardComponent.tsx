@@ -2,13 +2,12 @@ import React from 'react';
 import {LocatedCard, Player} from "cards-library";
 import "./CardComponent.css";
 import Draggable, { DraggableData } from "react-draggable";
-import { Function } from '@babel/types';
 import randomColor from "randomcolor";
 
 type Props = {
     locatedCard: LocatedCard,
     sendMessage: (msg: any) => void,
-    thisPlayerID: string | null,
+    currentPlayerId: string | null,
     players: Player[],
 };
 
@@ -93,8 +92,8 @@ export default class CardComponent extends React.Component<Props, State> {
     private anyDragEvent(dragEvent: (locatedCard: LocatedCard, data: DraggableData)=>void,
             locatedCard: LocatedCard, data: DraggableData) {
         console.log(locatedCard.draggingPlayerID);
-        console.log(this.props.thisPlayerID);
-        if (locatedCard.draggingPlayerID !== null && locatedCard.draggingPlayerID !== this.props.thisPlayerID)
+        console.log(this.props.currentPlayerId);
+        if (locatedCard.draggingPlayerID !== null && locatedCard.draggingPlayerID !== this.props.currentPlayerId)
             return false;
 
         dragEvent(locatedCard, data);
@@ -118,8 +117,8 @@ export default class CardComponent extends React.Component<Props, State> {
         let stylesCardFace = {};
         let draggingID = this.props.locatedCard.draggingPlayerID;
         if (draggingID !== null) {
-            let cardPlayer = this.props.players.find(p => p.id == draggingID);
-                if (cardPlayer !== undefined) {
+            let cardPlayer = this.props.players.find(p => p.id === draggingID);
+            if (cardPlayer !== undefined) {
                 let cardPlayerColor = randomColor({
                     seed: cardPlayer.id
                 });
