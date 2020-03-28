@@ -6,6 +6,10 @@
     transform-style: preserve-3d;
 }
 
+.card-red-suit {
+    color: red;
+}
+
 .cardFaceHolder {
     transform-origin: 40px 0px;
     width: 100%;
@@ -28,7 +32,8 @@
 .card-open {
     position: absolute;
     background-color: #efefef;
-    font-size: 32px;
+    line-height: 1;
+    font-size: 48px;
     transform: rotateY(180deg);
 }
 
