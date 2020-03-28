@@ -9,7 +9,7 @@ type Props = {
 };
 
 export default class DecksComponent extends React.Component<Props, {}> {
-    private onDeckClick(id: number, event: any) {
+    private onDeckClick(id: number, event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
         this.props.sendMessage({
             messageType: "pick_from_deck",
             deckId: id,
@@ -23,9 +23,11 @@ export default class DecksComponent extends React.Component<Props, {}> {
             <ul className="decks">
                 {
                     this.props.decks.map((deck, i) =>
-                        <div onClick={(event) =>
-                            this.onDeckClick(i, event)}>
-                            <DeckComponent key={i} deck={deck} />
+                        <div key={deck.id}>
+                            <DeckComponent deck={deck}
+                                           onClick={(event) =>
+                                               this.onDeckClick(deck.id, event)}
+                                           sendMessage={this.props.sendMessage}/>
                         </div>)
                 }
             </ul>
