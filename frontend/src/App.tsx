@@ -10,13 +10,21 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 type Props = {};
 
+type AppState = {
+    gameState: State,
+    currentPlayerId: string;
+};
 
-export default class App extends React.Component<Props, State> {
+
+export default class App extends React.Component<Props, AppState> {
     public room: Colyseus.Room<unknown> | null = null;
 
     constructor(props: Props) {
         super(props);
-        this.state = initialState();
+        this.state = {
+            gameState: initialState(),
+            currentPlayerId: "",
+        };
     }
 
     public componentDidMount() {
@@ -27,6 +35,10 @@ export default class App extends React.Component<Props, State> {
     private onRoomJoin(room: Colyseus.Room) {
         console.log("joined");
         this.room = room;
+
+        this.setState({
+            currentPlayerId: this.room.sessionId,
+        });
 
         room.onStateChange.once(this.updateRoomState.bind(this));
 
@@ -40,7 +52,9 @@ export default class App extends React.Component<Props, State> {
     }
 
     private updateRoomState(state: any) {
-        this.setState(state!);
+        this.setState({
+            gameState: state
+        });
     }
 
     private sendMessage(msg: any) {
@@ -63,9 +77,10 @@ export default class App extends React.Component<Props, State> {
     public render() {
         return (
             <div className="App" onMouseMove={this.onMouseMove.bind(this)}>
-                <PointersComponent players={this.state.players} />
-                <TableComponent decks={this.state.decks}
-                                table={this.state.table}
+                <PointersComponent players={this.state.gameState.players}
+                                   currentPlayerId={this.state.currentPlayerId}/>
+                <TableComponent decks={this.state.gameState.decks}
+                                table={this.state.gameState.table}
                                 sendMessage={this.sendMessage.bind(this)}
                 />
             </div>

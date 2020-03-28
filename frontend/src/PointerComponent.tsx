@@ -13,7 +13,7 @@ export default class PointerComponent extends React.PureComponent<Props> {
         let style = {
             left: this.props.location.x,
             top: this.props.location.y,
-            backgroundColor: randomColor({
+            borderColor: randomColor({
                 seed: this.props.id
             }),
         };
