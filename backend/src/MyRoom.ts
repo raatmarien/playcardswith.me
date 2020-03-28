@@ -34,9 +34,10 @@ export class MyRoom extends Room {
                     let deck = this.state.decks[i];
                     if (deck.peakTop().id == message.cardId) {
                         let card = deck.takeTopCard()!;
+                        let newZIndex = this.state.table.getHighestZIndex() + 1;
                         this.state.table.locatedCards.push(
                             new LocatedCard(card, new Vector(
-                                message.cardX, message.cardY)));
+                                message.cardX, message.cardY), newZIndex));
                         return;
                     }
                 }
@@ -46,6 +47,8 @@ export class MyRoom extends Room {
             }
             locatedCard.location.x = message.cardX;
             locatedCard.location.y = message.cardY;
+
+            this.state.table.bringCardToFront(locatedCard);
         } else if (message.messageType == "card_turn") {
             let locatedCard = this.state.table.getLocatedCard(message.cardId);
             if (!locatedCard) {
@@ -54,6 +57,8 @@ export class MyRoom extends Room {
             }
             let card = locatedCard.card;
             card.open = !card.open;
+
+            this.state.table.bringCardToFront(locatedCard);
         }
     }
 
