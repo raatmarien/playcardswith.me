@@ -36,7 +36,6 @@ export default class App extends React.Component<Props, State> {
         room.onMessage(function(message) {
             console.log("New message", message);
         });
-
     }
 
     private updateRoomState(state: any) {
