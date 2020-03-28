@@ -25,7 +25,7 @@ export class MyRoom extends Room {
 
     onMessage (client: Client, message: any) {
         console.log("Message:", message);
-        if (message.messageType == "card_drag") {
+        if (message.messageType === "card_drag") {
             let locatedCard
                 = this.state.table.getLocatedCard(message.cardId);
             if (!locatedCard) {
@@ -36,7 +36,7 @@ export class MyRoom extends Room {
             locatedCard.location.y = message.cardY;
 
             this.state.table.bringCardToFront(locatedCard);
-        } else if (message.messageType == "card_turn") {
+        } else if (message.messageType === "card_turn") {
             let locatedCard = this.state.table.getLocatedCard(message.cardId);
             if (!locatedCard) {
                 console.log("Invalid card id:", message.cardId);
@@ -46,14 +46,14 @@ export class MyRoom extends Room {
             card.open = !card.open;
 
             this.state.table.bringCardToFront(locatedCard);
-        } else if (message.messageType == "pointer_move") {
+        } else if (message.messageType === "pointer_move") {
             let player = this.state.getPlayer(message.playerId);
 
             if (player !== null) {
                 player.pointer.x = message.pointerX;
                 player.pointer.y = message.pointerY;
             }
-        } else if (message.messageType == "pick_from_deck") {
+        } else if (message.messageType === "pick_from_deck") {
             let deck = this.state.getDeck(message.deckId);
             if (deck === null) {
                 console.log("Invalid deck id:", message.deckId);
@@ -64,6 +64,8 @@ export class MyRoom extends Room {
                 card, new Vector(message.cardX, message.cardY));
         } else if (message.messageType === "recall_to_deck") {
             this.state.recallToDeck(message.deckId);
+        } else if (message.messageType === "shuffle_deck") {
+            this.state.shuffleDeck(message.deckId);
         }
     }
 
