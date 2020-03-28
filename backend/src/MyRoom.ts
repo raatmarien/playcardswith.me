@@ -28,21 +28,7 @@ export class MyRoom extends Room {
         if (message.messageType == "card_drag") {
             let locatedCard
                 = this.state.table.getLocatedCard(message.cardId);
-            console.log(locatedCard);
             if (!locatedCard) {
-                for (let i = 0;
-                     i < this.state.decks.length; i++) {
-                    let deck = this.state.decks[i];
-                    if (deck.peakTop().id == message.cardId) {
-                        let card = deck.takeTopCard()!;
-                        let newZIndex = this.state.table.getHighestZIndex() + 1;
-                        this.state.table.locatedCards.push(
-                            new LocatedCard(card, new Vector(
-                                message.cardX, message.cardY), newZIndex));
-                        return;
-                    }
-                }
-
                 console.log("Invalid card id:", message.cardId);
                 return;
             }
@@ -67,6 +53,15 @@ export class MyRoom extends Room {
                 player.pointer.x = message.pointerX;
                 player.pointer.y = message.pointerY;
             }
+        } else if (message.messageType == "pick_from_deck") {
+            let deck = this.state.getDeck(message.deckId);
+            if (deck === null) {
+                console.log("Invalid deck id:", message.deckId);
+                return;
+            }
+            let card = deck.takeTopCard()!;
+            this.state.table.addNewCard(
+                card, new Vector(message.cardX, message.cardY));
         }
     }
 
