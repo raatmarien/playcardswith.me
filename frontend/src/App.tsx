@@ -3,7 +3,6 @@ import './App.css';
 import * as Colyseus from "colyseus.js";
 import {State, initialState} from "cards-library";
 import TableComponent from "./TableComponent";
-import DecksComponent from "./DecksComponent";
 
 type Props = {};
 
@@ -49,8 +48,8 @@ export default class App extends React.Component<Props, State> {
     public render() {
         return (
             <div className="App">
-                <DecksComponent decks={this.state.decks} />
-                <TableComponent table={this.state.table}
+                <TableComponent decks={this.state.decks}
+                                table={this.state.table}
                                 sendMessage={this.sendMessage.bind(this)}
                 />
             </div>
