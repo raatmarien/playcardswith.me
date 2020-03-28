@@ -37,29 +37,35 @@ export default class DeckComponent extends React.Component<Props, State> {
     }
 
     private onDragStart(data: DraggableData) {
-        this.props.sendMessage({
-            messageType: "pick_from_deck",
-            deckId: this.props.deck.id,
-            cardX: data.x,
-            cardY: data.y,
-        });
-        this.setState({
-            draggingCard:
+        if (this.props.deck.cards.length > 0) {
+            this.props.sendMessage({
+                messageType: "pick_from_deck",
+                deckId: this.props.deck.id,
+                cardX: data.x,
+                cardY: data.y,
+            });
+            this.setState({
+                draggingCard:
                          this.props.deck.cards[
                              this.props.deck.cards.length-1]});
+        }
     }
 
     private onDragMove(data: DraggableData) {
-        this.props.sendMessage({
-            messageType: "card_drag",
-            cardX: data.x,
-            cardY: data.y,
-            cardId: this.state.draggingCard!.id,
-        });
+        if (this.state.draggingCard) {
+            this.props.sendMessage({
+                messageType: "card_drag",
+                cardX: data.x,
+                cardY: data.y,
+                cardId: this.state.draggingCard.id,
+            });
+        }
     }
 
     private onDragStop(data: DraggableData) {
-
+        this.setState({
+            draggingCard: null,
+        });
     }
 
     public render() {
