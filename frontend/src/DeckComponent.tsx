@@ -36,6 +36,13 @@ export default class DeckComponent extends React.Component<Props, State> {
         });
     }
 
+    private removeThisDeck() {
+        this.props.sendMessage({
+            messageType: "remove_deck",
+            deckId: this.props.deck.id,
+        });
+    }
+
     private onDragStart(data: DraggableData) {
         if (this.props.deck.cards.length > 0) {
             this.props.sendMessage({
@@ -78,6 +85,9 @@ export default class DeckComponent extends React.Component<Props, State> {
                     </Dropdown.Item>
                     <Dropdown.Item onClick={this.shuffleThisDeck.bind(this)}>
                         Shuffle
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={this.removeThisDeck.bind(this)}>
+                        Remove
                     </Dropdown.Item>
                 </DropdownButton>
 

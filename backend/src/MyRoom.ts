@@ -69,6 +69,10 @@ export class MyRoom extends Room {
             this.state.recallToDeck(message.deckId);
         } else if (message.messageType === "shuffle_deck") {
             this.state.shuffleDeck(message.deckId);
+        } else if (message.messageType === "add_deck") {
+            this.state.addShuffledStandardDeck();
+        } else if (message.messageType === "remove_deck") {
+            this.state.removeDeck(message.deckId);
         }
     }
 
