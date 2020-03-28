@@ -3,7 +3,7 @@ import {LocatedCard} from "cards-library";
 import "./CardComponent.css";
 
 type Props = {
-    locatedCard: LocatedCard
+    locatedCard: LocatedCard,
 };
 
 export default class CardComponent extends React.Component<Props, {}> {

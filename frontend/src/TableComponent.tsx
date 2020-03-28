@@ -36,7 +36,7 @@ export default class TableComponent extends React.Component<Props, {}> {
             messageType: "card_drag",
             cardId: locatedCard.card.id,
             cardX: data.x,
-            cardY: data.y
+            cardY: data.y,
         });
     }
 
@@ -45,7 +45,7 @@ export default class TableComponent extends React.Component<Props, {}> {
             messageType: "card_drag",
             cardId: locatedCard.card.id,
             cardX: data.x,
-            cardY: data.y
+            cardY: data.y,
         });
     }
 
