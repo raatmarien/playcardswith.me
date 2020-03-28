@@ -76,12 +76,10 @@ export default class CardComponent extends React.Component<Props, State> {
 
 
     public render() {
-        let className = "card ";
-        if (this.props.locatedCard.card.open) {
-            className += "card-open";
-        } else {
-            className += "card-closed";
-        }
+        let classNames = "card ";
+        if (this.props.locatedCard.card.open)
+            classNames += "is-flipped";
+
         let locatedCard = this.props.locatedCard;
 
         let styles = {
@@ -103,10 +101,12 @@ export default class CardComponent extends React.Component<Props, State> {
                 onStop={(e, data) =>
                     this.onDragStop(locatedCard, data)}>
 
-                <div className={className} style={styles}>
-                    {this.props.locatedCard.card.open
-                    ? this.props.locatedCard.card.name
-                    : ""}
+                <div className={classNames} style={styles}>
+                    <div className="cardFace card-open">
+                        {this.props.locatedCard.card.name}
+                    </div>
+                    <div className="cardFace card-closed">
+                    </div>
                 </div>
 
             </Draggable>
