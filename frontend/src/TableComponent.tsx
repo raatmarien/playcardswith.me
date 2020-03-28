@@ -24,6 +24,7 @@ export default class TableComponent extends React.Component<Props, {}> {
             <div className="table">
                 {this.props.table.locatedCards.map((locatedCard) => {
                     return <CardComponent
+                               key={locatedCard.card.id}
                                locatedCard={locatedCard}
                                onClick={() => this.onCardClick(locatedCard.card.id)}
                     />
