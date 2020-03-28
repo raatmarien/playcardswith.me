@@ -10,18 +10,37 @@ export default class RoomHelper {
         window.history.replaceState({}, "", "?r=" + roomID)
     }
 
+    public static createPrivateRoom(client:Colyseus.Client) {
+        return client.create("room").then(room => {
+            this.changeRoomIDInUrl(room.id);
+            return room;
+        });
+    }
+
+    public static joinPrivateRoom(client:Colyseus.Client, roomID:string) {
+        return client.joinById(roomID).then(room => {
+            this.changeRoomIDInUrl(room.id);
+            return room;
+        }).catch(reason => {
+            alert("That room does not exist!");
+            throw reason;
+        });
+    }
+
     public static connect(client:Colyseus.Client) {
         var roomID = this.getRoomIDFromURL();
-        if (roomID == null) {
-            return client.create("room").then(room => {
+        if (roomID === null) {
+            //For now, join the global join for easier testing
+            return client.joinOrCreate("room").then(room => {
                 this.changeRoomIDInUrl(room.id);
                 return room;
             });
         }
 
-        return client.joinById(roomID).catch(reason => {
-            alert("That room does not exist!");
-            throw reason;
-        });
+        if (roomID === "new") {
+            return this.createPrivateRoom(client);
+        }
+
+        return this.joinPrivateRoom(client, roomID);
     }
 }
