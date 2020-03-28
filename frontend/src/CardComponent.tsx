@@ -1,11 +1,15 @@
 import React from 'react';
-import {LocatedCard} from "cards-library";
+import {LocatedCard, Player} from "cards-library";
 import "./CardComponent.css";
 import Draggable, { DraggableData } from "react-draggable";
+import { Function } from '@babel/types';
+import randomColor from "randomcolor";
 
 type Props = {
     locatedCard: LocatedCard,
     sendMessage: (msg: any) => void,
+    thisPlayerID: string | null,
+    players: Player[],
 };
 
 type State = {
@@ -78,6 +82,15 @@ export default class CardComponent extends React.Component<Props, State> {
         }
     }
 
+    private anyDragEvent(dragEvent: (locatedCard: LocatedCard, data: DraggableData)=>void,
+            locatedCard: LocatedCard, data: DraggableData) {
+        console.log(locatedCard.draggingPlayerID);
+        console.log(this.props.thisPlayerID);
+        if (locatedCard.draggingPlayerID !== null && locatedCard.draggingPlayerID !== this.props.thisPlayerID)
+            return false;
+
+        dragEvent(locatedCard, data);
+    }
 
     public render() {
         let classNamesFaceHolder = "cardFaceHolder ";
@@ -91,10 +104,17 @@ export default class CardComponent extends React.Component<Props, State> {
         };
 
         let stylesCardFace = {};
-        if (this.props.locatedCard.draggingPlayerID !== null) {
-            stylesCardFace = {
-                boxShadow: "2px 2px 3px 0px #00000022, 0px 0px 10px red"
-            };
+        let draggingID = this.props.locatedCard.draggingPlayerID;
+        if (draggingID !== null) {
+            let cardPlayer = this.props.players.find(p => p.id == draggingID);
+                if (cardPlayer !== undefined) {
+                let cardPlayerColor = randomColor({
+                    seed: cardPlayer.id
+                });
+                stylesCardFace = {
+                    boxShadow: "2px 2px 3px 0px #00000022, 0px 0px 10px " + cardPlayerColor
+                };
+            }
         }
 
         return (
@@ -106,11 +126,11 @@ export default class CardComponent extends React.Component<Props, State> {
                 : { x: locatedCard.location.x,
                     y: locatedCard.location.y}}
                 onStart={(e, data) =>
-                    this.onDragStart(locatedCard, data)}
+                    this.anyDragEvent(this.onDragStart.bind(this), locatedCard, data)}
                 onDrag={(e, data) =>
-                    this.onDragMove(locatedCard, data)}
+                    this.anyDragEvent(this.onDragMove.bind(this), locatedCard, data)}
                 onStop={(e, data) =>
-                    this.onDragStop(locatedCard, data)}>
+                    this.anyDragEvent(this.onDragStop.bind(this), locatedCard, data)}>
 
                 <div className="playing-card" style={styles}>
                     <div className={classNamesFaceHolder}>

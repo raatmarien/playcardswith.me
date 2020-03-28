@@ -46,15 +46,19 @@ export class MyRoom extends Room {
             let playerDraggingCard = player.getDraggingCard(this.state.table);
             if (locatedCard.draggingPlayerID === null && playerDraggingCard !== undefined) {
                 //The player tries to drag two cards at once,
-                //this is not allowed
-                return;
+                //this is not allowed. The second card will be released
+                playerDraggingCard.draggingPlayerID = null;
             }
             
             locatedCard.location.x = message.cardX;
             locatedCard.location.y = message.cardY;
-            locatedCard.draggingPlayerID = client.sessionId;
 
-            this.state.table.bringCardToFront(locatedCard);
+            if (locatedCard.draggingPlayerID !== client.sessionId) {
+                locatedCard.draggingPlayerID = client.sessionId;
+                //Only bring the card to front if is wasn't already being dragged
+                //otherwise you get ugly effects if two players drag at once.
+                this.state.table.bringCardToFront(locatedCard);
+            }
         } else if (message.messageType == "card_release") {
             let player = this.state.getPlayer(client.sessionId);
             if (player == null) {

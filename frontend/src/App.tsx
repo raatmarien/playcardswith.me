@@ -7,6 +7,7 @@ import TableComponent from "./TableComponent";
 import RoomHelper from "./RoomHelper";
 import PointersComponent from "./PointersComponent";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import randomColor from "randomcolor";
 
 type Props = {};
 
@@ -69,6 +70,9 @@ export default class App extends React.Component<Props, State> {
                 <TableComponent decks={this.state.decks}
                                 table={this.state.table}
                                 sendMessage={this.sendMessage.bind(this)}
+                                thisPlayerID={this.room == null ? null : this.room.sessionId}
+                                players={this.state.players}
+
                 />
             </div>
         );

@@ -1,6 +1,6 @@
 import React from 'react';
 import './TableComponent.css';
-import {Deck, Table} from "cards-library";
+import {Deck, Table, Player} from "cards-library";
 import CardComponent from "./CardComponent";
 import DecksComponent from "./DecksComponent";
 
@@ -8,6 +8,8 @@ type Props = {
     decks: Deck[],
     table: Table,
     sendMessage: (msg: any) => void,
+    thisPlayerID: string | null,
+    players: Player[],
 };
 
 export default class TableComponent extends React.Component<Props> {
@@ -22,7 +24,9 @@ export default class TableComponent extends React.Component<Props> {
                 {this.props.table.locatedCards.map((locatedCard) => {
                     return <CardComponent locatedCard={locatedCard}
                                           sendMessage={this.props.sendMessage}
-                                          key={locatedCard.card.id}/>
+                                          key={locatedCard.card.id}
+                                          thisPlayerID={this.props.thisPlayerID}
+                                          players={this.props.players}/>
                     ;})}
 
             </div>
