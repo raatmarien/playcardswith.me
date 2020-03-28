@@ -76,9 +76,9 @@ export default class CardComponent extends React.Component<Props, State> {
 
 
     public render() {
-        let classNames = "card ";
+        let classNamesFaceHolder = "cardFaceHolder ";
         if (this.props.locatedCard.card.open)
-            classNames += "is-flipped";
+            classNamesFaceHolder += "is-flipped";
 
         let locatedCard = this.props.locatedCard;
 
@@ -101,11 +101,15 @@ export default class CardComponent extends React.Component<Props, State> {
                 onStop={(e, data) =>
                     this.onDragStop(locatedCard, data)}>
 
-                <div className={classNames} style={styles}>
-                    <div className="cardFace card-open">
-                        {this.props.locatedCard.card.name}
-                    </div>
-                    <div className="cardFace card-closed">
+                <div className="card" style={styles}>
+                    <div className={classNamesFaceHolder}>
+                        <div className="cardFace card-open">
+                            <p className="card-open-content">
+                            {this.props.locatedCard.card.name}
+                            </p>
+                        </div>
+                        <div className="cardFace card-closed">
+                        </div>
                     </div>
                 </div>
 
