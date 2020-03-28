@@ -4,6 +4,8 @@ import * as Colyseus from "colyseus.js";
 import {State, initialState} from "cards-library";
 import TableComponent from "./TableComponent";
 import DecksComponent from "./DecksComponent";
+import RoomHelper from "./RoomHelper";
+import { url } from 'inspector';
 
 type Props = {};
 
@@ -18,7 +20,7 @@ export default class App extends React.Component<Props, State> {
 
     public componentDidMount() {
         let client = new Colyseus.Client("ws://localhost:2567");
-        client.joinOrCreate("room").then(room => {
+        RoomHelper.connect(client).then(room => {
             console.log("joined");
             this.room = room;
 
