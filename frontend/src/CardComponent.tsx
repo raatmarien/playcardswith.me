@@ -123,7 +123,7 @@ export default class CardComponent extends React.Component<Props, State> {
                     seed: cardPlayer.id
                 });
                 stylesCardFace = {
-                    boxShadow: "2px 2px 3px 0px #00000022, 0px 0px 10px " + cardPlayerColor
+                    boxShadow: "2px 2px 3px 0px #00000022, 0px 0px 10px 4px " + cardPlayerColor
                 };
             }
         }
