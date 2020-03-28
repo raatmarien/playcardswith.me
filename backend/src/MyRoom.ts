@@ -102,7 +102,7 @@ export class MyRoom extends Room {
     }
 
     onLeave (client: Client, consented: boolean) {
-        console.log(client.id + "left");
+        console.log(client.id + " left");
         this.state.removePlayer(client.id);
     }
 
