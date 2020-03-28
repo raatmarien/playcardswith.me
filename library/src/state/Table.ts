@@ -1,16 +1,16 @@
-import Card from "./Card";
+import LocatedCard from "./LocatedCard";
 
 export default class Table {
-    cards: Card[];
+    locatedCards: LocatedCard[];
 
-    constructor(cards: Card[]) {
-        this.cards = cards;
+    constructor(locatedCards: LocatedCard[]) {
+        this.locatedCards = locatedCards;
     }
 
-    getCard(cardId: number) {
-        for (let i = 0; i < this.cards.length; i++) {
-            if (this.cards[i].id == cardId) {
-                return this.cards[i];
+    getLocatedCard(cardId: number) {
+        for (let i = 0; i < this.locatedCards.length; i++) {
+            if (this.locatedCards[i].card.id == cardId) {
+                return this.locatedCards[i];
             }
         }
         return null;

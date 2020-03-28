@@ -1,5 +1,5 @@
 import { Room, Client } from "colyseus";
-import { State, initialState, Card, Deck, Player } from "cards-library";
+import { State, initialState, LocatedCard, Card, Deck, Player, Vector } from "cards-library";
 
 export class MyRoom extends Room {
     state: State;
@@ -17,7 +17,7 @@ export class MyRoom extends Room {
         console.log(`${client.id} joined`);
 
         let hand: Card[] = [];
-        let pointer : [number, number] = [0,0];
+        let pointer : Vector = new Vector(0, 0);
         let player = new Player(client.id, hand, pointer, client.id);
 
         this.state.addPlayer(player);
@@ -26,30 +26,33 @@ export class MyRoom extends Room {
     onMessage (client: Client, message: any) {
         console.log("Message:", message);
         if (message.messageType == "card_move") {
-            let card
-                = this.state.table.getCard(message.cardId);
-            if (!card) {
+            let locatedCard
+                = this.state.table.getLocatedCard(message.cardId);
+            if (!locatedCard) {
                 for (let i = 0;
-                     i < this.state.decks.length && !card; i++) {
+                     i < this.state.decks.length; i++) {
                     let deck = this.state.decks[i];
                     if (deck.peakTop().id == message.cardId) {
-                        card = deck.takeTopCard()!;
-                        this.state.table.cards.push(card!);
+                        let card = deck.takeTopCard()!;
+                        this.state.table.locatedCards.push(
+                            new LocatedCard(card, new Vector(
+                                message.cardX, message.cardY)));
+                        return;
                     }
                 }
-            }
-            if (!card) {
+
                 console.log("Invalid card id:", message.cardId);
                 return;
             }
-            card.x = message.cardX;
-            card.y = message.cardY;
+            locatedCard.location.x = message.cardX;
+            locatedCard.location.y = message.cardY;
         } else if (message.messageType == "card_turn") {
-            let card = this.state.table.getCard(message.cardId);
-            if (!card) {
+            let locatedCard = this.state.table.getLocatedCard(message.cardId);
+            if (!locatedCard) {
                 console.log("Invalid card id:", message.cardId);
                 return;
             }
+            let card = locatedCard.card;
             card.open = !card.open;
         }
     }

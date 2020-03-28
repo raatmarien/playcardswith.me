@@ -40,10 +40,10 @@ export default class App extends React.Component<Props, State> {
     public render() {
         return (
             <div className="App">
-                <span>Number of cards: {this.state.table.cards.length}</span>
+                <span>Number of cards: {this.state.table.locatedCards.length}</span>
                 <ul>
-                {this.state.table.cards.map((card) => {
-                    return <li>{card.name}</li>;
+                {this.state.table.locatedCards.map((locatedCard) => {
+                    return <li>{locatedCard.card.name}</li>;
                 })}
                 </ul>
             </div>
