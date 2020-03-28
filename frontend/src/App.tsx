@@ -5,7 +5,7 @@ import {State, initialState} from "cards-library";
 import TableComponent from "./TableComponent";
 import DecksComponent from "./DecksComponent";
 import RoomHelper from "./RoomHelper";
-import { url } from 'inspector';
+import PointersComponent from "./PointersComponent";
 
 type Props = {};
 
@@ -49,9 +49,21 @@ export default class App extends React.Component<Props, State> {
         }
     }
 
+    private onMouseMove(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+        if (this.room) {
+            this.sendMessage({
+                messageType: "pointer_move",
+                playerId: this.room.sessionId,
+                pointerX: e.clientX,
+                pointerY: e.clientY,
+            });
+        }
+    }
+
     public render() {
         return (
-            <div className="App">
+            <div className="App" onMouseMove={this.onMouseMove.bind(this)}>
+                <PointersComponent players={this.state.players} />
                 <DecksComponent decks={this.state.decks} />
                 <TableComponent table={this.state.table}
                                 sendMessage={this.sendMessage.bind(this)}
