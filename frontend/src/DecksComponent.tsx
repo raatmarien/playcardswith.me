@@ -2,6 +2,7 @@ import React from "react";
 import {Deck} from "cards-library";
 import DeckComponent from "./DeckComponent";
 import "./DecksComponent.css";
+import {Button} from "react-bootstrap";
 
 type Props = {
     decks: Deck[],
@@ -19,6 +20,13 @@ export default class DecksComponent extends React.Component<Props, {}> {
                                            sendMessage={this.props.sendMessage}/>
                         </div>)
                 }
+                <Button size="sm"
+                        onClick={() => this.props.sendMessage({
+                            messageType: "add_deck"
+                        })}
+                >
+                    Add deck
+                </Button>
             </ul>
         );
     }

@@ -26,6 +26,11 @@ export class State {
         }
     }
 
+
+    public addShuffledStandardDeck() {
+        this.decks.push(shuffledStandardDeck());
+    }
+
     private getPlayerIndex(id: string): number | null {
         for (let i = 0; i < this.players.length; i++) {
             if (this.players[i].id === id) {
@@ -82,6 +87,6 @@ export function initialState() {
     let locatedCards: LocatedCard[] = [];
     let players: Player[] = [];
     let table = new Table(locatedCards);
-    let decks = [shuffledStandardDeck(), standardDeck()];
+    let decks: Deck[] = [shuffledStandardDeck()];
     return new State(table, decks, players);
 }
