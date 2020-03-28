@@ -29,6 +29,16 @@ export class Deck {
         card.deckId = this.id;
         this.cards.push(card);
     }
+
+    addAll(cards: Card[]) {
+        for (let card of cards) {
+            this.addToTop(card);
+        }
+    }
+
+    shuffleDeck() {
+        this.cards = shuffle(this.cards);
+    }
 }
 
 export function shuffledStandardDeck() : Deck {

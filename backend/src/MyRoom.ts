@@ -62,6 +62,8 @@ export class MyRoom extends Room {
             let card = deck.takeTopCard()!;
             this.state.table.addNewCard(
                 card, new Vector(message.cardX, message.cardY));
+        } else if (message.messageType === "recall_to_deck") {
+            this.state.recallToDeck(message.deckId);
         }
     }
 
