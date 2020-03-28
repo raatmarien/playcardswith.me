@@ -21,7 +21,7 @@
 }
 
 
-.deck button {
+.custom-menu-btn-primary {
     font-weight: bold;
     font-size: 20px;
     color: #ddd;
@@ -32,6 +32,11 @@
     float: right;
 }
 
-.deck button:hover {
+.custom-menu-btn-primary:hover {
     color: #fff;
+    background: none;
+}
+
+.custom-menu-btn-primary::after {
+    display: none!important;
 }

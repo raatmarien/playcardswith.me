@@ -1,6 +1,8 @@
 import React from "react";
 import {Deck} from "cards-library";
 import "./DeckComponent.css";
+import {DropdownButton, Dropdown} from "react-bootstrap";
+
 
 type Props = {
     deck: Deck,
@@ -9,6 +11,14 @@ type Props = {
 }
 
 export default class DeckComponent extends React.Component<Props, {}> {
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            showMenu: false,
+        };
+    }
+
     private recallToThisDeck() {
         this.props.sendMessage({
             messageType: "recall_to_deck",
@@ -19,12 +29,19 @@ export default class DeckComponent extends React.Component<Props, {}> {
     public render() {
         return (
             <div className="deck">
-                <button onClick={this.recallToThisDeck.bind(this)}>&#8942;</button>
-            <div className="inner-deck" onClick={this.props.onClick}>
-                <div>
-                    {this.props.deck.cards.length} cards
+                <DropdownButton title="&#8942;" id="deck-menu-button"
+                                bsPrefix="custom-menu-btn"
+                >
+                    <Dropdown.Item onClick={this.recallToThisDeck.bind(this)}>
+                        Recall
+                    </Dropdown.Item>
+                    <Dropdown.Item>Shuffle</Dropdown.Item>
+                </DropdownButton>
+                <div className="inner-deck" onClick={this.props.onClick}>
+                    <div>
+                        {this.props.deck.cards.length} cards
+                    </div>
                 </div>
-            </div>
             </div>
         );
     }
