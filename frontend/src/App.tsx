@@ -1,3 +1,4 @@
+import "./TableComponent.css";
 import React from 'react';
 import './App.css';
 import * as Colyseus from "colyseus.js";
@@ -62,8 +63,8 @@ export default class App extends React.Component<Props, State> {
         return (
             <div className="App" onMouseMove={this.onMouseMove.bind(this)}>
                 <PointersComponent players={this.state.players} />
-                <DecksComponent decks={this.state.decks} />
-                <TableComponent table={this.state.table}
+                <TableComponent decks={this.state.decks}
+                                table={this.state.table}
                                 sendMessage={this.sendMessage.bind(this)}
                 />
             </div>

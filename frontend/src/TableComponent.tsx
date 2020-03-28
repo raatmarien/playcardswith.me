@@ -1,34 +1,29 @@
 import React from 'react';
-import './App.css';
-import {Table} from "cards-library";
+import './TableComponent.css';
+import {Deck, Table} from "cards-library";
 import CardComponent from "./CardComponent";
+import DecksComponent from "./DecksComponent";
 
 type Props = {
+    decks: Deck[],
     table: Table,
     sendMessage: (msg: any) => void,
 };
 
-
-
-export default class TableComponent extends React.Component<Props, {}> {
-    private onCardClick(id: number) {
-        this.props.sendMessage({
-            messageType: "card_turn",
-            cardId: id,
-        });
-    }
-
+export default class TableComponent extends React.Component<Props> {
 
     public render() {
         return (
             <div className="table">
+                <DecksComponent
+                    decks={this.props.decks} />
+
                 {this.props.table.locatedCards.map((locatedCard) => {
-                    return <CardComponent
-                               key={locatedCard.card.id}
-                               locatedCard={locatedCard}
-                               onClick={() => this.onCardClick(locatedCard.card.id)}
-                    />
-                })}
+                    return <CardComponent locatedCard={locatedCard}
+                                          sendMessage={this.props.sendMessage}
+                                          key={locatedCard.card.id}/>
+                    ;})}
+
             </div>
         );
     }

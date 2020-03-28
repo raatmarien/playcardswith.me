@@ -171,7 +171,7 @@ function mouseMove(event) {
     let coords = getTwoCoords(event);
     if (clickedCardId >= 0 && movedEnough(coords)) {
         myRoom.send({
-            messageType: "card_move",
+            messageType: "card_drag",
             cardId: clickedCardId,
             cardX: coords.x - grabX,
             cardY: coords.y - grabY
