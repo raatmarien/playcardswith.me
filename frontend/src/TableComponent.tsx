@@ -16,7 +16,8 @@ export default class TableComponent extends React.Component<Props> {
         return (
             <div className="table">
                 <DecksComponent
-                    decks={this.props.decks} />
+                    decks={this.props.decks}
+                    sendMessage={this.props.sendMessage} />
 
                 {this.props.table.locatedCards.map((locatedCard) => {
                     return <CardComponent locatedCard={locatedCard}

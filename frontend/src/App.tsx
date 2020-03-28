@@ -4,7 +4,6 @@ import './App.css';
 import * as Colyseus from "colyseus.js";
 import {State, initialState} from "cards-library";
 import TableComponent from "./TableComponent";
-import DecksComponent from "./DecksComponent";
 import RoomHelper from "./RoomHelper";
 import PointersComponent from "./PointersComponent";
 
