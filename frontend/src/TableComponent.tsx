@@ -1,7 +1,7 @@
 import React from 'react';
 import Draggable, { DraggableData } from "react-draggable";
 import './App.css';
-import {Deck, Table} from "cards-library";
+import {Deck, Table, LocatedCard} from "cards-library";
 import CardComponent from "./CardComponent";
 import DecksComponent from "./DecksComponent";
 
@@ -29,47 +29,50 @@ export default class TableComponent extends React.Component<Props, {}> {
         return distSq < 100;
     }
 
-    private onDragStart(id: number, data: DraggableData) {
+    private onDragStart(locatedCard: LocatedCard, data: DraggableData) {
         this.startX = data.x;
         this.startY = data.y;
         this.props.sendMessage({
             messageType: "card_drag",
-            cardId: id,
+            cardId: locatedCard.card.id,
             cardX: data.x,
             cardY: data.y
         });
     }
 
-    private onDragMove(id: number, data: DraggableData) {
+    private onDragMove(locatedCard: LocatedCard, data: DraggableData) {
         this.props.sendMessage({
             messageType: "card_drag",
-            cardId: id,
+            cardId: locatedCard.card.id,
             cardX: data.x,
             cardY: data.y
         });
     }
 
-    private onDragStop(id: number, data: DraggableData) {
+    private onDragStop(locatedCard: LocatedCard, data: DraggableData) {
         if (this.countAsClick(data)) {
-            this.onCardClick(id);
+            this.onCardClick(locatedCard.card.id);
         }
     }
 
     public render() {
         return (
             <div className="table">
-                <DecksComponent decks={this.props.decks}></DecksComponent>
+                <div className="decks">
+                    <DecksComponent
+                        decks={this.props.decks}></DecksComponent>
+                </div>
                 {this.props.table.locatedCards.map((locatedCard) => {
                     return <Draggable
-                               defaultPosition={{
+                               position={{
                                    x: locatedCard.location.x,
                                    y: locatedCard.location.y}}
                                onStart={(e, data) =>
-        this.onDragStart(locatedCard.card.id, data)}
+        this.onDragStart(locatedCard, data)}
                                onDrag={(e, data) =>
-        this.onDragMove(locatedCard.card.id, data)}
+        this.onDragMove(locatedCard, data)}
                                onStop={(e, data) =>
-        this.onDragStop(locatedCard.card.id, data)}>
+        this.onDragStop(locatedCard, data)}>
     <div style={{width: 0 }}><CardComponent
         locatedCard={locatedCard}
          /></div>

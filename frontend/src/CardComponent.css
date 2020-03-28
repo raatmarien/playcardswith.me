@@ -1,4 +1,5 @@
 .card {
+    position: absolute;
     width: 80px;
     height: 115px;
     box-shadow: 2px 2px 3px 0px #00000022;

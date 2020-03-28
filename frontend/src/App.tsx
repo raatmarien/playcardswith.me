@@ -1,3 +1,4 @@
+import "./TableComponent.css";
 import React from 'react';
 import './App.css';
 import * as Colyseus from "colyseus.js";
