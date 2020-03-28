@@ -22,12 +22,13 @@ export class MyRoom extends Room {
 
         this.state.addPlayer(player);
     }
-
+b
     onMessage (client: Client, message: any) {
         console.log("Message:", message);
-        if (message.messageType == "card_move") {
+        if (message.messageType == "card_drag") {
             let locatedCard
                 = this.state.table.getLocatedCard(message.cardId);
+            console.log(locatedCard);
             if (!locatedCard) {
                 for (let i = 0;
                      i < this.state.decks.length; i++) {
