@@ -29,31 +29,53 @@ export default class DeckComponent extends React.Component<Props, State> {
         });
     }
 
-    private onDragStart(data: DraggableData) {
+    private shuffleThisDeck() {
         this.props.sendMessage({
-            messageType: "pick_from_deck",
+            messageType: "shuffle_deck",
             deckId: this.props.deck.id,
-            cardX: data.x,
-            cardY: data.y,
         });
-        this.setState({
-            draggingCard:
+    }
+
+    private removeThisDeck() {
+        this.props.sendMessage({
+            messageType: "remove_deck",
+            deckId: this.props.deck.id,
+        });
+    }
+
+    private onDragStart(data: DraggableData) {
+        if (this.props.deck.cards.length > 0) {
+            this.props.sendMessage({
+                messageType: "pick_from_deck",
+                deckId: this.props.deck.id,
+                cardX: data.x,
+                cardY: data.y,
+            });
+            this.setState({
+                draggingCard:
                          this.props.deck.cards[
                              this.props.deck.cards.length-1]});
+        }
     }
 
     private onDragMove(data: DraggableData) {
-        this.props.sendMessage({
-            messageType: "card_drag",
-            cardX: data.x,
-            cardY: data.y,
-            cardId: this.state.draggingCard!.id,
-        });
+        if (this.state.draggingCard) {
+            this.props.sendMessage({
+                messageType: "card_drag",
+                cardX: data.x,
+                cardY: data.y,
+                cardId: this.state.draggingCard.id,
+            });
+        }
     }
 
     private onDragStop(data: DraggableData) {
         this.props.sendMessage({
             messageType: "card_release"
+        });
+
+        this.setState({
+            draggingCard: null,
         });
     }
 
@@ -65,7 +87,12 @@ export default class DeckComponent extends React.Component<Props, State> {
                     <Dropdown.Item onClick={this.recallToThisDeck.bind(this)}>
                         Recall
                     </Dropdown.Item>
-                    <Dropdown.Item>Shuffle</Dropdown.Item>
+                    <Dropdown.Item onClick={this.shuffleThisDeck.bind(this)}>
+                        Shuffle
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={this.removeThisDeck.bind(this)}>
+                        Remove
+                    </Dropdown.Item>
                 </DropdownButton>
 
                 <DraggableCore

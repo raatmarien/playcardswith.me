@@ -20,7 +20,7 @@ export class Deck {
         return this.cards[this.cards.length - 1];
     }
 
-    takeTopCard() {
+    takeTopCard() : Card | undefined {
         return this.cards.pop();
     }
 

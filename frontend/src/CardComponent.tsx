@@ -30,6 +30,14 @@ export default class CardComponent extends React.Component<Props, State> {
     }
 
 
+    private isRedSuit() {
+        let cardName = this.props.locatedCard.card.name;
+
+        let res = cardName.startsWith("♥") ||
+                  cardName.startsWith("♦");
+        return res;
+    }
+
     private onCardClick(id: number) {
         this.props.sendMessage({
             messageType: "card_turn",
@@ -95,7 +103,11 @@ export default class CardComponent extends React.Component<Props, State> {
     public render() {
         let classNamesFaceHolder = "cardFaceHolder ";
         if (this.props.locatedCard.card.open)
-            classNamesFaceHolder += "is-flipped";
+            classNamesFaceHolder += "is-flipped ";
+
+        if (this.isRedSuit()) {
+            classNamesFaceHolder += "card-red-suit ";
+        }
 
         let locatedCard = this.props.locatedCard;
 
@@ -136,7 +148,9 @@ export default class CardComponent extends React.Component<Props, State> {
                     <div className={classNamesFaceHolder}>
                         <div className="cardFace card-open" style={stylesCardFace}>
                             <p className="card-open-content">
-                            {this.props.locatedCard.card.name}
+                                {this.props.locatedCard.card.name.slice(0, 1)}
+                                <br></br>
+                                {this.props.locatedCard.card.name.slice(1)}
                             </p>
                         </div>
                         <div className="cardFace card-closed" style={stylesCardFace}>

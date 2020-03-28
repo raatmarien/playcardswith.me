@@ -31,6 +31,11 @@ export class State {
         }
     }
 
+
+    public addShuffledStandardDeck() {
+        this.decks.push(shuffledStandardDeck());
+    }
+
     private getPlayerIndex(id: string): number | null {
         for (let i = 0; i < this.players.length; i++) {
             if (this.players[i].id === id) {
@@ -67,6 +72,38 @@ export class State {
             let cards = this.table.removeCardsBelongingToDeck(deckId);
 
             deck.addAll(cards);
+        } else {
+            console.log("Invalid deckId:", deckId);
+        }
+    }
+
+    public removeDeck(deckId: number) {
+        let deck = this.getDeck(deckId);
+
+        if (deck !== null) {
+            this.recallToDeck(deckId);
+
+            let deckIndex = 0;
+
+            for (let i = 0; i < this.decks.length; i++) {
+                if (this.decks[i].id === deckId) {
+                    deckIndex = i;
+                }
+            }
+
+            this.decks.splice(deckIndex, 1);
+        } else {
+            console.log("Invalid deckId:", deckId);
+        }
+    }
+
+    public shuffleDeck(deckId: number) {
+        let deck = this.getDeck(deckId);
+
+        if (deck !== null) {
+            deck.shuffleDeck();
+        } else {
+            console.log("Invalid deckId:", deckId);
         }
     }
 }
@@ -75,6 +112,6 @@ export function initialState() {
     let locatedCards: LocatedCard[] = [];
     let players: Player[] = [];
     let table = new Table(locatedCards);
-    let decks = [shuffledStandardDeck(), standardDeck()];
+    let decks: Deck[] = [shuffledStandardDeck()];
     return new State(table, decks, players);
 }
