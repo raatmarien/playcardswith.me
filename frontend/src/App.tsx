@@ -86,7 +86,6 @@ export default class App extends React.Component<Props, AppState> {
                                 sendMessage={this.sendMessage.bind(this)}
                                 currentPlayerId={this.state.currentPlayerId}
                                 players={this.state.gameState.players}
-
                 />
             </div>
         );

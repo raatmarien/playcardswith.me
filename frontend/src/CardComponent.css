@@ -50,3 +50,7 @@
 .cardFaceHolder.is-flipped {
     transform: rotateY(180deg);
 }
+
+.dragged-by-other {
+    cursor: not-allowed;
+}

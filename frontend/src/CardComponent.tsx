@@ -75,10 +75,18 @@ export default class CardComponent extends React.Component<Props, State> {
         });
     }
 
-    private onDragStop(locatedCard: LocatedCard, data: DraggableData) {
+    /** Reset the drag state and do any potential other things
+     * that should be done when stopping drag
+     * (note: the player may not really have been dragging at all)
+     */
+    private stopDrag() {
         this.setState({
             dragging: false,
         });
+    }
+
+    private onDragStop(locatedCard: LocatedCard, data: DraggableData) {
+        this.stopDrag();
 
         this.props.sendMessage({
             messageType: "card_release"
@@ -93,8 +101,10 @@ export default class CardComponent extends React.Component<Props, State> {
             locatedCard: LocatedCard, data: DraggableData) {
         console.log(locatedCard.draggingPlayerID);
         console.log(this.props.currentPlayerId);
-        if (locatedCard.draggingPlayerID !== null && locatedCard.draggingPlayerID !== this.props.currentPlayerId)
+        if (locatedCard.draggingPlayerID !== null && locatedCard.draggingPlayerID !== this.props.currentPlayerId) {
+            this.stopDrag();
             return false;
+        }
 
         dragEvent(locatedCard, data);
     }
@@ -114,6 +124,11 @@ export default class CardComponent extends React.Component<Props, State> {
             zIndex: this.props.locatedCard.zIndex,
         };
 
+        let playingCardClasses = "playing-card ";
+
+        if (locatedCard.draggingPlayerID !== null && locatedCard.draggingPlayerID !== this.props.currentPlayerId)
+            playingCardClasses += "dragged-by-other";
+
         let stylesCardFace = {};
         let draggingID = this.props.locatedCard.draggingPlayerID;
         if (draggingID !== null) {
@@ -123,7 +138,7 @@ export default class CardComponent extends React.Component<Props, State> {
                     seed: cardPlayer.id
                 });
                 stylesCardFace = {
-                    boxShadow: "2px 2px 3px 0px #00000022, 0px 0px 10px 4px " + cardPlayerColor
+                    boxShadow: "2px 2px 3px 0px #00000022, 0px 0px 10px 2px " + cardPlayerColor
                 };
             }
         }
@@ -143,7 +158,7 @@ export default class CardComponent extends React.Component<Props, State> {
                 onStop={(e, data) =>
                     this.anyDragEvent(this.onDragStop.bind(this), locatedCard, data)}>
 
-                <div className="playing-card" style={styles}>
+                <div className={playingCardClasses} style={styles}>
                     <div className={classNamesFaceHolder}>
                         <div className="cardFace card-open" style={stylesCardFace}>
                             <p className="card-open-content">
