@@ -72,6 +72,26 @@ export class State {
         }
     }
 
+    public removeDeck(deckId: number) {
+        let deck = this.getDeck(deckId);
+
+        if (deck !== null) {
+            this.recallToDeck(deckId);
+
+            let deckIndex = 0;
+
+            for (let i = 0; i < this.decks.length; i++) {
+                if (this.decks[i].id === deckId) {
+                    deckIndex = i;
+                }
+            }
+
+            this.decks.splice(deckIndex, 1);
+        } else {
+            console.log("Invalid deckId:", deckId);
+        }
+    }
+
     public shuffleDeck(deckId: number) {
         let deck = this.getDeck(deckId);
 
