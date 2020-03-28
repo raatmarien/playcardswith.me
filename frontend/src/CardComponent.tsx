@@ -7,7 +7,7 @@ type Props = {
     onClick: () => void,
 };
 
-export default class pCardComponent extends React.Component<Props, {}> {
+export default class CardComponent extends React.Component<Props, {}> {
     public render() {
         let className = "card ";
         if (this.props.locatedCard.card.open) {
