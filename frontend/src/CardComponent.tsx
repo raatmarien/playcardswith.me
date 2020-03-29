@@ -99,8 +99,6 @@ export default class CardComponent extends React.Component<Props, State> {
 
     private anyDragEvent(dragEvent: (locatedCard: LocatedCard, data: DraggableData)=>void,
             locatedCard: LocatedCard, data: DraggableData) {
-        console.log(locatedCard.draggingPlayerID);
-        console.log(this.props.currentPlayerId);
         if (locatedCard.draggingPlayerID !== null && locatedCard.draggingPlayerID !== this.props.currentPlayerId) {
             this.stopDrag();
             return false;
