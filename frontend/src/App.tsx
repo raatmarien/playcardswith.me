@@ -51,6 +51,12 @@ export default class App extends React.Component<Props, AppState> {
 
     private handleIncomingMessage(message: any) {
         switch(message.messageType) {
+            case "request_username_update": {
+                console.log(message);
+                console.log(this);
+                this.usernamePopUp();
+                break;
+            }
             default : {
                 console.error("Message type not supported", message)
                 break;
@@ -79,6 +85,13 @@ export default class App extends React.Component<Props, AppState> {
                 pointerY: e.clientY,
             });
         }
+    }
+    private usernamePopUp(){
+        let username = prompt("Please enter your username", "Player " + (this.state.gameState.players.length+1));
+        let msg = {messageType: "update_player_name", 
+                   username: username,
+                   playerId: this.state.currentPlayerId}
+        this.sendMessage(msg);
     }
 
     public render() {
