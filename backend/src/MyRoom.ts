@@ -76,6 +76,12 @@ export class MyRoom extends Room {
             this.state.removeDeck(message.deckId);
         } else if (message.messageType === "return_card_to_deck") {
             this.state.returnCardToDeck(message.cardId);
+        } else if (message.messageType === "update_player_name") {
+            let player = this.state.getPlayer(message.playerId);
+            if(player !== null) {
+                player.name = message.username;
+                this.state.updatePlayer(player!);        
+            }
         }
     }
 
