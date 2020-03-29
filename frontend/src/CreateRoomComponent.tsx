@@ -17,8 +17,8 @@ export default class CreateRoomComponent extends React.Component {
     }
     
     handleSubmit(event: any) {
-        // TODO: create new room
-
-        // TODO: go to room    
+        event.preventDefault();
+        let l = window.location;
+        l.href = '/g/?r=new'; 
     }
 }

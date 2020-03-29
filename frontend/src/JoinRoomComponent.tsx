@@ -30,6 +30,9 @@ export default class JoinRoomComponent extends React.Component<{},State> {
         this.setState({roomID: event.target.value});
     }
     handleSubmit(event: any) {
+        event.preventDefault();
+        let l = window.location;
+        l.href = '/g/?r=' + this.state.roomID; 
         // TODO: go to room {this.state.roomID}   
     }
 }
