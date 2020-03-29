@@ -6,7 +6,7 @@ import Draggable, { DraggableData } from "react-draggable";
 type Props = {
     locatedCard: LocatedCard,
     sendMessage: (msg: any) => void,
-    deckRef: any,
+    deckRef: React.RefObject<HTMLDivElement>,
 };
 
 type State = {
