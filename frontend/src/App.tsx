@@ -46,9 +46,16 @@ export default class App extends React.Component<Props, AppState> {
         room.onStateChange(this.updateRoomState.bind(this));
 
         // listen to patches coming from the server
-        room.onMessage(function(message) {
-            console.log("New message", message);
-        });
+        room.onMessage(this.handleIncomingMessage.bind(this));
+    }
+
+    private handleIncomingMessage(message: any) {
+        switch(message.messageType) {
+            default : {
+                console.error("Message type not supported", message)
+                break;
+            }
+        }
     }
 
     private updateRoomState(state: any) {
