@@ -12,7 +12,7 @@ type Props = {
 
 export default class TableComponent extends React.Component<Props> {
     public render() {
-        let deckRefs : { [id: number] : any } = {};
+        let deckRefs : { [id: number] : React.RefObject<HTMLDivElement> } = {};
 
         for (let i = 0; i < this.props.decks.length; i++) {
             deckRefs[this.props.decks[i].id] = React.createRef();

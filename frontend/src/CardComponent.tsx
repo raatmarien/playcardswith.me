@@ -83,14 +83,16 @@ export default class CardComponent extends React.Component<Props, State> {
             this.onCardClick(locatedCard.card.id);
         } else {
             // If held above it's deck, put it back in
-            let rect = this.props.deckRef.current!.getBoundingClientRect();
-            let mouseX = e.pageX, mouseY = e.pageY;
-            if (mouseX > rect.x && mouseX < (rect.x + rect.width) &&
-                mouseY > rect.y && mouseY < (rect.y + rect.height)) {
-                this.props.sendMessage({
-                    messageType: "return_card_to_deck",
-                    cardId: locatedCard.card.id,
-                });
+            if (this.props.deckRef.current) {
+                let rect = this.props.deckRef.current.getBoundingClientRect();
+                let mouseX = e.pageX, mouseY = e.pageY;
+                if (mouseX > rect.x && mouseX < (rect.x + rect.width) &&
+                    mouseY > rect.y && mouseY < (rect.y + rect.height)) {
+                    this.props.sendMessage({
+                        messageType: "return_card_to_deck",
+                        cardId: locatedCard.card.id,
+                    });
+                }
             }
         }
     }

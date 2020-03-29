@@ -7,7 +7,7 @@ import {Button} from "react-bootstrap";
 type Props = {
     decks: Deck[],
     sendMessage: (msg: any) => void,
-    deckRefs: { [id: number] : any },
+    deckRefs: { [id: number] : React.RefObject<HTMLDivElement> },
 };
 
 export default class DecksComponent extends React.Component<Props, {}> {
