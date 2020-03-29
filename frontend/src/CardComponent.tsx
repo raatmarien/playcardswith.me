@@ -9,6 +9,7 @@ type Props = {
     sendMessage: (msg: any) => void,
     currentPlayerId: string | null,
     players: Player[],
+    deckRef: React.RefObject<HTMLDivElement>,
 };
 
 type State = {
@@ -85,7 +86,7 @@ export default class CardComponent extends React.Component<Props, State> {
         });
     }
 
-    private onDragStop(locatedCard: LocatedCard, data: DraggableData) {
+    private onDragStop(locatedCard: LocatedCard, data: DraggableData, e: any) {
         this.stopDrag();
 
         this.props.sendMessage({
@@ -94,17 +95,30 @@ export default class CardComponent extends React.Component<Props, State> {
 
         if (this.countAsClick(data)) {
             this.onCardClick(locatedCard.card.id);
+        } else {
+            // If held above it's deck, put it back in
+            if (this.props.deckRef.current) {
+                let rect = this.props.deckRef.current.getBoundingClientRect();
+                let mouseX = e.pageX, mouseY = e.pageY;
+                if (mouseX > rect.x && mouseX < (rect.x + rect.width) &&
+                    mouseY > rect.y && mouseY < (rect.y + rect.height)) {
+                    this.props.sendMessage({
+                        messageType: "return_card_to_deck",
+                        cardId: locatedCard.card.id,
+                    });
+                }
+            }
         }
     }
 
-    private anyDragEvent(dragEvent: (locatedCard: LocatedCard, data: DraggableData)=>void,
-            locatedCard: LocatedCard, data: DraggableData) {
+    private anyDragEvent(dragEvent: ()=>void,
+            locatedCard: LocatedCard) {
         if (locatedCard.draggingPlayerID !== null && locatedCard.draggingPlayerID !== this.props.currentPlayerId) {
             this.stopDrag();
             return false;
         }
 
-        dragEvent(locatedCard, data);
+        dragEvent();
     }
 
     public render() {
@@ -150,13 +164,13 @@ export default class CardComponent extends React.Component<Props, State> {
                 : { x: locatedCard.location.x,
                     y: locatedCard.location.y}}
                 onStart={(e, data) =>
-                    this.anyDragEvent(this.onDragStart.bind(this), locatedCard, data)}
+                    this.anyDragEvent(this.onDragStart.bind(this, locatedCard, data), locatedCard)}
                 onDrag={(e, data) =>
-                    this.anyDragEvent(this.onDragMove.bind(this), locatedCard, data)}
+                    this.anyDragEvent(this.onDragMove.bind(this, locatedCard, data), locatedCard)}
                 onStop={(e, data) =>
-                    this.anyDragEvent(this.onDragStop.bind(this), locatedCard, data)}>
+                    this.anyDragEvent(this.onDragStop.bind(this, locatedCard, data, e), locatedCard)}>
 
-                <div className={playingCardClasses} style={styles}>
+                <div className={playingCardClasses} ref={"card"+locatedCard.card.id} style={styles}>
                     <div className={classNamesFaceHolder}>
                         <div className="cardFace card-open" style={stylesCardFace}>
                             <p className="card-open-content">

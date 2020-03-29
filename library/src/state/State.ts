@@ -62,6 +62,7 @@ export class State {
             }
         }
 
+        console.log("Invalid deckId:", id);
         return null;
     }
 
@@ -72,8 +73,6 @@ export class State {
             let cards = this.table.removeCardsBelongingToDeck(deckId);
 
             deck.addAll(cards);
-        } else {
-            console.log("Invalid deckId:", deckId);
         }
     }
 
@@ -92,8 +91,6 @@ export class State {
             }
 
             this.decks.splice(deckIndex, 1);
-        } else {
-            console.log("Invalid deckId:", deckId);
         }
     }
 
@@ -102,8 +99,18 @@ export class State {
 
         if (deck !== null) {
             deck.shuffleDeck();
-        } else {
-            console.log("Invalid deckId:", deckId);
+        }
+    }
+
+    public returnCardToDeck(cardId: number) {
+        let locatedCard = this.table.getLocatedCard(cardId);
+
+        if (locatedCard !== null) {
+            let deck = this.getDeck(locatedCard.card.deckId!);
+            if (deck !== null) {
+                this.table.removeCard(locatedCard.card.id);
+                deck.addToTop(locatedCard.card);
+            }
         }
     }
 }

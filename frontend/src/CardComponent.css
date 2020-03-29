@@ -1,7 +1,5 @@
 .playing-card {
     position: absolute;
-    width: 100%;
-    height: 100%;
     cursor: pointer;
     transform-style: preserve-3d;
 }
@@ -12,8 +10,6 @@
 
 .cardFaceHolder {
     transform-origin: 40px 0px;
-    width: 100%;
-    height: 100%;
     transition: transform 0.5s;
     transform-style: preserve-3d;
     position: relative;

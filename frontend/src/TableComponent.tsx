@@ -13,12 +13,18 @@ type Props = {
 };
 
 export default class TableComponent extends React.Component<Props> {
-
     public render() {
+        let deckRefs : { [id: number] : React.RefObject<HTMLDivElement> } = {};
+
+        for (let i = 0; i < this.props.decks.length; i++) {
+            deckRefs[this.props.decks[i].id] = React.createRef();
+        }
+
         return (
             <div className="table">
                 <DecksComponent
                     decks={this.props.decks}
+                    deckRefs={deckRefs}
                     sendMessage={this.props.sendMessage} />
 
                 {this.props.table.locatedCards.map((locatedCard) => {
@@ -26,7 +32,9 @@ export default class TableComponent extends React.Component<Props> {
                                           sendMessage={this.props.sendMessage}
                                           key={locatedCard.card.id}
                                           currentPlayerId={this.props.currentPlayerId}
-                                          players={this.props.players}/>
+                                          players={this.props.players}
+                                          deckRef={deckRefs[locatedCard.card.deckId!]}
+                    />
                     ;})}
 
             </div>
