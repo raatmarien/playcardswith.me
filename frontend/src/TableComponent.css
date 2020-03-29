@@ -1,3 +1,6 @@
 .table {
-    perspective: 600px;  
+    perspective: 600px;
+    height: 100%;
+    width: 100%;
+    position: fixed;
 }

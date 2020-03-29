@@ -1,8 +1,9 @@
 import React from 'react';
 import './TableComponent.css';
 import {Deck, Table, Player} from "cards-library";
-import CardComponent from "./CardComponent";
+import TableCardComponent from "./TableCardComponent";
 import DecksComponent from "./DecksComponent";
+/* import OwnHandComponent from "./OwnHandComponent";*/
 
 type Props = {
     decks: Deck[],
@@ -28,14 +29,14 @@ export default class TableComponent extends React.Component<Props> {
                     sendMessage={this.props.sendMessage} />
 
                 {this.props.table.locatedCards.map((locatedCard) => {
-                    return <CardComponent locatedCard={locatedCard}
-                                          sendMessage={this.props.sendMessage}
-                                          key={locatedCard.card.id}
-                                          currentPlayerId={this.props.currentPlayerId}
-                                          players={this.props.players}
-                                          deckRef={deckRefs[locatedCard.card.deckId!]}
-                    />
-                    ;})}
+                     return <TableCardComponent locatedCard={locatedCard}
+                                                sendMessage={this.props.sendMessage}
+                                                key={locatedCard.card.id}
+                                                currentPlayerId={this.props.currentPlayerId}
+                                                players={this.props.players}
+                                                deckRef={deckRefs[locatedCard.card.deckId!]}
+                            />
+                     ;})}
 
             </div>
         );
