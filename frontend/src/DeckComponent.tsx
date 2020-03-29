@@ -7,6 +7,7 @@ import {DraggableCore, DraggableData} from 'react-draggable';
 type Props = {
     deck: Deck,
     sendMessage: (msg: any) => void,
+    deckRef: any,
 }
 
 type State = {
@@ -77,7 +78,7 @@ export default class DeckComponent extends React.Component<Props, State> {
 
     public render() {
         return (
-            <div className="deck">
+            <div className="deck" ref={this.props.deckRef}>
                 <DropdownButton title="&#8942;" id="deck-menu-button"
                                 bsPrefix="custom-menu-btn">
                     <Dropdown.Item onClick={this.recallToThisDeck.bind(this)}>

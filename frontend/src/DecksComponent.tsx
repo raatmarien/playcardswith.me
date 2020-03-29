@@ -7,6 +7,7 @@ import {Button} from "react-bootstrap";
 type Props = {
     decks: Deck[],
     sendMessage: (msg: any) => void,
+    deckRefs: { [id: number] : any },
 };
 
 export default class DecksComponent extends React.Component<Props, {}> {
@@ -17,6 +18,7 @@ export default class DecksComponent extends React.Component<Props, {}> {
                     this.props.decks.map((deck, i) =>
                         <div key={deck.id}>
                             <DeckComponent deck={deck}
+                                           deckRef={this.props.deckRefs[deck.id]}
                                            sendMessage={this.props.sendMessage}/>
                         </div>)
                 }

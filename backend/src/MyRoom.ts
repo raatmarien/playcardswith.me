@@ -73,6 +73,8 @@ export class MyRoom extends Room {
             this.state.addShuffledStandardDeck();
         } else if (message.messageType === "remove_deck") {
             this.state.removeDeck(message.deckId);
+        } else if (message.messageType === "return_card_to_deck") {
+            this.state.returnCardToDeck(message.cardId);
         }
     }
 

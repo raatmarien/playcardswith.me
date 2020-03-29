@@ -6,6 +6,7 @@ import Draggable, { DraggableData } from "react-draggable";
 type Props = {
     locatedCard: LocatedCard,
     sendMessage: (msg: any) => void,
+    deckRef: any,
 };
 
 type State = {
@@ -72,13 +73,25 @@ export default class CardComponent extends React.Component<Props, State> {
         });
     }
 
-    private onDragStop(locatedCard: LocatedCard, data: DraggableData) {
+    private onDragStop(locatedCard: LocatedCard, data: DraggableData,
+                       e: any) {
         this.setState({
             dragging: false,
         });
 
         if (this.countAsClick(data)) {
             this.onCardClick(locatedCard.card.id);
+        } else {
+            // If held above it's deck, put it back in
+            let rect = this.props.deckRef.current!.getBoundingClientRect();
+            let mouseX = e.pageX, mouseY = e.pageY;
+            if (mouseX > rect.x && mouseX < (rect.x + rect.width) &&
+                mouseY > rect.y && mouseY < (rect.y + rect.height)) {
+                this.props.sendMessage({
+                    messageType: "return_card_to_deck",
+                    cardId: locatedCard.card.id,
+                });
+            }
         }
     }
 
@@ -111,9 +124,9 @@ export default class CardComponent extends React.Component<Props, State> {
                 onDrag={(e, data) =>
                     this.onDragMove(locatedCard, data)}
                 onStop={(e, data) =>
-                    this.onDragStop(locatedCard, data)}>
+                    this.onDragStop(locatedCard, data, e)}>
 
-                <div className="playing-card" style={styles}>
+                <div className="playing-card" ref={"card"+locatedCard.card.id} style={styles}>
                     <div className={classNamesFaceHolder}>
                         <div className="cardFace card-open">
                             <p className="card-open-content">
