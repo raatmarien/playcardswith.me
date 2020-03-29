@@ -24,7 +24,9 @@ export class MyRoom extends Room {
     }
 
     onMessage (client: Client, message: any) {
-        console.log("Message:", message);
+        if (message.messageType !== "pointer_move") {
+            console.log("Message:", message);
+        }
         if (message.messageType === "card_drag") {
             let locatedCard
                 = this.state.table.getLocatedCard(message.cardId);

@@ -1,0 +1,9 @@
+.ownHand {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 200px;
+    margin: 10px;
+    background-color: #eeeeee;
+    z-index: -10;
+}

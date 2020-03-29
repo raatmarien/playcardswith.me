@@ -11,6 +11,7 @@ type Props = {
     currentPlayerId: string | null,
     players: Player[],
     deckRef: React.RefObject<HTMLDivElement>,
+    handRef: React.RefObject<HTMLDivElement>,
 };
 
 type State = {
@@ -54,7 +55,6 @@ export default class TableCardComponent extends React.Component<Props, State> {
     }
 
     private onDragStart(locatedCard: LocatedCard, data: DraggableData) {
-        console.log("hello");
         this.setState({
             dragging: true,
         });
@@ -88,6 +88,16 @@ export default class TableCardComponent extends React.Component<Props, State> {
         });
     }
 
+    private draggedOn(ref: any, e: any) {
+        if (!ref.current) {
+            return false;
+        }
+        let rect = ref.current.getBoundingClientRect();
+        let mouseX = e.pageX, mouseY = e.pageY;
+        return (mouseX > rect.x && mouseX < (rect.x + rect.width) &&
+                mouseY > rect.y && mouseY < (rect.y + rect.height));
+    }
+
     private onDragStop(locatedCard: LocatedCard, data: DraggableData, e: any) {
         this.stopDrag();
 
@@ -99,16 +109,16 @@ export default class TableCardComponent extends React.Component<Props, State> {
             this.onCardClick(locatedCard.card.id);
         } else {
             // If held above it's deck, put it back in
-            if (this.props.deckRef.current) {
-                let rect = this.props.deckRef.current.getBoundingClientRect();
-                let mouseX = e.pageX, mouseY = e.pageY;
-                if (mouseX > rect.x && mouseX < (rect.x + rect.width) &&
-                    mouseY > rect.y && mouseY < (rect.y + rect.height)) {
-                    this.props.sendMessage({
-                        messageType: "return_card_to_deck",
-                        cardId: locatedCard.card.id,
-                    });
-                }
+            if (this.draggedOn(this.props.deckRef, e)) {
+                this.props.sendMessage({
+                    messageType: "return_card_to_deck",
+                    cardId: locatedCard.card.id,
+                });
+            } else if (this.draggedOn(this.props.handRef, e)) {
+                this.props.sendMessage({
+                    messageType: "add_card_to_hand",
+                    cardId: locatedCard.card.id
+                });
             }
         }
     }
@@ -150,7 +160,6 @@ export default class TableCardComponent extends React.Component<Props, State> {
             }
         }
 
-        console.log(locatedCard);
         return (
             <div style={styles}>
                 <Draggable
