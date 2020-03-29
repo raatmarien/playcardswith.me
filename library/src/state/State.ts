@@ -20,8 +20,13 @@ export class State {
 
     public removePlayer(id: string) {
         let index = this.getPlayerIndex(id);
-
         if (index !== null) {
+            //Find whether this player has claimed any card. If so, unclaim it
+            let claimedCard = this.players[index].getDraggingCard(this.table);
+            if (claimedCard !== undefined) {
+                claimedCard.draggingPlayerID = null;
+            }
+
             this.players.splice(index, 1);
         }
     }

@@ -28,7 +28,9 @@ export default class App extends React.Component<Props, AppState> {
     }
 
     public componentDidMount() {
-        let client = new Colyseus.Client("ws://localhost:2567");
+        //For better debugging, find servers on other computers too
+        let url = new URL(window.location.href);
+        let client = new Colyseus.Client("ws://" + url.hostname + ":2567");
         RoomHelper.connect(client).then((r:Colyseus.Room) => this.onRoomJoin(r));
     }
 
@@ -82,6 +84,8 @@ export default class App extends React.Component<Props, AppState> {
                 <TableComponent decks={this.state.gameState.decks}
                                 table={this.state.gameState.table}
                                 sendMessage={this.sendMessage.bind(this)}
+                                currentPlayerId={this.state.currentPlayerId}
+                                players={this.state.gameState.players}
                 />
             </div>
         );

@@ -71,6 +71,10 @@ export default class DeckComponent extends React.Component<Props, State> {
     }
 
     private onDragStop(data: DraggableData) {
+        this.props.sendMessage({
+            messageType: "card_release"
+        });
+
         this.setState({
             draggingCard: null,
         });
