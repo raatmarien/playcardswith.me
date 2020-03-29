@@ -31,15 +31,6 @@ export default class TableCardComponent extends React.Component<Props, State> {
         };
     }
 
-
-    private isRedSuit() {
-        let cardName = this.props.locatedCard.card.name;
-
-        let res = cardName.startsWith("♥") ||
-                  cardName.startsWith("♦");
-        return res;
-    }
-
     private onCardClick(id: number) {
         this.props.sendMessage({
             messageType: "card_turn",

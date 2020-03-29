@@ -13,24 +13,22 @@ type Props = {
 
 type State = {
     dragging: boolean,
+    draggedOutOfHand: boolean,
 };
 
 
 export default class TableCardComponent extends React.Component<Props, State> {
+    private cardRef:React.RefObject<HTMLDivElement>;
+
     constructor(props: Props) {
         super(props);
 
         this.state = {
             dragging: false,
+            draggedOutOfHand: false,
         };
-    }
 
-    private isRedSuit() {
-        let cardName = this.props.card.name;
-
-        let res = cardName.startsWith("♥") ||
-                  cardName.startsWith("♦");
-        return res;
+        this.cardRef = React.createRef();
     }
 
     private onDragStart(card: Card, data: DraggableData) {
@@ -62,15 +60,42 @@ export default class TableCardComponent extends React.Component<Props, State> {
         });
     }
 
+    getOffset(evt:any) {
+        var el = evt.target,
+            x = 0,
+            y = 0;
+      
+        while (el && !isNaN(el.offsetLeft) && !isNaN(el.offsetTop)) {
+          x += el.offsetLeft - el.scrollLeft;
+          y += el.offsetTop - el.scrollTop;
+          el = el.offsetParent;
+        }
+      
+        x = evt.clientX - x;
+        y = evt.clientY - y;
+      
+        return { x: x, y: y };
+      }
+
     private onDragStop(card: Card, data: DraggableData, e: any) {
         this.stopDrag();
-        
+
+        if (!this.cardRef.current) {
+            return false;
+        }
+
+        var rect = this.cardRef.current.getBoundingClientRect();
+
         if (!this.draggedOn(this.props.handRef, e)) {
             this.props.sendMessage({
                 messageType: "remove_card_from_hand",
                 cardId: this.props.card.id,
-                cardX: e.pageX,
-                cardY: e.pageY,
+                cardX: e.pageX - e.clientX + rect.left,
+                cardY: e.pageY - e.clientY + rect.top,
+            });
+
+            this.setState({
+                draggedOutOfHand: true,
             });
         }
     }
@@ -96,7 +121,7 @@ export default class TableCardComponent extends React.Component<Props, State> {
                 <Draggable
                     key={card.id}
                     position={
-                        this.state.dragging ? undefined
+                        this.state.dragging || this.state.draggedOutOfHand ? undefined
                             : { x: this.props.location.x,
                                 y: this.props.location.y }}
                     onStart={(e, data) =>
@@ -105,7 +130,7 @@ export default class TableCardComponent extends React.Component<Props, State> {
                         this.anyDragEvent(this.onDragMove.bind(this, card, data), card)}
                     onStop={(e, data) =>
                         this.anyDragEvent(this.onDragStop.bind(this, card, data, e), card)}>
-                    <div>
+                    <div ref={this.cardRef}>
                         <CardComponent
                             card={card}
                             stylesCardFace={stylesCardFace}
