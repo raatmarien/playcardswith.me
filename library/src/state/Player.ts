@@ -24,12 +24,16 @@ export default class Player {
     removeCardFromHand(card: Card) {
         const index : number = this.hand.indexOf(card);
         if (index > -1) {
-          this.hand.splice(index, 1);
+            this.hand.splice(index, 1);
         }
         else {
-            console.log(`Card ${card.id} is not present in deck 
+            console.log(`Card ${card.id} is not present in hand
                 and can therefore not be removed`);
         }
+    }
+
+    findCardInHand(cardId: number) {
+        return this.hand.find(c => c.id == cardId);
     }
 
     /** Get which card this player is dragging on the given table */
