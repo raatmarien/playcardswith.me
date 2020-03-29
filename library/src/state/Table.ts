@@ -15,6 +15,8 @@ export default class Table {
                 return this.locatedCards[i];
             }
         }
+
+        console.log("Invalid card id:", cardId);
         return null;
     }
 
@@ -38,6 +40,11 @@ export default class Table {
         this.locatedCards.push(
             new LocatedCard(card, location,
                             this.getHighestZIndex() + 1));
+    }
+
+    public removeCard(cardId: number) {
+        this.locatedCards = this.locatedCards.filter(
+            (l) => l.card.id !== cardId);
     }
 
     public removeCardsBelongingToDeck(deckId: number): Card[] {
