@@ -24,7 +24,9 @@ export class MyRoom extends Room {
     }
 
     onMessage (client: Client, message: any) {
-        console.log("Message:", message);
+        if (message.messageType !== "pointer_move") {
+            console.log("Message:", message);
+        }
         if (message.messageType === "card_drag") {
             let locatedCard
                 = this.state.table.getLocatedCard(message.cardId);
@@ -115,6 +117,49 @@ export class MyRoom extends Room {
             this.state.removeDeck(message.deckId);
         } else if (message.messageType === "return_card_to_deck") {
             this.state.returnCardToDeck(message.cardId);
+        } else if (message.messageType === "add_card_to_hand") {
+            let locatedCard = this.state.table.getLocatedCard(message.cardId);
+            if (!locatedCard) {
+                console.log("Invalid card id:", message.cardId);
+                return;
+            }
+            
+            //You cannot add cards to your hand that another player is dragging
+            if (locatedCard.draggingPlayerID !== null &&
+                locatedCard.draggingPlayerID !== client.sessionId) {
+                //maybe send a message to the client?
+                return;
+            }
+
+            //Find the player
+            let player = this.state.getPlayer(client.sessionId);
+            if (player == null) {
+                console.log("That player does not exist:" + client.sessionId);
+                return;
+            }
+
+            this.state.table.removeCard(message.cardId);
+
+            player.addCardToHand(locatedCard.card);
+        } else if (message.messageType == "remove_card_from_hand") {
+            //Find the player
+            let player = this.state.getPlayer(client.sessionId);
+            if (player == null) {
+                console.log("That player does not exist:" + client.sessionId);
+                return;
+            }
+
+            let card = player.findCardInHand(message.cardId);
+
+            if (card === undefined) {
+                console.log("That card does not exist: " + message.cardId);
+                return;   
+            }
+            
+            player.removeCardFromHand(card);
+
+            this.state.table.addNewCard(
+                card, new Vector(message.cardX, message.cardY));
         }
     }
 
