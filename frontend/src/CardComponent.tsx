@@ -1,11 +1,14 @@
 import React from 'react';
-import {LocatedCard} from "cards-library";
+import {LocatedCard, Player} from "cards-library";
 import "./CardComponent.css";
 import Draggable, { DraggableData } from "react-draggable";
+import randomColor from "randomcolor";
 
 type Props = {
     locatedCard: LocatedCard,
     sendMessage: (msg: any) => void,
+    currentPlayerId: string | null,
+    players: Player[],
     deckRef: React.RefObject<HTMLDivElement>,
 };
 
@@ -73,10 +76,21 @@ export default class CardComponent extends React.Component<Props, State> {
         });
     }
 
-    private onDragStop(locatedCard: LocatedCard, data: DraggableData,
-                       e: any) {
+    /** Reset the drag state and do any potential other things
+     * that should be done when stopping drag
+     * (note: the player may not really have been dragging at all)
+     */
+    private stopDrag() {
         this.setState({
             dragging: false,
+        });
+    }
+
+    private onDragStop(locatedCard: LocatedCard, data: DraggableData, e: any) {
+        this.stopDrag();
+
+        this.props.sendMessage({
+            messageType: "card_release"
         });
 
         if (this.countAsClick(data)) {
@@ -97,6 +111,15 @@ export default class CardComponent extends React.Component<Props, State> {
         }
     }
 
+    private anyDragEvent(dragEvent: ()=>void,
+            locatedCard: LocatedCard) {
+        if (locatedCard.draggingPlayerID !== null && locatedCard.draggingPlayerID !== this.props.currentPlayerId) {
+            this.stopDrag();
+            return false;
+        }
+
+        dragEvent();
+    }
 
     public render() {
         let classNamesFaceHolder = "cardFaceHolder ";
@@ -111,6 +134,25 @@ export default class CardComponent extends React.Component<Props, State> {
 
         let styles = {
             zIndex: this.props.locatedCard.zIndex,
+        };
+
+        let playingCardClasses = "playing-card ";
+
+        if (locatedCard.draggingPlayerID !== null && locatedCard.draggingPlayerID !== this.props.currentPlayerId)
+            playingCardClasses += "dragged-by-other";
+
+        let stylesCardFace = {};
+        let draggingID = this.props.locatedCard.draggingPlayerID;
+        if (draggingID !== null) {
+            let cardPlayer = this.props.players.find(p => p.id === draggingID);
+            if (cardPlayer !== undefined) {
+                let cardPlayerColor = randomColor({
+                    seed: cardPlayer.id
+                });
+                stylesCardFace = {
+                    boxShadow: "2px 2px 3px 0px #00000022, 0px 0px 10px 2px " + cardPlayerColor
+                };
+            }
         }
 
         return (
@@ -122,22 +164,22 @@ export default class CardComponent extends React.Component<Props, State> {
                 : { x: locatedCard.location.x,
                     y: locatedCard.location.y}}
                 onStart={(e, data) =>
-                    this.onDragStart(locatedCard, data)}
+                    this.anyDragEvent(this.onDragStart.bind(this, locatedCard, data), locatedCard)}
                 onDrag={(e, data) =>
-                    this.onDragMove(locatedCard, data)}
+                    this.anyDragEvent(this.onDragMove.bind(this, locatedCard, data), locatedCard)}
                 onStop={(e, data) =>
-                    this.onDragStop(locatedCard, data, e)}>
+                    this.anyDragEvent(this.onDragStop.bind(this, locatedCard, data, e), locatedCard)}>
 
-                <div className="playing-card" ref={"card"+locatedCard.card.id} style={styles}>
+                <div className={playingCardClasses} ref={"card"+locatedCard.card.id} style={styles}>
                     <div className={classNamesFaceHolder}>
-                        <div className="cardFace card-open">
+                        <div className="cardFace card-open" style={stylesCardFace}>
                             <p className="card-open-content">
                                 {this.props.locatedCard.card.name.slice(0, 1)}
                                 <br></br>
                                 {this.props.locatedCard.card.name.slice(1)}
                             </p>
                         </div>
-                        <div className="cardFace card-closed">
+                        <div className="cardFace card-closed" style={stylesCardFace}>
                         </div>
                     </div>
                 </div>
