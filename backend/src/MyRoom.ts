@@ -118,9 +118,8 @@ export class MyRoom extends Room {
             this.state.returnCardToDeck(message.cardId);
         } else if (message.messageType === "update_player_name") {
             let player = this.state.getPlayer(message.playerId);
-            if(player !== null) {
+            if (player !== null) {
                 player.name = message.username;
-                this.state.updatePlayer(player!);        
             }
         }
     }

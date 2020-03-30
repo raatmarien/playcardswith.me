@@ -14,15 +14,6 @@ export class State {
         this.players = players;
     }
 
-    public updatePlayer(player: Player) {
-        let index = this.getPlayerIndex(player.id);
-        if (index !== null) {
-            this.players[index] = player;
-        } else {
-            console.log(`Player {$player} was not found and could therefore not be updated`);
-        }
-    }
-
     addPlayer(player: Player) {
         this.players.push(player);
     }
