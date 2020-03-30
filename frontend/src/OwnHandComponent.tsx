@@ -19,11 +19,12 @@ export default class OwnHandComponent extends React.Component<Props> {
             <div className="ownHand" ref={this.props.handRef}>
                 <p>Your hand:</p>
                 {this.props.cards.map((card, index) => {
-                     return (<HandCardComponent
-                                 card={card}
-                                 sendMessage={this.props.sendMessage}
-                                 location={this.locationFor(index)}
-                                 handRef={this.props.handRef} />);
+                    return (<HandCardComponent
+                                key={"handcard-"+card.id}
+                                card={card}
+                                sendMessage={this.props.sendMessage}
+                                location={this.locationFor(index)}
+                                handRef={this.props.handRef} />);
                  })}
             </div>
         );
