@@ -4,6 +4,7 @@ import './App.css';
 import * as Colyseus from "colyseus.js";
 import {State, initialState} from "cards-library";
 import TableComponent from "./TableComponent";
+import HeaderComponent from "./HeaderComponent";
 import RoomHelper from "./RoomHelper";
 import PointersComponent from "./PointersComponent";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -12,7 +13,8 @@ type Props = {};
 
 type AppState = {
     gameState: State,
-    currentPlayerId: string;
+    currentPlayerId: string,
+    headerComponentRef: React.RefObject<HeaderComponent>,
 };
 
 
@@ -24,6 +26,7 @@ export default class App extends React.Component<Props, AppState> {
         this.state = {
             gameState: initialState(),
             currentPlayerId: "",
+            headerComponentRef: React.createRef(),
         };
     }
 
@@ -54,9 +57,11 @@ export default class App extends React.Component<Props, AppState> {
     private handleIncomingMessage(message: any) {
         switch(message.messageType) {
             case "request_username_update": {
-                console.log(message);
-                console.log(this);
-                this.usernamePopUp();
+                let headerComponent =
+                    this.state.headerComponentRef.current;
+                if (headerComponent !== null) {
+                    headerComponent.onNameChange();
+                }
                 break;
             }
             default : {
@@ -88,17 +93,15 @@ export default class App extends React.Component<Props, AppState> {
             });
         }
     }
-    private usernamePopUp(){
-        let username = prompt("Please enter your username", "Player " + (this.state.gameState.players.length+1));
-        let msg = {messageType: "update_player_name", 
-                   username: username,
-                   playerId: this.state.currentPlayerId}
-        this.sendMessage(msg);
-    }
 
     public render() {
         return (
             <div className="App" onMouseMove={this.onMouseMove.bind(this)}>
+                <HeaderComponent
+                    ref={this.state.headerComponentRef}
+                    sendMessage={this.sendMessage.bind(this)}
+                    players={this.state.gameState.players}
+                    currentPlayerId={this.state.currentPlayerId} />
                 <PointersComponent players={this.state.gameState.players}
                                    currentPlayerId={this.state.currentPlayerId}/>
                 <TableComponent decks={this.state.gameState.decks}
