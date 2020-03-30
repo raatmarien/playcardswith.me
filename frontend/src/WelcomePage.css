@@ -1,10 +1,12 @@
 
-body {
+.background {
 	background: url('/img/people-playing-cards.jpg') no-repeat center center fixed; 
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
+	width: 100vw;
+	height: 100vh;
 }
 .container {
 	background-color: rgba(220,220,220,.8);

@@ -7,11 +7,13 @@ export default class WelcomePage extends React.Component {
 
     public render() {
         return (
-            <div className="container">
-            	<div className="inner-container">
-	                <JoinRoomComponent   />
-	                <div className="divider">or</div>
-	                <CreateRoomComponent />
+            <div className="background">
+                <div className="container">
+                	<div className="inner-container">
+	                   <JoinRoomComponent   />
+	                   <div className="divider">or</div>
+	                   <CreateRoomComponent />
+                    </div>
                 </div>
             </div>
         );
