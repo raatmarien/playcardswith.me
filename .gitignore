@@ -2,3 +2,4 @@ node_modules
 *~
 /library/src/**/*.d.ts
 /library/src/**/*.js
+/backend/lib
