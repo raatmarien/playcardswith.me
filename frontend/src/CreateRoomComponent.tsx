@@ -1,6 +1,4 @@
 import React from 'react';
-import './RegisterFormComponent.css';
-import './CreateRoomComponent.css';
 
 export default class CreateRoomComponent extends React.Component {
     constructor(props: any) {
@@ -9,16 +7,14 @@ export default class CreateRoomComponent extends React.Component {
     }
     public render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <label>Click below to create a new game room!</label>
-                <input type="submit" value="New room" />
+            <form onSubmit={this.handleSubmit} className="create-room">
+                <input type="submit" value="NEW ROOM" />
             </form>
         );
     }
     
     handleSubmit(event: any) {
         event.preventDefault();
-        let l = window.location;
-        l.href = '/g/?r=new'; 
+        window.location.href = "/g/?r=new";
     }
 }
