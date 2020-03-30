@@ -19,8 +19,9 @@ export class MyRoom extends Room {
         let hand: Card[] = [];
         let pointer : Vector = new Vector(0, 0);
         let player = new Player(client.id, hand, pointer, client.id);
-
         this.state.addPlayer(player);
+
+        this.send(client, {messageType: "request_username_update"});
     }
 
     onMessage (client: Client, message: any) {
@@ -117,6 +118,11 @@ export class MyRoom extends Room {
             this.state.removeDeck(message.deckId);
         } else if (message.messageType === "return_card_to_deck") {
             this.state.returnCardToDeck(message.cardId);
+        } else if (message.messageType === "update_player_name") {
+            let player = this.state.getPlayer(message.playerId);
+            if (player !== null) {
+                player.name = message.username;
+            }
         } else if (message.messageType === "add_card_to_hand") {
             let locatedCard = this.state.table.getLocatedCard(message.cardId);
             if (!locatedCard) {
