@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "playcardswith.me",
   "version": "1.0.0",
   "description": "npm init template for bootstraping an empty Colyseus project",
   "license": "MIT",
@@ -10,10 +10,7 @@
     "build": "tsc --build tsconfig.json"
   },
   "author": "",
-  "bugs": {
-    "url": "https://github.com/colyseus/create-colyseus/issues"
-  },
-  "homepage": "https://github.com/colyseus/create-colyseus#readme",
+  "homepage": "https://playcardswith.me",
   "devDependencies": {
     "@colyseus/loadtest": "^0.12.0",
     "@types/cors": "^2.8.6",
