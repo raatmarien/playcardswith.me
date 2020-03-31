@@ -1,7 +1,7 @@
-form {
+form.register {
 	display: flex;
 	flex-direction: column;
 }
-form>* {
+form.register>* {
 	margin-top: 12px;
 }

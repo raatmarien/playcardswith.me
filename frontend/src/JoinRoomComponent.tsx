@@ -17,7 +17,7 @@ export default class JoinRoomComponent extends React.Component<{},State> {
     public render() {
         console.log(this.state.roomID);
         return (
-            <form onSubmit={this.handleSubmit}>
+            <form className="register" onSubmit={this.handleSubmit}>
                 <label> Fill in the room ID below to join a game room</label>
                 <div className="input-wrapper">
                     <input type="text" value={this.state.roomID} onChange={this.handleChange} />
