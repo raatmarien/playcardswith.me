@@ -4,6 +4,7 @@ import {Deck, Table, Player} from "cards-library";
 import TableCardComponent from "./TableCardComponent";
 import DecksComponent from "./DecksComponent";
 import OwnHandComponent from "./OwnHandComponent";
+import OtherPlayersHandsComponent from "./OtherPlayersHandsComponent";
 
 type Props = {
     decks: Deck[],
@@ -57,6 +58,8 @@ export default class TableComponent extends React.Component<Props> {
                                                 handRef={handRef}
                             />
                      ;})}
+                <OtherPlayersHandsComponent
+                    players={this.props.players} />
             <OwnHandComponent handRef={handRef}
                               cards={this.currentPlayerHand()}
                               sendMessage={this.props.sendMessage} />
