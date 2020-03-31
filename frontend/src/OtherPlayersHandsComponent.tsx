@@ -7,12 +7,13 @@ import randomColor from "randomcolor";
 
 type Props = {
     players: Player[],
+    currentPlayerId: string | null,
 };
 
 export default class OtherPlayersHandsComponent extends React.Component<Props> {
     public render() {
         return (<div className="other-players-hands">
-    {this.props.players.map((player) => {
+    {this.props.players.filter((p) => p.id !== this.props.currentPlayerId).map((player) => {
          return (<Card style={{ width: "18rem" }}
                        className="mr-2 mt-2">
     <Card.Body>
