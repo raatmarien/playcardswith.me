@@ -7,11 +7,11 @@ export default class WelcomePage extends React.Component {
 
     public render() {
         return (
-            <div className="background">
-                <div className="container">
+            <div className="welcome-background">
+                <div className="welcome-container">
                 	<div className="inner-container">
 	                   <JoinRoomComponent   />
-	                   <div className="divider">or</div>
+	                   <div className="welcome-divider">or</div>
 	                   <CreateRoomComponent />
                     </div>
                 </div>

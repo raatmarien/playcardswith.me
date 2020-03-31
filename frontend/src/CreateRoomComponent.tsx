@@ -9,7 +9,7 @@ export default class CreateRoomComponent extends React.Component {
     }
     public render() {
         return (
-            <form onSubmit={this.handleSubmit}>
+            <form className="register" onSubmit={this.handleSubmit}>
                 <label>Click below to create a new game room!</label>
                 <input type="submit" value="New room" />
             </form>

@@ -1,5 +1,5 @@
 
-.background {
+.welcome-background {
 	background: url('/img/people-playing-cards.jpg') no-repeat center center fixed; 
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
@@ -8,7 +8,7 @@
 	width: 100vw;
 	height: 100vh;
 }
-.container {
+.welcome-container {
 	background-color: rgba(220,220,220,.8);
 	width: 400px;
     top: calc(50vh - 200px);
@@ -24,7 +24,7 @@
 	display: flex;
 	margin: 0 auto;
 }
-.divider {
+.welcome-divider {
 	margin: 30px auto;
 	font-style: italic;
 }
