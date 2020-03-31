@@ -1,6 +1,9 @@
 import { Room, Client } from "colyseus";
 import { State, initialState, LocatedCard, Card, Deck, Player, Vector } from "cards-library";
 
+let numberOfRooms = 0;
+let numberOfPeople = 0;
+
 export class MyRoom extends Room {
     state: State;
 
@@ -11,10 +14,14 @@ export class MyRoom extends Room {
 
     onCreate (options: any) {
         this.setState(this.state);
+        numberOfRooms++;
+        console.log("Number of rooms: " + numberOfRooms);
     }
 
     onJoin (client: Client, options: any) {
-        console.log(`${client.id} joined`);
+        numberOfPeople++;
+        console.log("Number of people: " + numberOfPeople);
+
 
         let hand: Card[] = [];
         let pointer : Vector = new Vector(0, 0);
@@ -25,9 +32,6 @@ export class MyRoom extends Room {
     }
 
     onMessage (client: Client, message: any) {
-        if (message.messageType !== "pointer_move") {
-            console.log("Message:", message);
-        }
         if (message.messageType === "card_drag") {
             let locatedCard
                 = this.state.table.getLocatedCard(message.cardId);
@@ -170,11 +174,16 @@ export class MyRoom extends Room {
     }
 
     onLeave (client: Client, consented: boolean) {
-        console.log(client.id + " left");
+        numberOfPeople--;
+        console.log("Number of people: " + numberOfPeople);
+
+
         this.state.removePlayer(client.id);
     }
 
     onDispose() {
+        numberOfRooms--;
+        console.log("Number of rooms: " + numberOfRooms);
     }
 
 }
