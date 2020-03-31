@@ -59,7 +59,8 @@ export default class TableComponent extends React.Component<Props> {
                             />
                      ;})}
                 <OtherPlayersHandsComponent
-                    players={this.props.players} />
+                    players={this.props.players}
+                    currentPlayerId={this.props.currentPlayerId} />
             <OwnHandComponent handRef={handRef}
                               cards={this.currentPlayerHand()}
                               sendMessage={this.props.sendMessage} />
