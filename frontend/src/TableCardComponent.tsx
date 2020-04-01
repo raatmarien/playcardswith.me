@@ -79,12 +79,22 @@ export default class TableCardComponent extends React.Component<Props, State> {
         });
     }
 
+    private getLocObject(e: any) {
+        if (e.clientX) {
+            return e;
+        } else {
+            return e.changedTouches[0];
+        }
+    }
+
     private draggedOn(ref: any, e: any) {
         if (!ref.current) {
             return false;
         }
         let rect = ref.current.getBoundingClientRect();
-        let mouseX = e.pageX, mouseY = e.pageY;
+        let loc = this.getLocObject(e);
+        let mouseX = loc.pageX,
+            mouseY = loc.pageY;
         return (mouseX > rect.x && mouseX < (rect.x + rect.width) &&
                 mouseY > rect.y && mouseY < (rect.y + rect.height));
     }
