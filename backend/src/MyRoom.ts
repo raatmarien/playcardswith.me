@@ -14,6 +14,8 @@ export class MyRoom extends Room {
 
     onCreate (options: any) {
         this.setState(this.state);
+        this.setPrivate(); // All rooms are private for now!
+
         numberOfRooms++;
         console.log("Number of rooms: " + numberOfRooms);
     }

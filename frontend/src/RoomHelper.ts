@@ -28,19 +28,16 @@ export default class RoomHelper {
     }
 
     public static connect(client:Colyseus.Client) {
-        var roomID = this.getRoomIDFromURL();
-        if (roomID === null) {
-            //For now, join the global join for easier testing
-            return client.joinOrCreate("room").then(room => {
-                this.changeRoomIDInUrl(room.id);
-                return room;
-            });
+        let roomId = this.getRoomIDFromURL();
+        if (roomId === null) {
+            // No room id, so for now lets just create a new room
+            roomId = "new";
         }
 
-        if (roomID === "new") {
+        if (roomId === "new") {
             return this.createPrivateRoom(client);
         }
 
-        return this.joinPrivateRoom(client, roomID);
+        return this.joinPrivateRoom(client, roomId);
     }
 }
