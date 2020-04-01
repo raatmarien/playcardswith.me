@@ -23,6 +23,12 @@ export default class TableCardComponent extends React.Component<Props, State> {
     private startX: number = -1;
     private startY: number = -1;
 
+    private isDuplicateMouseEvent(e: any) {
+        return e.sourceCapabilities &&
+               e.sourceCapabilities.firesTouchEvents &&
+               e.clientX;
+    }
+    
     constructor(props: Props) {
         super(props);
 
@@ -125,7 +131,11 @@ export default class TableCardComponent extends React.Component<Props, State> {
     }
 
     private anyDragEvent(dragEvent: ()=>void,
-                         locatedCard: LocatedCard) {
+                         locatedCard: LocatedCard, e: any) {
+        if (this.isDuplicateMouseEvent(e)) {
+            return;
+        }
+
         if (locatedCard.draggingPlayerID !== null && locatedCard.draggingPlayerID !== this.props.currentPlayerId) {
             this.stopDrag();
             return false;
@@ -170,11 +180,11 @@ export default class TableCardComponent extends React.Component<Props, State> {
                             : { x: locatedCard.location.x,
                                 y: locatedCard.location.y }}
                     onStart={(e, data) =>
-                        this.anyDragEvent(this.onDragStart.bind(this, locatedCard, data), locatedCard)}
+                        this.anyDragEvent(this.onDragStart.bind(this, locatedCard, data), locatedCard, e)}
                     onDrag={(e, data) =>
-                        this.anyDragEvent(this.onDragMove.bind(this, locatedCard, data), locatedCard)}
+                        this.anyDragEvent(this.onDragMove.bind(this, locatedCard, data), locatedCard, e)}
                     onStop={(e, data) =>
-                        this.anyDragEvent(this.onDragStop.bind(this, locatedCard, data, e), locatedCard)}>
+                        this.anyDragEvent(this.onDragStop.bind(this, locatedCard, data, e), locatedCard, e)}>
                     <div>
                         <CardComponent
                             card={locatedCard.card}
