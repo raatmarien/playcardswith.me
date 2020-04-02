@@ -1,5 +1,5 @@
 import React from 'react';
-import {LocatedCard, Player} from "cards-library";
+import {LocatedCard, Player, Deck} from "cards-library";
 import "./CardComponent.css";
 import Draggable, { DraggableData } from "react-draggable";
 import randomColor from "randomcolor";
@@ -10,6 +10,7 @@ type Props = {
     sendMessage: (msg: any) => void,
     currentPlayerId: string | null,
     players: Player[],
+    decks: Deck[],
     deckRef: React.RefObject<HTMLDivElement>,
     handRef: React.RefObject<HTMLDivElement>,
 };
@@ -169,7 +170,8 @@ export default class TableCardComponent extends React.Component<Props, State> {
                         <CardComponent
                             card={locatedCard.card}
                             stylesCardFace={stylesCardFace}
-                            playingCardClasses={playingCardClasses} />
+                            playingCardClasses={playingCardClasses}
+                            decks={this.props.decks} />
                     </div>
                 </Draggable>
             </div>

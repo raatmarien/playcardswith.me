@@ -1,5 +1,5 @@
 import Table from "./Table";
-import { Deck, shuffledStandardDeck, standardDeck } from "./Deck";
+import { Deck, shuffledStandardDeck, standardDeck, newDeck } from "./Deck";
 import LocatedCard from "./LocatedCard";
 import Player from "./Player";
 
@@ -34,6 +34,10 @@ export class State {
 
     public addShuffledStandardDeck() {
         this.decks.push(shuffledStandardDeck());
+    }
+
+    public addDeck(message: any) {
+        this.decks.push(newDeck(message));
     }
 
     private getPlayerIndex(id: string): number | null {

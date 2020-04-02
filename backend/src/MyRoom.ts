@@ -119,7 +119,7 @@ export class MyRoom extends Room {
         } else if (message.messageType === "shuffle_deck") {
             this.state.shuffleDeck(message.deckId);
         } else if (message.messageType === "add_deck") {
-            this.state.addShuffledStandardDeck();
+            this.state.addDeck(message);
         } else if (message.messageType === "remove_deck") {
             this.state.removeDeck(message.deckId);
         } else if (message.messageType === "return_card_to_deck") {

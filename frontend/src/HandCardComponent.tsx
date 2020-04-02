@@ -1,11 +1,12 @@
 import React from 'react';
-import {Card, Vector} from "cards-library";
+import {Card, Vector, Deck} from "cards-library";
 import "./CardComponent.css";
 import Draggable, { DraggableData } from "react-draggable";
 import CardComponent from "./CardComponent";
 
 type Props = {
     card: Card,
+    decks: Deck[],
     sendMessage: (msg: any) => void,
     location: Vector,
     handRef: React.RefObject<HTMLDivElement>,
@@ -144,6 +145,7 @@ export default class TableCardComponent extends React.Component<Props, State> {
                         <CardComponent
                             card={card}
                             stylesCardFace={stylesCardFace}
+                            decks={this.props.decks}
                             playingCardClasses={playingCardClasses} />
                     </div>
                 </Draggable>

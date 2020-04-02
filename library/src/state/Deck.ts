@@ -4,10 +4,12 @@ import { shuffle, nextUID } from "../Utils";
 export class Deck {
     id: number;
     cards: Card[];
+    color: string;
 
-    constructor(cards: Card[]) {
+    constructor(cards: Card[], color: string = '#f44336') {
         this.id = nextUID();
         this.cards = cards;
+        this.color = color;
 
         this.annotateCardsWithThisDeck();
     }
@@ -69,4 +71,22 @@ function standardCards() : Card[] {
         }
     }
     return cards;
+}
+
+export function newDeck(message: any) : Deck {
+    let cards = [];
+    for (let c = 0; c < message.includedCards.length; c++) {
+        for (let s = 0; s < message.includedSuits.length; s++) {
+            for (let i = 0; i < message.amountOfEach; i++) {
+                cards.push(new Card(
+                    message.includedSuits[s] +
+                        message.includedCards[c],
+                    false));
+            }
+        }
+    }
+    if (message.shuffleDeck) {
+        cards = shuffle(cards);
+    }
+    return new Deck(cards, message.deckColor);
 }
