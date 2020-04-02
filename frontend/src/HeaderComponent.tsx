@@ -46,6 +46,14 @@ export default class HeaderComponent extends React.Component<Props> {
         return "Player " + this.getPlayerNum();
     }
 
+    private onSubmitForNameInput(e:any) {
+        //Avoid refreshing the page
+        e.preventDefault();
+
+        //Deselect the text input (esp. important on mobile)
+        e.target[0].blur();
+    }
+
     public render() {
         this.onNameChange();
         return (
@@ -56,7 +64,7 @@ export default class HeaderComponent extends React.Component<Props> {
                                  className="justify-content-end">
                     <Row>
                         <Col>
-                            <Form inline>
+                            <Form inline onSubmit={this.onSubmitForNameInput}>
                                 <Form.Group>
                                     <Form.Label>Your name: </Form.Label>
                                     <FormControl
