@@ -6,7 +6,7 @@ export class Deck {
     cards: Card[];
     color: string;
 
-    constructor(cards: Card[], color: string = '#f44336') {
+    constructor(cards: Card[], color: string = '#b90e0e') {
         this.id = nextUID();
         this.cards = cards;
         this.color = color;

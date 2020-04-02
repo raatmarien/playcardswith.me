@@ -26,11 +26,29 @@ export default class DecksComponent extends React.Component<Props, State> {
     private readonly allCards = ["2", "3", "4", "5", "6", "7", "8", "9", "10",
                                  "J", "Q", "K", "A"];
     private readonly allSuits = ["♠", "♥", "♦", "♣"];
-    private readonly possibleColors = ["#f44336", "#e91e63", "#9c27b0", "#673ab7",
-                                       "#3f51b5", "#2196f3", "#03a9f4", "#00bcd4",
-                                       "#009688", "#4caf50", "#8bc34a", "#cddc39",
-                                       "#ffeb3b", "#ffc107", "#ff9800", "#ff5722",
-                                       "#795548", "#607d8b"]; 
+    private readonly possibleColors = [
+        "#b90e0e",
+        "#b9690e",
+        "#c3b004",
+        "#83be04",
+        "#2a660a",
+        "#0bb177",
+        "#0a9e99",
+        "#0a6a9e",
+        "#081e81",
+        "#4c13be",
+        "#6d10a2",
+        "#a2109b",
+        "#a21057",
+        "#493232",
+        "#323449",
+        "#324932",
+        "#494732",
+        "#470200",
+        "#474100",
+        "#004711",
+        "#0e0047",
+        "#470047"]
 
     constructor(props: Props) {
         super(props);
@@ -50,7 +68,9 @@ export default class DecksComponent extends React.Component<Props, State> {
     }
 
     private setShow(showDialog: boolean) {
-        this.setState({show: showDialog});
+        let state = this.defaultNewDeckState();
+        state.show = true;
+        this.setState(state);
     }
 
     private getNextTotalCards() {
@@ -169,6 +189,7 @@ export default class DecksComponent extends React.Component<Props, State> {
                                 <CirclePicker
                                     colors={this.possibleColors}
                                     color={this.state.deckColor}
+                                    width="466px"
                                     onChangeComplete={(c) =>
                                         this.setState({deckColor: c.hex})}/>
                             </Form.Group> 
