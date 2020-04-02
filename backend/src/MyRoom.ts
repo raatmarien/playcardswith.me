@@ -172,6 +172,8 @@ export class MyRoom extends Room {
 
             this.state.table.addNewCard(
                 card, new Vector(message.cardX, message.cardY));
+        } else {
+            console.log("Invalid message:", message);
         }
     }
 

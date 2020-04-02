@@ -60,19 +60,28 @@ export default class TableCardComponent extends React.Component<Props, State> {
         });
     }
 
+    private getLocObject(e: any) {
+        if (e.clientX) {
+            return e;
+        } else {
+            return e.changedTouches[0];
+        }
+    }
+
     getOffset(evt:any) {
         var el = evt.target,
             x = 0,
             y = 0;
-      
+        
         while (el && !isNaN(el.offsetLeft) && !isNaN(el.offsetTop)) {
-          x += el.offsetLeft - el.scrollLeft;
-          y += el.offsetTop - el.scrollTop;
+            x += el.offsetLeft - el.scrollLeft;
+            y += el.offsetTop - el.scrollTop;
           el = el.offsetParent;
         }
       
-        x = evt.clientX - x;
-        y = evt.clientY - y;
+        let loc = this.getLocObject(evt);
+        x = loc.clientX - x;
+        y = loc.clientY - y;
       
         return { x: x, y: y };
       }
@@ -87,11 +96,12 @@ export default class TableCardComponent extends React.Component<Props, State> {
         var rect = this.cardRef.current.getBoundingClientRect();
 
         if (!this.draggedOn(this.props.handRef, e)) {
+            let loc = this.getLocObject(e);
             this.props.sendMessage({
                 messageType: "remove_card_from_hand",
                 cardId: this.props.card.id,
-                cardX: e.pageX - e.clientX + rect.left,
-                cardY: e.pageY - e.clientY + rect.top,
+                cardX: loc.pageX - loc.clientX + rect.left,
+                cardY: loc.pageY - loc.clientY + rect.top,
             });
 
             this.setState({

@@ -31,18 +31,11 @@ export default class TableCardComponent extends React.Component<Props, State> {
         };
     }
 
-    private onCardClick(id: number) {
+    private onCardClick() {
         this.props.sendMessage({
             messageType: "card_turn",
-            cardId: id,
+            cardId: this.props.locatedCard.card.id,
         });
-    }
-
-    private countAsClick(data: DraggableData) {
-        let difX = this.startX - data.x;
-        let difY = this.startY - data.y;
-        let distSq = difX * difX + difY * difY;
-        return distSq < 100;
     }
 
     private onDragStart(locatedCard: LocatedCard, data: DraggableData) {
@@ -79,12 +72,22 @@ export default class TableCardComponent extends React.Component<Props, State> {
         });
     }
 
+    private getLocObject(e: any) {
+        if (e.clientX) {
+            return e;
+        } else {
+            return e.changedTouches[0];
+        }
+    }
+
     private draggedOn(ref: any, e: any) {
         if (!ref.current) {
             return false;
         }
         let rect = ref.current.getBoundingClientRect();
-        let mouseX = e.pageX, mouseY = e.pageY;
+        let loc = this.getLocObject(e);
+        let mouseX = loc.pageX,
+            mouseY = loc.pageY;
         return (mouseX > rect.x && mouseX < (rect.x + rect.width) &&
                 mouseY > rect.y && mouseY < (rect.y + rect.height));
     }
@@ -96,26 +99,23 @@ export default class TableCardComponent extends React.Component<Props, State> {
             messageType: "card_release"
         });
 
-        if (this.countAsClick(data)) {
-            this.onCardClick(locatedCard.card.id);
-        } else {
-            // If held above it's deck, put it back in
-            if (this.draggedOn(this.props.deckRef, e)) {
-                this.props.sendMessage({
-                    messageType: "return_card_to_deck",
-                    cardId: locatedCard.card.id,
-                });
-            } else if (this.draggedOn(this.props.handRef, e)) {
-                this.props.sendMessage({
-                    messageType: "add_card_to_hand",
-                    cardId: locatedCard.card.id
-                });
-            }
+
+        // If held above it's deck, put it back in
+        if (this.draggedOn(this.props.deckRef, e)) {
+            this.props.sendMessage({
+                messageType: "return_card_to_deck",
+                cardId: locatedCard.card.id,
+            });
+        } else if (this.draggedOn(this.props.handRef, e)) {
+            this.props.sendMessage({
+                messageType: "add_card_to_hand",
+                cardId: locatedCard.card.id
+            });
         }
     }
 
     private anyDragEvent(dragEvent: ()=>void,
-                         locatedCard: LocatedCard) {
+                         locatedCard: LocatedCard, e: any) {
         if (locatedCard.draggingPlayerID !== null && locatedCard.draggingPlayerID !== this.props.currentPlayerId) {
             this.stopDrag();
             return false;
@@ -152,7 +152,7 @@ export default class TableCardComponent extends React.Component<Props, State> {
         }
 
         return (
-            <div style={styles}>
+            <div style={styles} onClick={() => this.onCardClick()} >
                 <Draggable
                     key={locatedCard.card.id}
                     position={
@@ -160,11 +160,11 @@ export default class TableCardComponent extends React.Component<Props, State> {
                             : { x: locatedCard.location.x,
                                 y: locatedCard.location.y }}
                     onStart={(e, data) =>
-                        this.anyDragEvent(this.onDragStart.bind(this, locatedCard, data), locatedCard)}
+                        this.anyDragEvent(this.onDragStart.bind(this, locatedCard, data), locatedCard, e)}
                     onDrag={(e, data) =>
-                        this.anyDragEvent(this.onDragMove.bind(this, locatedCard, data), locatedCard)}
+                        this.anyDragEvent(this.onDragMove.bind(this, locatedCard, data), locatedCard, e)}
                     onStop={(e, data) =>
-                        this.anyDragEvent(this.onDragStop.bind(this, locatedCard, data, e), locatedCard)}>
+                        this.anyDragEvent(this.onDragStop.bind(this, locatedCard, data, e), locatedCard, e)}>
                     <div>
                         <CardComponent
                             card={locatedCard.card}
