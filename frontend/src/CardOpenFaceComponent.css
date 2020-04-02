@@ -1,0 +1,21 @@
+
+.card-red-suit {
+    color: red;
+}
+
+.card-open-content {
+}
+
+.fullCardFace {
+    display: flex;
+    margin: 5px;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card-open-content-special {
+    font-size: 18px;
+    line-height: normal;
+    overflow-wrap: break-word;
+}

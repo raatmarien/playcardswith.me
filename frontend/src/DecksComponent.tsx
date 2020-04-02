@@ -47,7 +47,11 @@ export default class DecksComponent extends React.Component<Props, State> {
         { value: "♦", label: "♦ Diamonds" }]
     private readonly allSpecialCardOptions = [
         { value: "Red Joker", label: "Red Joker" },
-        { value: "Black Joker", label: "Black Joker" }]
+        { value: "Black Joker", label: "Black Joker" },
+        { value: "1", label: "One" },
+        { value: "Dog", label: "Dog" },
+        { value: "Phoenix", label: "Phoenix" },
+        { value: "Dragon", label: "Dragon" }]
     private readonly possibleColors = [
             "#b90e0e",
             "#b9690e",
@@ -200,7 +204,7 @@ export default class DecksComponent extends React.Component<Props, State> {
                                     onChange={this.handleIncludedSpecialCardsChanged.bind(this)}
                                     isMulti={true} />
                                 <Form.Text className="text-muted">
-                                    Jokers, Tichu cards, etc.
+                                    Jokers etc.
                                 </Form.Text>
                             </Form.Group>
                             <Form.Group controlId="amountOfEach" >
