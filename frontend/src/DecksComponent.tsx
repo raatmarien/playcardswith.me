@@ -19,6 +19,7 @@ type State = {
     show: boolean,
     includedCards: any[],
     includedSuits: any[],
+    includedSpecialCards: any[],
     amountOfEach: number,
     deckColor: string,
     shuffleDeck: boolean,
@@ -44,6 +45,9 @@ export default class DecksComponent extends React.Component<Props, State> {
         { value: "♣", label: "♣ Clovers" },
         { value: "♥", label: "♥ Hearts" },
         { value: "♦", label: "♦ Diamonds" }]
+    private readonly allSpecialCardOptions = [
+        { value: "Red Joker", label: "Red Joker" },
+        { value: "Black Joker", label: "Black Joker" }]
     private readonly possibleColors = [
             "#b90e0e",
             "#b9690e",
@@ -78,6 +82,7 @@ export default class DecksComponent extends React.Component<Props, State> {
             show: false,
             includedCards: this.allCardOptions,
             includedSuits: this.allSuitOptions,
+            includedSpecialCards: [],
             amountOfEach: 1,
             deckColor: this.possibleColors[this.props.decks.length
                 % this.possibleColors.length],
@@ -96,8 +101,9 @@ export default class DecksComponent extends React.Component<Props, State> {
     }
 
     private getNextTotalCards() {
-        return (this.state.includedCards.length
-            * this.state.includedSuits.length
+        return ((this.state.includedCards.length
+                * this.state.includedSuits.length
+                + this.state.includedSpecialCards.length)
             * this.state.amountOfEach);
     }
 
@@ -106,11 +112,15 @@ export default class DecksComponent extends React.Component<Props, State> {
     }
 
     private handleIncludedCardsChanged(selectedOptions: any) {
-        this.setState({ includedCards: selectedOptions });
+        this.setState({ includedCards: selectedOptions ?? [] });
     }
 
     private handleIncludedSuitsChanged(selectedOptions: any) {
-        this.setState({ includedSuits: selectedOptions });
+        this.setState({ includedSuits: selectedOptions ?? [] });
+    }
+
+    private handleIncludedSpecialCardsChanged(selectedOptions: any) {
+        this.setState({ includedSpecialCards: selectedOptions ?? [] });
     }
 
     private handleAmountOfEachChanged(event: any) {
@@ -126,6 +136,7 @@ export default class DecksComponent extends React.Component<Props, State> {
             messageType: "add_deck",
             includedCards: this.state.includedCards.map((o) => o.value),
             includedSuits: this.state.includedSuits.map((o) => o.value),
+            includedSpecialCards: this.state.includedSpecialCards.map((o) => o.value),
             amountOfEach: this.state.amountOfEach,
             deckColor: this.state.deckColor,
             shuffleDeck: this.state.shuffleDeck,
@@ -177,6 +188,20 @@ export default class DecksComponent extends React.Component<Props, State> {
                                     options={this.allSuitOptions}
                                     onChange={this.handleIncludedSuitsChanged.bind(this)}
                                     isMulti={true} />
+                            </Form.Group>
+                            <Form.Group controlId="specialCards" >
+                                <Form.Label>
+                                    Special cards
+                                </Form.Label>
+                                <Select
+                                    id="specialCards"
+                                    value={this.state.includedSpecialCards}
+                                    options={this.allSpecialCardOptions}
+                                    onChange={this.handleIncludedSpecialCardsChanged.bind(this)}
+                                    isMulti={true} />
+                                <Form.Text className="text-muted">
+                                    Jokers, Tichu cards, etc.
+                                </Form.Text>
                             </Form.Group>
                             <Form.Group controlId="amountOfEach" >
                                 <Form.Label>
