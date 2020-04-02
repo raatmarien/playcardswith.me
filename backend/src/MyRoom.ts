@@ -119,7 +119,13 @@ export class MyRoom extends Room {
         } else if (message.messageType === "shuffle_deck") {
             this.state.shuffleDeck(message.deckId);
         } else if (message.messageType === "add_deck") {
-            this.state.addDeck(message);
+            if ((message.amountOfEach * message.includedCards.length
+                * message.includedSuits.length) > 10000) {
+                console.log("User attempted to create too large deck:",
+                            message);
+            } else {
+                this.state.addDeck(message);
+            }
         } else if (message.messageType === "remove_deck") {
             this.state.removeDeck(message.deckId);
         } else if (message.messageType === "return_card_to_deck") {
