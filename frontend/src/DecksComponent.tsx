@@ -42,7 +42,7 @@ export default class DecksComponent extends React.Component<Props, State> {
         { value: "K", label: "King" },
         { value: "A", label: "Ace" }]
     private readonly frenchCardOptions =
-        this.allCardOptions.filter(c => c.value != "C");
+        this.allCardOptions.filter(c => c.value !== "C");
     private readonly allSuitOptions = [
         { value: "♠", label: "♠ Clubs" },
         { value: "♣", label: "♣ Clovers" },

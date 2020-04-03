@@ -11,7 +11,7 @@ export default class CardOpenFaceComponent extends React.Component<Props> {
 
         let res = cardName.startsWith("♥") ||
                   cardName.startsWith("♦") ||
-                  cardName == "🂿";
+                  cardName === "🂿";
         return res;
     }
 
