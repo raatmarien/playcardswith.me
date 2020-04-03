@@ -138,6 +138,7 @@ export default class TableCardComponent extends React.Component<Props, State> {
 
         let styles = {
             zIndex: this.props.locatedCard.zIndex,
+            position: "absolute" as "absolute",
         };
 
         let playingCardClasses = "playing-card ";

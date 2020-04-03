@@ -75,14 +75,20 @@ function standardCards() : Card[] {
 
 export function newDeck(message: any) : Deck {
     let cards = [];
-    for (let c = 0; c < message.includedCards.length; c++) {
-        for (let s = 0; s < message.includedSuits.length; s++) {
-            for (let i = 0; i < message.amountOfEach; i++) {
+    for (let i = 0; i < message.amountOfEach; i++) {
+        for (let c = 0; c < message.includedCards.length; c++) {
+            for (let s = 0; s < message.includedSuits.length; s++) {
                 cards.push(new Card(
                     message.includedSuits[s] +
                         message.includedCards[c],
                     false));
             }
+        }
+
+        for (let s = 0; s < message.includedSpecialCards.length; s++) {
+            cards.push(new Card(
+                message.includedSpecialCards[s],
+                false));
         }
     }
     if (message.shuffleDeck) {
