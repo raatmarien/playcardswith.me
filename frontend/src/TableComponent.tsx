@@ -5,6 +5,7 @@ import TableCardComponent from "./TableCardComponent";
 import DecksComponent from "./DecksComponent";
 import OwnHandComponent from "./OwnHandComponent";
 import OtherPlayersHandsComponent from "./OtherPlayersHandsComponent";
+import CardDragReleaseHandler from "./CardDragReleaseHandler";
 
 type Props = {
     decks: Deck[],
@@ -41,6 +42,9 @@ export default class TableComponent extends React.Component<Props> {
 
         let handRef : React.RefObject<HTMLDivElement> = React.createRef();
 
+        let cardDragReleaseHandler = new CardDragReleaseHandler(
+            this.props.sendMessage, deckRefs, handRef);
+
         return (
             <div className="table">
                 <DecksComponent
@@ -54,8 +58,7 @@ export default class TableComponent extends React.Component<Props> {
                                                 key={locatedCard.card.id}
                                                 currentPlayerId={this.props.currentPlayerId}
                                                 players={this.props.players}
-                                                deckRef={deckRefs[locatedCard.card.deckId!]}
-                                                handRef={handRef}
+                                                cardDragReleaseHandler={cardDragReleaseHandler}
                                                 decks={this.props.decks}
                             />
                      ;})}
