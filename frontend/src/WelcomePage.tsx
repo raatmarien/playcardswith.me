@@ -21,17 +21,9 @@ export default class WelcomePage extends React.Component {
                 </header>
 
                 <main>
-                    <div className="row">
-                        <div className="col-sm-4">
-	                    <CreateRoomComponent />
-                        </div>
-                        <div className="col-sm-1 or-message">
-                            <span>OR</span>
-                        </div>
-                        <div className="col-sm-7">
-	                    <JoinRoomComponent   />
-                        </div>
-                    </div>
+                    <CreateRoomComponent />
+
+                    <JoinRoomComponent />
                 </main>
 
                 <footer>

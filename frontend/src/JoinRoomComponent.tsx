@@ -18,7 +18,7 @@ export default class JoinRoomComponent extends React.Component<{},State> {
             <form onSubmit={this.handleSubmit} className="join-room">
                 <input type="text" value={this.state.roomID}
                        onChange={this.handleChange}
-                       placeholder="ABCD" />
+                       placeholder="ABCDE" />
                 <input type="submit" value="JOIN ROOM" />
             </form>
         );
