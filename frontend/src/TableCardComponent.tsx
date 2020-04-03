@@ -1,5 +1,5 @@
 import React from 'react';
-import {LocatedCard, Player} from "cards-library";
+import {LocatedCard, Player, Deck} from "cards-library";
 import "./CardComponent.css";
 import Draggable, { DraggableData } from "react-draggable";
 import randomColor from "randomcolor";
@@ -10,6 +10,7 @@ type Props = {
     sendMessage: (msg: any) => void,
     currentPlayerId: string | null,
     players: Player[],
+    decks: Deck[],
     deckRef: React.RefObject<HTMLDivElement>,
     handRef: React.RefObject<HTMLDivElement>,
 };
@@ -29,13 +30,6 @@ export default class TableCardComponent extends React.Component<Props, State> {
         this.state = {
             dragging: false,
         };
-    }
-
-    private onCardClick(id: number) {
-        this.props.sendMessage({
-            messageType: "card_turn",
-            cardId: id,
-        });
     }
 
     private countAsClick(data: DraggableData) {
@@ -79,12 +73,22 @@ export default class TableCardComponent extends React.Component<Props, State> {
         });
     }
 
+    private getLocObject(e: any) {
+        if (e.clientX) {
+            return e;
+        } else {
+            return e.changedTouches[0];
+        }
+    }
+
     private draggedOn(ref: any, e: any) {
         if (!ref.current) {
             return false;
         }
         let rect = ref.current.getBoundingClientRect();
-        let mouseX = e.pageX, mouseY = e.pageY;
+        let loc = this.getLocObject(e);
+        let mouseX = loc.pageX,
+            mouseY = loc.pageY;
         return (mouseX > rect.x && mouseX < (rect.x + rect.width) &&
                 mouseY > rect.y && mouseY < (rect.y + rect.height));
     }
@@ -97,7 +101,12 @@ export default class TableCardComponent extends React.Component<Props, State> {
         });
 
         if (this.countAsClick(data)) {
-            this.onCardClick(locatedCard.card.id);
+            if (e.type === "mouseup") {
+                this.props.sendMessage({
+                    messageType: "card_turn",
+                    cardId: this.props.locatedCard.card.id,
+                });
+            }
         } else {
             // If held above it's deck, put it back in
             if (this.draggedOn(this.props.deckRef, e)) {
@@ -115,7 +124,7 @@ export default class TableCardComponent extends React.Component<Props, State> {
     }
 
     private anyDragEvent(dragEvent: ()=>void,
-                         locatedCard: LocatedCard) {
+                         locatedCard: LocatedCard, e: any) {
         if (locatedCard.draggingPlayerID !== null && locatedCard.draggingPlayerID !== this.props.currentPlayerId) {
             this.stopDrag();
             return false;
@@ -129,6 +138,7 @@ export default class TableCardComponent extends React.Component<Props, State> {
 
         let styles = {
             zIndex: this.props.locatedCard.zIndex,
+            position: "absolute" as "absolute",
         };
 
         let playingCardClasses = "playing-card ";
@@ -152,7 +162,7 @@ export default class TableCardComponent extends React.Component<Props, State> {
         }
 
         return (
-            <div style={styles}>
+            <div style={styles} >
                 <Draggable
                     key={locatedCard.card.id}
                     position={
@@ -160,16 +170,17 @@ export default class TableCardComponent extends React.Component<Props, State> {
                             : { x: locatedCard.location.x,
                                 y: locatedCard.location.y }}
                     onStart={(e, data) =>
-                        this.anyDragEvent(this.onDragStart.bind(this, locatedCard, data), locatedCard)}
+                        this.anyDragEvent(this.onDragStart.bind(this, locatedCard, data), locatedCard, e)}
                     onDrag={(e, data) =>
-                        this.anyDragEvent(this.onDragMove.bind(this, locatedCard, data), locatedCard)}
+                        this.anyDragEvent(this.onDragMove.bind(this, locatedCard, data, e), locatedCard, e)}
                     onStop={(e, data) =>
-                        this.anyDragEvent(this.onDragStop.bind(this, locatedCard, data, e), locatedCard)}>
+                        this.anyDragEvent(this.onDragStop.bind(this, locatedCard, data, e), locatedCard, e)}>
                     <div>
                         <CardComponent
                             card={locatedCard.card}
                             stylesCardFace={stylesCardFace}
-                            playingCardClasses={playingCardClasses} />
+                            playingCardClasses={playingCardClasses}
+                            decks={this.props.decks} />
                     </div>
                 </Draggable>
             </div>

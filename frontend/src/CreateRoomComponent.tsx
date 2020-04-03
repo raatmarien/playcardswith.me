@@ -12,9 +12,9 @@ export default class CreateRoomComponent extends React.Component {
             </form>
         );
     }
-    
+
     handleSubmit(event: any) {
         event.preventDefault();
-        window.location.href = "/g/?r=new";
+        window.location.href = "/room/new";
     }
 }

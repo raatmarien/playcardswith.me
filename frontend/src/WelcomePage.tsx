@@ -15,8 +15,8 @@ export default class WelcomePage extends React.Component {
                         />
                     </div>
 
-                        <h1>PLAYCARDSWITH.ME</h1>
-                        <span>Play card games online with friends!</span>
+                    <h1>PLAYCARDSWITH.ME</h1>
+                    <span>Play card games online with friends!</span>
 
                 </header>
 
@@ -38,7 +38,7 @@ export default class WelcomePage extends React.Component {
                     <a href="https://playcardswith.me">PlayCardsWith.Me</a> is free and open source software!
                     Report bugs or contribute at <a href="https://github.com/raatmarien/playcardswith.me">our GitHub page</a>
                 </footer>
-                    </div>
+            </div>
         );
     }
 }

@@ -82,7 +82,8 @@ export default class DeckComponent extends React.Component<Props, State> {
 
     public render() {
         return (
-            <div className="deck" ref={this.props.deckRef}>
+            <div style={{backgroundColor: this.props.deck.color }}
+                className="deck" ref={this.props.deckRef}>
                 <DropdownButton title="&#8942;" id="deck-menu-button"
                                 bsPrefix="custom-menu-btn">
                     <Dropdown.Item onClick={this.recallToThisDeck.bind(this)}>

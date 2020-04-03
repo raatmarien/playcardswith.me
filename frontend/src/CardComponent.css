@@ -4,9 +4,6 @@
     transform-style: preserve-3d;
 }
 
-.card-red-suit {
-    color: red;
-}
 
 .cardFaceHolder {
     transform-origin: 40px 0px;
@@ -34,12 +31,7 @@
     transform: rotateY(180deg);
 }
 
-.card-open-content {
-    vertical-align: center;
-}
-
 .card-closed {
-    background-color: #c22;
     border: 1px solid #444;
 }
 

@@ -1,13 +1,8 @@
 import * as Colyseus from "colyseus.js";
 
 export default class RoomHelper {
-    private static getRoomIDFromURL() {
-        let url = new URL(window.location.href);
-        return url.searchParams.get("r");
-    }
-
     private static changeRoomIDInUrl(roomID:string) {
-        window.history.replaceState({}, "", "?r=" + roomID)
+        window.history.replaceState({}, "", "/room/" + roomID)
     }
 
     public static createPrivateRoom(client:Colyseus.Client) {
@@ -27,20 +22,17 @@ export default class RoomHelper {
         });
     }
 
-    public static connect(client:Colyseus.Client) {
-        var roomID = this.getRoomIDFromURL();
-        if (roomID === null) {
-            //For now, join the global join for easier testing
-            return client.joinOrCreate("room").then(room => {
-                this.changeRoomIDInUrl(room.id);
-                return room;
-            });
+    public static connect(client:Colyseus.Client, roomId: string | undefined) {
+        if (roomId === undefined) {
+            // No room id, so for now lets just create a new room
+            roomId = "new";
         }
 
-        if (roomID === "new") {
+        if (roomId === "new") {
             return this.createPrivateRoom(client);
+        } else {
+            roomId = roomId.toUpperCase()
+            return this.joinPrivateRoom(client, roomId);
         }
-
-        return this.joinPrivateRoom(client, roomID);
     }
 }

@@ -1,3 +1,7 @@
 .decks {
     position: absolute;
 }
+
+.red-option {
+    color: red;
+}

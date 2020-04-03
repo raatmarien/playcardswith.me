@@ -1,7 +1,9 @@
 import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
+import {FormControl, Row, Col} from 'react-bootstrap';
 import {Player} from "cards-library";
+import "./HeaderComponent.css"
 
 type Props = {
     sendMessage: (msg: any) => void,
@@ -44,19 +46,50 @@ export default class HeaderComponent extends React.Component<Props> {
         return "Player " + this.getPlayerNum();
     }
 
+    private onSubmitForNameInput(e:any) {
+        //Avoid refreshing the page
+        e.preventDefault();
+
+        //Deselect the text input (esp. important on mobile)
+        e.target[0].blur();
+    }
+
     public render() {
         this.onNameChange();
         return (
-            <Navbar bg="light">
+            <Navbar bg="light" expand="lg">
                 <Navbar.Brand href="/">PlayCardsWith.Me</Navbar.Brand>
-                <Navbar.Collapse>
-                    <Form inline>
-                        <Form.Control
-                            ref={this.playerNameRef}
-                            type="text"
-                            placeholder={this.defaultPlayerName()}
-                            onChange={this.onNameChange.bind(this)} />
-                    </Form>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav"
+                                 className="justify-content-end">
+                    <Row>
+                        <Col>
+                            <Form inline onSubmit={this.onSubmitForNameInput}>
+                                <Form.Group>
+                                    <Form.Label>Your name: </Form.Label>
+                                    <FormControl
+                                        className="ml-2"
+                                        id="nameInput"
+                                        ref={this.playerNameRef}
+                                        type="text"
+                                        placeholder={this.defaultPlayerName()}
+                                        onChange={this.onNameChange.bind(this)} />
+                                </Form.Group>
+                            </Form>
+                        </Col>
+                        <Col>
+                            <Form inline>
+                                <Form.Group>
+                                    <Form.Label>Room share link: </Form.Label>
+                                    <FormControl type="text"
+                                                 id="linkInput"
+                                                 className="ml-2"
+                                                 value={window.location.href} 
+                                                 disabled={true} />
+                                </Form.Group>
+                            </Form>
+                        </Col>
+                    </Row>
                 </Navbar.Collapse>
             </Navbar>
         );

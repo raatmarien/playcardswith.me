@@ -1,6 +1,28 @@
 import { Room, Client } from "colyseus";
 import { State, initialState, LocatedCard, Card, Deck, Player, Vector } from "cards-library";
 
+let numberOfRooms = 0;
+let numberOfPeople = 0;
+
+function generateRandomRoomIdentifier(): string {
+    let numberOfLetters = 5;
+    let spaceOfLetter = 26;
+    let options = Math.pow(26, 5);
+
+    let integer = Math.floor(Math.random() * (options - 1));
+    let identifier = "";
+
+    for (let i = 0; i < numberOfLetters; i++) {
+        let currentLetter = integer % spaceOfLetter;
+        integer = Math.floor(integer / spaceOfLetter);
+
+        identifier += String.fromCharCode("A".charCodeAt(0) + currentLetter)
+    }
+
+    return identifier;
+}
+
+
 export class MyRoom extends Room {
     state: State;
 
@@ -11,10 +33,18 @@ export class MyRoom extends Room {
 
     onCreate (options: any) {
         this.setState(this.state);
+        this.setPrivate(); // All rooms are private for now!
+
+        this.roomId = generateRandomRoomIdentifier();
+
+        numberOfRooms++;
+        console.log("Number of rooms: " + numberOfRooms);
     }
 
     onJoin (client: Client, options: any) {
-        console.log(`${client.id} joined`);
+        numberOfPeople++;
+        console.log("Number of people: " + numberOfPeople);
+
 
         let hand: Card[] = [];
         let pointer : Vector = new Vector(0, 0);
@@ -25,9 +55,6 @@ export class MyRoom extends Room {
     }
 
     onMessage (client: Client, message: any) {
-        if (message.messageType !== "pointer_move") {
-            console.log("Message:", message);
-        }
         if (message.messageType === "card_drag") {
             let locatedCard
                 = this.state.table.getLocatedCard(message.cardId);
@@ -113,7 +140,13 @@ export class MyRoom extends Room {
         } else if (message.messageType === "shuffle_deck") {
             this.state.shuffleDeck(message.deckId);
         } else if (message.messageType === "add_deck") {
-            this.state.addShuffledStandardDeck();
+            if ((message.amountOfEach * (message.includedCards.length
+                * message.includedSuits.length + message.includedSpecialCards.length)) > 10000) {
+                console.log("User attempted to create too large deck:",
+                            message);
+            } else {
+                this.state.addDeck(message);
+            }
         } else if (message.messageType === "remove_deck") {
             this.state.removeDeck(message.deckId);
         } else if (message.messageType === "return_card_to_deck") {
@@ -166,15 +199,22 @@ export class MyRoom extends Room {
 
             this.state.table.addNewCard(
                 card, new Vector(message.cardX, message.cardY));
+        } else {
+            console.log("Invalid message:", message);
         }
     }
 
     onLeave (client: Client, consented: boolean) {
-        console.log(client.id + " left");
+        numberOfPeople--;
+        console.log("Number of people: " + numberOfPeople);
+
+
         this.state.removePlayer(client.id);
     }
 
     onDispose() {
+        numberOfRooms--;
+        console.log("Number of rooms: " + numberOfRooms);
     }
 
 }

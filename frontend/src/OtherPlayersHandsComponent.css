@@ -1,0 +1,22 @@
+.other-players-hands {
+    position: fixed;
+    z-index: -1;
+    top: 0px;
+    right: 0px;
+    height: 100%;
+    overflow: scroll;
+}
+
+.cards-row {
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+    margin-bottom: 5px !important;
+}
+
+.small-card {
+    height: 50px;
+    width: 35px;
+    background-color: #c22;
+    border: 1px solid #444;
+    margin-right: 5px;
+}
