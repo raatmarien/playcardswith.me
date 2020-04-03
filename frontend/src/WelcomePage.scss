@@ -1,7 +1,7 @@
 $background-color: #82000e;
 $title-color: #fff;
 $text-shadow-color: #888;
-$shadow-color: #660800; 
+$shadow-color: #c42600; 
 $yellow-accent: #fff245; 
 
 @font-face {
@@ -23,7 +23,8 @@ $yellow-accent: #fff245;
         padding-top: 3em;
         margin-bottom: -6em;
         img {
-            width: 34em;
+            max-width: 34em;
+            width: 100%;
         }
     }
 
@@ -73,7 +74,7 @@ $yellow-accent: #fff245;
             border: none;
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
-            box-shadow: 0 8px 0 0 $shadow-color;
+            box-shadow: 0 8px 0 0 #666;
             width: 4em;
             text-transform: uppercase;
 
