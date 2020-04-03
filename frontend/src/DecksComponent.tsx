@@ -8,11 +8,13 @@ import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import {CirclePicker} from "react-color";
 import Select from "react-select";
+import CardDragReleaseHandler from "./CardDragReleaseHandler";
 
 type Props = {
     decks: Deck[],
     sendMessage: (msg: any) => void,
     deckRefs: { [id: number] : React.RefObject<HTMLDivElement> },
+    cardDragReleaseHandler: CardDragReleaseHandler,
 };
 
 type State = {
@@ -79,30 +81,30 @@ export default class DecksComponent extends React.Component<Props, State> {
         { value: "🃵", label: "🃵 Collective" },
         { value: "🃠", label: "🃠 Fool" }]
     private readonly possibleColors = [
-            "#b90e0e",
-            "#b9690e",
-            "#c3b004",
-            "#83be04",
-            "#2a660a",
-            "#0bb177",
-            "#0a9e99",
-            "#0a6a9e",
-            "#081e81",
-            "#4c13be",
-            "#6d10a2",
-            "#a2109b",
-            "#a21057",
-            "#493232",
-            "#323449",
-            "#324932",
-            "#494732",
-            "#470200",
-            "#474100",
-            "#004711",
-            "#0e0047",
-            "#470047"]
+        "#b90e0e",
+        "#b9690e",
+        "#c3b004",
+        "#83be04",
+        "#2a660a",
+        "#0bb177",
+        "#0a9e99",
+        "#0a6a9e",
+        "#081e81",
+        "#4c13be",
+        "#6d10a2",
+        "#a2109b",
+        "#a21057",
+        "#493232",
+        "#323449",
+        "#324932",
+        "#494732",
+        "#470200",
+        "#474100",
+        "#004711",
+        "#0e0047",
+        "#470047"]
 
-        constructor(props: Props) {
+    constructor(props: Props) {
         super(props);
         this.state = this.defaultNewDeckState();
     }
@@ -132,8 +134,8 @@ export default class DecksComponent extends React.Component<Props, State> {
 
     private getNextTotalCards() {
         return ((this.state.includedCards.length
-                * this.state.includedSuits.length
-                + this.state.includedSpecialCards.length)
+            * this.state.includedSuits.length
+               + this.state.includedSpecialCards.length)
             * this.state.amountOfEach);
     }
 
@@ -182,7 +184,8 @@ export default class DecksComponent extends React.Component<Props, State> {
                         <div key={deck.id}>
                             <DeckComponent deck={deck}
                                            deckRef={this.props.deckRefs[deck.id]}
-                                           sendMessage={this.props.sendMessage}/>
+                                           sendMessage={this.props.sendMessage}
+                                           cardDragReleaseHandler={this.props.cardDragReleaseHandler}/>
                         </div>)
                 }
                 <Button size="sm"

@@ -5,6 +5,7 @@ import TableCardComponent from "./TableCardComponent";
 import DecksComponent from "./DecksComponent";
 import OwnHandComponent from "./OwnHandComponent";
 import OtherPlayersHandsComponent from "./OtherPlayersHandsComponent";
+import CardDragReleaseHandler from "./CardDragReleaseHandler";
 
 type Props = {
     decks: Deck[],
@@ -41,12 +42,16 @@ export default class TableComponent extends React.Component<Props> {
 
         let handRef : React.RefObject<HTMLDivElement> = React.createRef();
 
+        let cardDragReleaseHandler = new CardDragReleaseHandler(
+            this.props.sendMessage, deckRefs, handRef);
+
         return (
             <div className="table">
                 <DecksComponent
                     decks={this.props.decks}
                     deckRefs={deckRefs}
-                    sendMessage={this.props.sendMessage} />
+                    sendMessage={this.props.sendMessage}
+                    cardDragReleaseHandler={cardDragReleaseHandler} />
 
                 {this.props.table.locatedCards.map((locatedCard) => {
                      return <TableCardComponent locatedCard={locatedCard}
@@ -54,8 +59,7 @@ export default class TableComponent extends React.Component<Props> {
                                                 key={locatedCard.card.id}
                                                 currentPlayerId={this.props.currentPlayerId}
                                                 players={this.props.players}
-                                                deckRef={deckRefs[locatedCard.card.deckId!]}
-                                                handRef={handRef}
+                                                cardDragReleaseHandler={cardDragReleaseHandler}
                                                 decks={this.props.decks}
                             />
                      ;})}
@@ -65,6 +69,7 @@ export default class TableComponent extends React.Component<Props> {
             <OwnHandComponent handRef={handRef}
                               cards={this.currentPlayerHand()}
                               sendMessage={this.props.sendMessage}
+                              cardDragReleaseHandler={cardDragReleaseHandler}
                               decks={this.props.decks} />
             </div>
         );

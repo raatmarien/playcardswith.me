@@ -3,6 +3,7 @@ import {Card, Vector, Deck} from "cards-library";
 import "./CardComponent.css";
 import Draggable, { DraggableData } from "react-draggable";
 import CardComponent from "./CardComponent";
+import CardDragReleaseHandler, {CardLocation} from "./CardDragReleaseHandler";
 
 type Props = {
     card: Card,
@@ -10,6 +11,7 @@ type Props = {
     sendMessage: (msg: any) => void,
     location: Vector,
     handRef: React.RefObject<HTMLDivElement>,
+    cardDragReleaseHandler: CardDragReleaseHandler,
 };
 
 type State = {
@@ -39,16 +41,6 @@ export default class TableCardComponent extends React.Component<Props, State> {
     }
 
     private onDragMove(card: Card, data: DraggableData) {
-    }
-
-    private draggedOn(ref: any, e: any) {
-        if (!ref.current) {
-            return false;
-        }
-        let rect = ref.current.getBoundingClientRect();
-        let mouseX = e.pageX, mouseY = e.pageY;
-        return (mouseX > rect.x && mouseX < (rect.x + rect.width) &&
-                mouseY > rect.y && mouseY < (rect.y + rect.height));
     }
 
     /** Reset the drag state and do any potential other things
@@ -96,15 +88,12 @@ export default class TableCardComponent extends React.Component<Props, State> {
 
         var rect = this.cardRef.current.getBoundingClientRect();
 
-        if (!this.draggedOn(this.props.handRef, e)) {
-            let loc = this.getLocObject(e);
-            this.props.sendMessage({
-                messageType: "remove_card_from_hand",
-                cardId: this.props.card.id,
-                cardX: loc.pageX - loc.clientX + rect.left,
-                cardY: loc.pageY - loc.clientY + rect.top,
-            });
-
+        let loc = this.getLocObject(e);
+        let newX = loc.pageX - loc.clientX + rect.left,
+            newY = loc.pageY - loc.clientY + rect.top;
+        if (this.props.cardDragReleaseHandler.release(
+            card, CardLocation.Hand, loc.pageX, loc.pageY,
+            newX, newY)) {
             this.setState({
                 draggedOutOfHand: true,
             });
