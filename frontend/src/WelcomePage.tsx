@@ -9,15 +9,8 @@ export default class WelcomePage extends React.Component {
         return (
             <div className="welcome-page">
                 <header>
-                    <div className="header-background">
-                        <img alt="logo"
-                            src="/img/svg-cards.png"
-                        />
-                    </div>
-
-                    <h1>PLAYCARDSWITH.ME</h1>
-                    <span>Play card games online with friends!</span>
-
+                    <img alt="logo"
+                         src="/img/logo-2.svg" />
                 </header>
 
                 <main>

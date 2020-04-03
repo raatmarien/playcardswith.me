@@ -1,23 +1,16 @@
-$background-color: #2796ff;
+$background-color: #82000e;
 $title-color: #fff;
 $text-shadow-color: #888;
-$shadow-color: #830;
-$yellow-accent: #fff245;
+$shadow-color: #660800; 
+$yellow-accent: #fff245; 
 
 @font-face {
     font-family: Anton;
     src: url("/fonts/Anton-Regular.ttf") format('truetype');
 }
 
-@font-face {
-    font-family: Lato;
-    font-style: italic;
-    src: url("/fonts/Lato-Italic.ttf") format('truetype');
-}
-
-
 .welcome-page {
-    background-image: linear-gradient($background-color, #eff);
+    background-image: radial-gradient($background-color, #330005);
     background-color: $background-color;
 
     width: 100%;
@@ -27,49 +20,11 @@ $yellow-accent: #fff245;
 
     header {
         position: static;
-        h1 {
-            color: $title-color;
-            padding-top: 1.3em;
-            text-shadow:
-            0 1px 0 $text-shadow-color,
-            0 2px 0 $text-shadow-color,
-            0 3px 0 $text-shadow-color,
-            0 4px 0 $text-shadow-color,
-            ;
-            font-family: Anton; /*TODO: include font*/
-            font-size: 480%;
-            transition: all 0.2s;
-            margin-bottom: -0.1em;
-            z-index: 100;
-            position: relative;
+        padding-top: 3em;
+        margin-bottom: -6em;
+        img {
+            width: 34em;
         }
-
-        span {
-            color: $yellow-accent;
-            font-family: Lato;
-            font-size: 200%;
-            font-weight: bold;
-            font-style: italic;
-            z-index: 100;
-            position: relative;
-        }
-
-        .header-background {
-            opacity: 0.8;
-            position: absolute;
-            left: 0;
-            top: 0.5em;
-            text-align: center;
-            width: 100%;
-
-            img {
-                width: 30em;
-            }
-        }
-
-        min-height: 45%;
-        padding-bottom: 2em;
-
     }
 
     $button-color: #f60;
@@ -178,11 +133,15 @@ $yellow-accent: #fff245;
         position: fixed;
         left: 0;
         bottom: 0;
-        background-color: #ffffff88;
-        color: #444;
+        background-color: #00000040;
+        color: #bbb;
         padding: 0.8em;
         text-align: center;
         width: 100%;
+
+        a {
+            color: #fff;
+        }
     }
 
 }
