@@ -37,13 +37,15 @@ export default class CardDragReleaseHandler {
     }
 
     public release(card: Card, currentLocation: CardLocation,
-                    x: number, y: number) {
+                   x: number, y: number,
+                   newCardX: number, newCardY: number) : boolean {
         if (this.draggedOn(this.ownHandRef, x, y)) {
             if (currentLocation !== CardLocation.Hand) {
                 this.sendMessage({
                     messageType: "add_card_to_hand",
                     cardId: card.id,
                 });
+                return true;
             }
         } else if (this.draggedOn(this.getCardDeck(card), x, y)) {
             if (currentLocation !== CardLocation.Deck) {
@@ -51,13 +53,21 @@ export default class CardDragReleaseHandler {
                     messageType: "return_card_to_deck",
                     cardId: card.id,
                 });
+                return true;
             }
         } else {
             if (currentLocation === CardLocation.Hand) {
-
+                this.sendMessage({
+                    messageType: "remove_card_from_hand",
+                    cardId: card.id,
+                    cardX: newCardX,
+                    cardY: newCardY,
+                });
+                return true;
             } else if (currentLocation === CardLocation.Deck) {
-
+                return true;
             }
         }
+        return false;
     }
 }

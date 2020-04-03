@@ -99,7 +99,7 @@ export default class TableCardComponent extends React.Component<Props, State> {
             let loc = this.getLocObject(e);
             this.props.cardDragReleaseHandler.release(
                 this.props.locatedCard.card, CardLocation.Table,
-                loc.pageX, loc.pageY);
+                loc.pageX, loc.pageY, loc.pageX, loc.pageY);
         }
     }
 

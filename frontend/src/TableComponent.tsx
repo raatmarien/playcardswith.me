@@ -68,6 +68,7 @@ export default class TableComponent extends React.Component<Props> {
             <OwnHandComponent handRef={handRef}
                               cards={this.currentPlayerHand()}
                               sendMessage={this.props.sendMessage}
+                              cardDragReleaseHandler={cardDragReleaseHandler}
                               decks={this.props.decks} />
             </div>
         );
