@@ -4,18 +4,19 @@ $text-shadow-color: #888;
 $shadow-color: #830;
 $yellow-accent: #fff245;
 
+@font-face {
+    font-family: Anton;
+    src: url("/fonts/Anton-Regular.ttf") format('truetype');
+}
+
+@font-face {
+    font-family: Lato;
+    font-style: italic;
+    src: url("/fonts/Lato-Italic.ttf") format('truetype');
+}
+
+
 .welcome-page {
-    @font-face {
-        font-family: Anton;
-        src: url("/fonts/Anton-Regular.ttf");
-    }
-
-    @font-face {
-        font-family: Lato;
-        font-style: italic;
-        src: url("/fonts/Lato-Italic.ttf");
-    }
-
     background-image: linear-gradient($background-color, #eff);
     background-color: $background-color;
 
@@ -147,7 +148,7 @@ $yellow-accent: #fff245;
                     transform: translateY(15px);
                 }
             }
-            
+
         }
 
         .join-room {
@@ -171,7 +172,7 @@ $yellow-accent: #fff245;
             justify-content: center;
 
         }
-    }    
+    }
 
     footer {
         position: fixed;
