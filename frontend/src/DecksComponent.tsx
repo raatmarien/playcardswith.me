@@ -37,21 +37,47 @@ export default class DecksComponent extends React.Component<Props, State> {
         { value: "9", label: "9" },
         { value: "10", label: "10" },
         { value: "J", label: "Jack" },
+        { value: "C", label: "Knight" },
         { value: "Q", label: "Queen" },
         { value: "K", label: "King" },
         { value: "A", label: "Ace" }]
+    private readonly frenchCardOptions =
+        this.allCardOptions.filter(c => c.value != "C");
     private readonly allSuitOptions = [
         { value: "♠", label: "♠ Clubs" },
         { value: "♣", label: "♣ Clovers" },
         { value: "♥", label: "♥ Hearts" },
         { value: "♦", label: "♦ Diamonds" }]
     private readonly allSpecialCardOptions = [
-        { value: "Red Joker", label: "Red Joker" },
-        { value: "Black Joker", label: "Black Joker" },
+        { value: "🂿", label: "Red Joker" },
+        { value: "🃏\uFE0E", label: "Black Joker" },
+        { value: "🃟", label: "White Joker" },
         { value: "1", label: "One" },
         { value: "Dog", label: "Dog" },
         { value: "Phoenix", label: "Phoenix" },
-        { value: "Dragon", label: "Dragon" }]
+        { value: "Dragon", label: "Dragon" },
+        { value: "🃡", label: "🃡 Individual" },
+        { value: "🃢", label: "🃢 Childhood" },
+        { value: "🃣", label: "🃣 Youth" },
+        { value: "🃤", label: "🃤 Maturity" },
+        { value: "🃥", label: "🃥 Old Age" },
+        { value: "🃦", label: "🃦 Morning" },
+        { value: "🃧", label: "🃧 Afternoon" },
+        { value: "🃨", label: "🃨 Evening" },
+        { value: "🃩", label: "🃩 Night" },
+        { value: "🃪", label: "🃪 Earth & Air" },
+        { value: "🃫", label: "🃫 Water & Fire" },
+        { value: "🃬", label: "🃬 Dance" },
+        { value: "🃭", label: "🃭 Shopping" },
+        { value: "🃮", label: "🃮 Open air" },
+        { value: "🃯", label: "🃯 Visual arts" },
+        { value: "🃰", label: "🃰 Spring" },
+        { value: "🃱", label: "🃱 Summer" },
+        { value: "🃲", label: "🃲 Autumn" },
+        { value: "🃳", label: "🃳 Winter" },
+        { value: "🃴", label: "🃴 The game" },
+        { value: "🃵", label: "🃵 Collective" },
+        { value: "🃠", label: "🃠 Fool" }]
     private readonly possibleColors = [
             "#b90e0e",
             "#b9690e",
@@ -84,7 +110,7 @@ export default class DecksComponent extends React.Component<Props, State> {
     private defaultNewDeckState() {
         return {
             show: false,
-            includedCards: this.allCardOptions,
+            includedCards: this.frenchCardOptions,
             includedSuits: this.allSuitOptions,
             includedSpecialCards: [],
             amountOfEach: 1,
@@ -204,7 +230,7 @@ export default class DecksComponent extends React.Component<Props, State> {
                                     onChange={this.handleIncludedSpecialCardsChanged.bind(this)}
                                     isMulti={true} />
                                 <Form.Text className="text-muted">
-                                    Jokers etc.
+                                    Jokers, Tarot Nouveau etc.
                                 </Form.Text>
                             </Form.Group>
                             <Form.Group controlId="amountOfEach" >

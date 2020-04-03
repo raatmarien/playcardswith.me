@@ -10,7 +10,8 @@ export default class CardOpenFaceComponent extends React.Component<Props> {
         let cardName = this.props.cardName;
 
         let res = cardName.startsWith("♥") ||
-                  cardName.startsWith("♦");
+                  cardName.startsWith("♦") ||
+                  cardName == "🂿";
         return res;
     }
 
@@ -26,14 +27,13 @@ export default class CardOpenFaceComponent extends React.Component<Props> {
     public render() {
         var cardClassNames = "card-open-content ";
 
+        if (this.isRedSuit()) {
+            cardClassNames += "card-red-suit ";
+        }
+
         if (this.isSimpleCard()) {
             // For cards with names of two characters, draw
             // these characters below each other.
-            
-            if (this.isRedSuit()) {
-                cardClassNames += "card-red-suit ";
-            }
-
             return (
                 <p className={cardClassNames}>
                     {this.props.cardName.slice(0, 1)}
@@ -45,7 +45,14 @@ export default class CardOpenFaceComponent extends React.Component<Props> {
             // For cards with more than two characters, simply
             // draw the name
  
-            cardClassNames += "card-open-content-special";
+            cardClassNames += "card-open-content-special ";
+
+            //Render a single character bigger
+            //Deal with emojis and other unicode correctly...
+            var unicodeChars = Array.from(this.props.cardName);
+            unicodeChars = unicodeChars.filter(c => c !== "\uFE0E");
+            if (unicodeChars.length === 1)
+                cardClassNames += "card-open-content-special-single ";
 
             return (
                 <div className="fullCardFace">

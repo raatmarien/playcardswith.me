@@ -9,7 +9,7 @@
 .fullCardFace {
     display: flex;
     margin: 5px;
-    height: 100%;
+    height: calc(100% - 10px);
     flex-direction: column;
     justify-content: center;
 }
@@ -18,4 +18,11 @@
     font-size: 18px;
     line-height: normal;
     overflow-wrap: break-word;
+    margin-bottom: 0.63rem;
+}
+
+.card-open-content-special-single {
+    font-size: 90px;
+    /* Hopefully render the black joker correctly (i.e. not as emoji). */
+    font-family: sans-serif;
 }
