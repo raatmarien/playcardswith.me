@@ -3,13 +3,14 @@ import {Deck, Card} from "cards-library";
 import "./DeckComponent.css";
 import {DropdownButton, Dropdown} from "react-bootstrap";
 import {DraggableCore, DraggableData} from 'react-draggable';
+import CardDragReleaseHandler, {CardLocation} from "./CardDragReleaseHandler";
 
 type Props = {
     deck: Deck,
     sendMessage: (msg: any) => void,
     deckRef: any,
+    cardDragReleaseHandler: CardDragReleaseHandler,
 }
-
 type State = {
     draggingCard: Card | null,
 }
@@ -74,6 +75,12 @@ export default class DeckComponent extends React.Component<Props, State> {
         this.props.sendMessage({
             messageType: "card_release"
         });
+
+        if (this.state.draggingCard) {
+            this.props.cardDragReleaseHandler.release(
+                this.state.draggingCard!, CardLocation.Deck,
+                data.x, data.y, data.x, data.y);
+        }
 
         this.setState({
             draggingCard: null,
