@@ -10,7 +10,7 @@ export default class WelcomePage extends React.Component {
             <div className="welcome-page">
                 <header>
                     <div className="header-background">
-                        <img 
+                        <img alt="logo"
                             src="/img/svg-cards.png"
                         />
                     </div>

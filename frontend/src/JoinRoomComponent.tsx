@@ -28,6 +28,6 @@ export default class JoinRoomComponent extends React.Component<{},State> {
     }
     handleSubmit(event: any) {
         event.preventDefault();
-        let l = window.location.href = '/room/' + this.state.roomID; 
+        window.location.href = '/room/' + this.state.roomID; 
     }
 }
