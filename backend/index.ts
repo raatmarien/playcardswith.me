@@ -39,6 +39,10 @@ app.use(function(req, res, next) {
 // for showing our client side stuff
 app.use('/', express.static(path.join(__dirname, "static")));
 
+app.get('/room/*', function (req, res) {
+   res.sendFile(path.join(__dirname, '../', 'static', 'index.html'));
+});
+
 // register colyseus monitor AFTER registering your room handlers
 app.use("/colyseus", monitor());
 
