@@ -4,6 +4,25 @@ import { State, initialState, LocatedCard, Card, Deck, Player, Vector } from "ca
 let numberOfRooms = 0;
 let numberOfPeople = 0;
 
+function generateRandomRoomIdentifier(): string {
+    let numberOfLetters = 5;
+    let spaceOfLetter = 26;
+    let options = Math.pow(26, 5);
+
+    let integer = Math.floor(Math.random() * (options - 1));
+    let identifier = "";
+
+    for (let i = 0; i < numberOfLetters; i++) {
+        let currentLetter = integer % spaceOfLetter;
+        integer = Math.floor(integer / spaceOfLetter);
+
+        identifier += String.fromCharCode("A".charCodeAt(0) + currentLetter)
+    }
+
+    return identifier;
+}
+
+
 export class MyRoom extends Room {
     state: State;
 
@@ -15,6 +34,8 @@ export class MyRoom extends Room {
     onCreate (options: any) {
         this.setState(this.state);
         this.setPrivate(); // All rooms are private for now!
+
+        this.roomId = generateRandomRoomIdentifier();
 
         numberOfRooms++;
         console.log("Number of rooms: " + numberOfRooms);

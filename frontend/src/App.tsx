@@ -9,7 +9,9 @@ import RoomHelper from "./RoomHelper";
 import PointersComponent from "./PointersComponent";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-type Props = {};
+type Props = {
+    roomId: string | undefined,
+};
 
 type AppState = {
     gameState: State,
@@ -34,7 +36,8 @@ export default class App extends React.Component<Props, AppState> {
         //For better debugging, find servers on other computers too
         let url = new URL(window.location.href);
         let client = new Colyseus.Client("ws://" + url.hostname + ":2567");
-        RoomHelper.connect(client).then((r:Colyseus.Room) => this.onRoomJoin(r));
+        RoomHelper.connect(client, this.props.roomId)
+                  .then((r:Colyseus.Room) => this.onRoomJoin(r));
     }
 
     private onRoomJoin(room: Colyseus.Room) {

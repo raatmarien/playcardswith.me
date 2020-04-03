@@ -13,7 +13,7 @@ export default class JoinRoomComponent extends React.Component<{},State> {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-    
+
     public render() {
         console.log(this.state.roomID);
         return (
@@ -32,9 +32,6 @@ export default class JoinRoomComponent extends React.Component<{},State> {
     handleSubmit(event: any) {
         event.preventDefault();
         let l = window.location;
-        l.href = '/g/?r=' + this.state.roomID; 
-        // TODO: go to room {this.state.roomID}   
+        l.href = '/room/' + this.state.roomID;
     }
 }
-
-
