@@ -171,7 +171,7 @@ export default class DeckComponent extends React.Component<Props, State> {
                     onStart={(e, data) => this.onDragStart(data)}
                     onDrag={(e, data) => this.onDragMove(data)}
                     onStop={(e, data) => this.onDragStop(data)}>
-                    <div className="inner-deck">
+                    <div className="inner-deck" style={{backgroundColor: this.props.deck.color}}>
                         <div>
                             {this.props.deck.cards.length} cards
                         </div>
