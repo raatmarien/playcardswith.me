@@ -180,7 +180,7 @@ export class MyRoom extends Room {
             this.state.table.removeCard(message.cardId);
 
             player.addCardToHand(locatedCard.card);
-        } else if (message.messageType == "remove_card_from_hand") {
+        } else if (message.messageType === "remove_card_from_hand") {
             //Find the player
             let player = this.state.getPlayer(client.sessionId);
             if (player == null) {
@@ -199,8 +199,14 @@ export class MyRoom extends Room {
 
             this.state.table.addNewCard(
                 card, new Vector(message.cardX, message.cardY));
+        } else if (message.messageType === "move_card_in_hand") {
+            this.state.moveCardInHand(message.cardId,
+                client.sessionId, message.index);
         } else {
             console.log("Invalid message:", message);
+        }
+        if (message.messageType !== "pointer_move") {
+            console.log(message);
         }
     }
 

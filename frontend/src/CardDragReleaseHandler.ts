@@ -36,6 +36,10 @@ export default class CardDragReleaseHandler {
                 y > rect.y && y < (rect.y + rect.height));
     }
 
+    public draggedInHand(x: number, y: number) {
+        return this.draggedOn(this.ownHandRef, x, y);
+    }
+
     public release(card: Card, currentLocation: CardLocation,
                    x: number, y: number,
                    newCardX: number, newCardY: number) : boolean {

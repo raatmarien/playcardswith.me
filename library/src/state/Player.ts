@@ -36,6 +36,17 @@ export default class Player {
         return this.hand.find(c => c.id == cardId);
     }
 
+    public moveCardInHand(cardId: number, newIndex: number) {
+        newIndex = Math.max(0, Math.min(newIndex, this.hand.length - 1));
+        let card = this.findCardInHand(cardId);
+        if (card) {
+            this.removeCardFromHand(card);
+            this.hand.splice(newIndex, 0, card);
+        } else {
+            console.log("Card not found in hand:", cardId);
+        }
+    }
+
     /** Get which card this player is dragging on the given table */
     getDraggingCard(table: Table) {
         return table.locatedCards.find(lc => lc.draggingPlayerID == this.id);
