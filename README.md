@@ -1,15 +1,15 @@
-# [PlayCardsWith.Me](site)
+# [PlayCardsWith.Me](https://playcardswith.me)
 
 ![Screenshot of home page](https://lutim.lagout.org/sXSPDsyq/vIksMu7B.png)
 
-With [PlayCardsWith.Me](site) you can play card games together with
-*your* rules. [PlayCardsWith.Me](site) provides a collaborative table
+With [PlayCardsWith.Me](https://playcardswith.me) you can play card games together with
+*your* rules. [PlayCardsWith.Me](https://playcardswith.me) provides a collaborative table
 you and your friends can join, where you can play cards, just like on
 a normal table. The goal is to provide all the features that you need
 to play most card games, while letting you decide on the rules
 yourselves. This works very effectively when you voice call with your
-friends and join a room on [PlayCardsWith.Me](site). Even when you are
-all together in the same room, [PlayCardsWith.Me](site) provides a
+friends and join a room on [PlayCardsWith.Me](https://playcardswith.me). Even when you are
+all together in the same room, [PlayCardsWith.Me](https://playcardswith.me) provides a
 solution when you can't find your deck of cards!
 
 ## License
@@ -53,5 +53,3 @@ welcome! Just open an issue or comment on one. You can also
 immediately open a pull request. If you don't know how to help, just
 open an issue or send one of us a message and we'll find something for
 you!
-
-[site]: https://playcardswith.me
