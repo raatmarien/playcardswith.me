@@ -53,7 +53,8 @@ export default class DeckComponent extends React.Component<Props, State> {
     }
 
     private getMaxDeal() {
-        return this.props.deck.cards.length / this.props.players.length;
+        return Math.floor(this.props.deck.cards.length
+            / this.props.players.length);
     }
 
     private resetDealModalState() {
