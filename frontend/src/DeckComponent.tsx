@@ -179,7 +179,8 @@ export default class DeckComponent extends React.Component<Props, State> {
                                 <Form.Control type="number"
                                               min={1}
                                               max={this.getMaxDeal()}
-                                              value={this.state.amountPerPlayer}
+                                              value={Math.min(this.getMaxDeal(),
+                       this.state.amountPerPlayer)}
                                               onChange={this.handleAmountPerPlayerChanged.bind(this)} />
                             </Form.Group>
                             <Form.Group controlId="reShuffleDeck">
