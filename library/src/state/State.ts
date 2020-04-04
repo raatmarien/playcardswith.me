@@ -75,6 +75,10 @@ export class State {
 
         if (deck !== null) {
             let cards = this.table.removeCardsBelongingToDeck(deckId);
+            for (let i = 0; i < this.players.length; i++) {
+                cards = cards.concat(
+                    this.players[i].removeCardsBelongingToDeck(deckId));
+            }
 
             deck.addAll(cards);
         }

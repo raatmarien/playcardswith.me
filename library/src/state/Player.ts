@@ -32,6 +32,12 @@ export default class Player {
         }
     }
 
+    removeCardsBelongingToDeck(deckId: number) {
+        let removedCards = this.hand.filter((c) => c.deckId === deckId);
+        this.hand = this.hand.filter((c) => c.deckId !== deckId);
+        return removedCards;
+    }
+
     findCardInHand(cardId: number) {
         return this.hand.find(c => c.id == cardId);
     }
