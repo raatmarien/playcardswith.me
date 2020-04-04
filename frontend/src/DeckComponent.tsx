@@ -135,11 +135,23 @@ export default class DeckComponent extends React.Component<Props, State> {
         });
     }
 
+    private getCardStackHeight() {
+        const base = 3;
+        const mult = .08;
+        const max = 7;
+        const val = base + mult * this.props.deck.cards.length;
+        return Math.min(max,val);
+    }
     public render() {
+        let stackHeight = this.getCardStackHeight();
+        let deckStyles = {
+            borderBottomWidth: stackHeight,
+            borderRightWidth: stackHeight -2,
+        }
         return (
-            <div style={{backgroundColor: this.props.deck.color }}
-                 className="deck" ref={this.props.deckRef}>
+            <div className="deck" ref={this.props.deckRef} style={deckStyles}>
                 <DropdownButton title="&#8942;" id="deck-menu-button"
+                                style={{marginRight:"3px"}}
                                 bsPrefix="custom-menu-btn">
                     <Dropdown.Item onClick={() => this.setShowDealModal(true)}>
                         Deal
