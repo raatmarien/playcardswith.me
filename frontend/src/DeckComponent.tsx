@@ -65,7 +65,9 @@ export default class DeckComponent extends React.Component<Props, State> {
     }
 
     private setShowDealModal(show: boolean) {
-        this.resetDealModalState();
+        if (show) {
+            this.resetDealModalState();
+        }
         this.setState({ showDealModal: show });
     }
 
