@@ -1,13 +1,17 @@
 .deck {
+    box-sizing: content-box;
     width: 80px;
     height: 115px;
     box-shadow: 2px 2px 8px 0px #00000088;
-    border: 1px solid #444;
-    border-radius: 5%;
+    border: 0px solid #444;
+    border-radius: 5px;
     margin: 8px;
 }
 
 .inner-deck {
+    box-sizing: content-box;
+    border: 1px solid #444;
+    border-radius: 5px;
     height: 100%;
     width: 100%;
     color: #eee;
