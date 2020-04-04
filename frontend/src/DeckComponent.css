@@ -5,6 +5,31 @@
     border: 1px solid #444;
     border-radius: 5%;
     margin: 8px;
+    flex-grow: 0;
+}
+
+.deck-col {
+    flex-grow: 0 !important;
+}
+
+.deck-buttons {
+    display: flex;
+    align-items: center;
+    justify-contents: center;
+}
+
+.deck-button-toolbar {
+    flex-grow: 1;
+    max-width: 100%;
+}
+
+.deck-button {
+    margin: 5px;
+    flex-grow: 1;
+}
+
+deck-button-toolbar {
+    flex-grow: 1;
 }
 
 .inner-deck {

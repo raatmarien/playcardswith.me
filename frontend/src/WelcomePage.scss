@@ -1,0 +1,148 @@
+$background-color: #82000e;
+$title-color: #fff;
+$text-shadow-color: #888;
+$shadow-color: #c42600; 
+$yellow-accent: #fff245; 
+
+@font-face {
+    font-family: Anton;
+    src: url("/fonts/Anton-Regular.ttf") format('truetype');
+}
+
+.welcome-page {
+    background-image: radial-gradient($background-color, #330005);
+    background-color: $background-color;
+
+    width: 100%;
+    min-height: 100vh;
+    height: 100%;
+    text-align: center;
+
+    header {
+        position: static;
+        padding-top: 3em;
+        margin-bottom: -6em;
+        img {
+            max-width: 34em;
+            width: 100%;
+        }
+    }
+
+    $button-color: #f60;
+    input[type="submit"] {
+        background-color: $button-color;
+        border: none;
+        font-family: Anton;
+        color: white;
+        font-size: 240%;
+        padding: 0.3em;
+        box-shadow: 0 8px 0 0 $shadow-color;
+        transition: 0.15s all;
+        border-radius: 0.1em;
+
+        &:hover {
+            box-shadow: 0 6px 0 0 $shadow-color;
+            transform: translateY(2px);
+        }
+
+        &:active {
+            box-shadow: 0 1px 0 0 $shadow-color;
+            transform: translateY(7px);
+        }
+
+    }
+
+    main {
+
+
+        margin: auto;
+        padding-bottom: 7em;
+
+        form {
+            margin: 0;
+            padding: 0;
+        }
+
+        input[type="text"] {
+            font-family: Anton;
+            font-size: 240%;
+            color: #444;
+            padding: 0.3em;
+            padding-left: 0.5em;
+            padding-right: 0.5em;
+            border-radius: 0.1em;
+            border: none;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            box-shadow: 0 8px 0 0 #666;
+            width: 4em;
+            text-transform: uppercase;
+
+            background-color: #fff;
+
+            &::placeholder {
+                color: #888;
+            }
+        }
+
+        .create-room {
+            input[type="submit"] {
+                font-size: 350%;
+                box-shadow: 0 16px 0 0 #260;
+                background-color: #8c0;
+                margin-bottom: 32px;
+                padding-left: 1em;
+                padding-right: 1em;
+
+                &:hover {
+                    box-shadow: 0 12px 0 0 #260;
+                    transform: translateY(4px);
+                }
+
+                &:active {
+                    box-shadow: 0 1px 0 0 #260;
+                    transform: translateY(15px);
+                }
+            }
+
+        }
+
+        .join-room {
+            input[type="submit"] {
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+
+            }
+        }
+
+        .or-message {
+            font-family: Anton;
+            font-size: 160%;
+            color: #444;
+            padding: 0;
+            padding-left: 12px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+        }
+    }
+
+    footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        background-color: #00000040;
+        color: #bbb;
+        padding: 0.8em;
+        text-align: center;
+        width: 100%;
+
+        a {
+            color: #fff;
+        }
+    }
+
+}

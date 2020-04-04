@@ -58,7 +58,16 @@ export default class HeaderComponent extends React.Component<Props> {
         this.onNameChange();
         return (
             <Navbar bg="light" expand="lg">
-                <Navbar.Brand href="/">PlayCardsWith.Me</Navbar.Brand>
+                <Navbar.Brand href="/">
+                    <img
+                        src="/img/logo-2-favicon.svg"
+                        width="30"
+                        height="30"
+                        className="d-inline-block align-top"
+                        alt="PlayCardsWith.Me logo"
+                    />{' '}
+                    PlayCardsWith.Me
+                </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav"
                                  className="justify-content-end">
@@ -84,7 +93,7 @@ export default class HeaderComponent extends React.Component<Props> {
                                     <FormControl type="text"
                                                  id="linkInput"
                                                  className="ml-2"
-                                                 value={window.location.href} 
+                                                 value={window.location.href}
                                                  disabled={true} />
                                 </Form.Group>
                             </Form>
