@@ -60,45 +60,46 @@ export default class HeaderComponent extends React.Component<Props> {
             <Navbar bg="light" expand="lg">
                 <Navbar.Brand href="/">
                     <img
-                        src="/img/logo-2-header.svg"
-                        width="182"
-                        height="40"
+                        src="/img/logo-2-favicon.svg"
+                        width="30"
+                        height="30"
                         className="d-inline-block align-top"
                         alt="PlayCardsWith.Me logo"
-                    />
+                    />{' '}
+                    PlayCardsWith.Me
                 </Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav"
-                                     className="justify-content-end">
-                        <Row>
-                            <Col>
-                                <Form inline onSubmit={this.onSubmitForNameInput}>
-                                    <Form.Group>
-                                        <Form.Label>Your name: </Form.Label>
-                                        <FormControl
-                                            className="ml-2"
-                                            id="nameInput"
-                                            ref={this.playerNameRef}
-                                            type="text"
-                                            placeholder={this.defaultPlayerName()}
-                                            onChange={this.onNameChange.bind(this)} />
-                                    </Form.Group>
-                                </Form>
-                            </Col>
-                            <Col>
-                                <Form inline>
-                                    <Form.Group>
-                                        <Form.Label>Room share link: </Form.Label>
-                                        <FormControl type="text"
-                                                     id="linkInput"
-                                                     className="ml-2"
-                                                     value={window.location.href} 
-                                                     disabled={true} />
-                                    </Form.Group>
-                                </Form>
-                            </Col>
-                        </Row>
-                    </Navbar.Collapse>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav"
+                                 className="justify-content-end">
+                    <Row>
+                        <Col>
+                            <Form inline onSubmit={this.onSubmitForNameInput}>
+                                <Form.Group>
+                                    <Form.Label>Your name: </Form.Label>
+                                    <FormControl
+                                        className="ml-2"
+                                        id="nameInput"
+                                        ref={this.playerNameRef}
+                                        type="text"
+                                        placeholder={this.defaultPlayerName()}
+                                        onChange={this.onNameChange.bind(this)} />
+                                </Form.Group>
+                            </Form>
+                        </Col>
+                        <Col>
+                            <Form inline>
+                                <Form.Group>
+                                    <Form.Label>Room share link: </Form.Label>
+                                    <FormControl type="text"
+                                                 id="linkInput"
+                                                 className="ml-2"
+                                                 value={window.location.href}
+                                                 disabled={true} />
+                                </Form.Group>
+                            </Form>
+                        </Col>
+                    </Row>
+                </Navbar.Collapse>
             </Navbar>
         );
     }
