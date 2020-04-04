@@ -17,8 +17,13 @@ export default class Player {
         this.pointer = pointer;
     }
     
-    addCardToHand(card: Card) {
-        this.hand.push(card);
+    addCardToHand(card: Card, index: number | null = null) {
+        if (index === null) {
+            this.hand.push(card);
+        } else {
+            index = Math.max(0, Math.min(index, this.hand.length - 1));
+            this.hand.splice(index, 0, card);
+        }
         return card;
     }
 
@@ -41,6 +46,17 @@ export default class Player {
 
     findCardInHand(cardId: number) {
         return this.hand.find(c => c.id == cardId);
+    }
+
+    public moveCardInHand(cardId: number, newIndex: number) {
+        newIndex = Math.max(0, Math.min(newIndex, this.hand.length - 1));
+        let card = this.findCardInHand(cardId);
+        if (card) {
+            this.removeCardFromHand(card);
+            this.hand.splice(newIndex, 0, card);
+        } else {
+            console.log("Card not found in hand:", cardId);
+        }
     }
 
     /** Get which card this player is dragging on the given table */

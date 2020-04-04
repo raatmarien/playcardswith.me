@@ -178,6 +178,16 @@ export class State {
             }
         }
     }
+
+    public moveCardInHand(cardId: number, playerId: string,
+                          newIndex: number) {
+        let player = this.getPlayer(playerId);
+        if (player) {
+            player.moveCardInHand(cardId, newIndex);
+        } else {
+            console.log("Player not found:", playerId);
+        }
+    }
 }
 
 export function initialState() {

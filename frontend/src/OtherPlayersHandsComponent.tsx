@@ -13,7 +13,12 @@ type Props = {
 
 export default class OtherPlayersHandsComponent extends React.Component<Props> {
     private getColorFor(c: LCard) {
-        return this.findCardDeck(c)!.color;
+        let deck = this.findCardDeck(c);
+        if (deck) {
+            return deck.color;
+        } else {
+            return "#000000";
+        }
     }
 
     private findCardDeck(card: LCard) : Deck | null {

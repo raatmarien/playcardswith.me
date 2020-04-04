@@ -4,6 +4,7 @@ import "./CardComponent.css";
 import Draggable, { DraggableData } from "react-draggable";
 import CardComponent from "./CardComponent";
 import CardDragReleaseHandler, {CardLocation} from "./CardDragReleaseHandler";
+import OwnHandComponent from "./OwnHandComponent";
 
 type Props = {
     card: Card,
@@ -12,6 +13,7 @@ type Props = {
     location: Vector,
     handRef: React.RefObject<HTMLDivElement>,
     cardDragReleaseHandler: CardDragReleaseHandler,
+    ownHand: OwnHandComponent,
 };
 
 type State = {
@@ -40,7 +42,15 @@ export default class TableCardComponent extends React.Component<Props, State> {
         });
     }
 
-    private onDragMove(card: Card, data: DraggableData) {
+    private onDragMove(card: Card, data: DraggableData, e: any) {
+        let loc = this.getLocObject(e);
+        if (this.props.cardDragReleaseHandler.draggedInHand(
+            loc.pageX, loc.pageY)) {
+            this.props.ownHand.cardDraggedInHand(
+                card, new Vector(data.x, data.y));
+        } else {
+            this.props.ownHand.cardDraggedOutOfHand(card);
+        }
     }
 
     /** Reset the drag state and do any potential other things
@@ -80,8 +90,6 @@ export default class TableCardComponent extends React.Component<Props, State> {
       }
 
     private onDragStop(card: Card, data: DraggableData, e: any) {
-        this.stopDrag();
-
         if (!this.cardRef.current) {
             return false;
         }
@@ -91,12 +99,18 @@ export default class TableCardComponent extends React.Component<Props, State> {
         let loc = this.getLocObject(e);
         let newX = loc.pageX - loc.clientX + rect.left,
             newY = loc.pageY - loc.clientY + rect.top;
+
+        this.stopDrag();
         if (this.props.cardDragReleaseHandler.release(
             card, CardLocation.Hand, loc.pageX, loc.pageY,
             newX, newY)) {
             this.setState({
                 draggedOutOfHand: true,
             });
+            this.props.ownHand.cardReleasedOutOfHand(card);
+        } else {
+            this.props.ownHand.cardReleasedInHand(
+                card, new Vector(data.x, data.y));
         }
     }
 
@@ -127,7 +141,8 @@ export default class TableCardComponent extends React.Component<Props, State> {
                     onStart={(e, data) =>
                         this.anyDragEvent(this.onDragStart.bind(this, card, data), card)}
                     onDrag={(e, data) =>
-                        this.anyDragEvent(this.onDragMove.bind(this, card, data), card)}
+                        this.anyDragEvent(this.onDragMove.bind(this,
+                                                               card, data, e), card)}
                     onStop={(e, data) =>
                         this.anyDragEvent(this.onDragStop.bind(this, card, data, e), card)}>
                     <div ref={this.cardRef}>

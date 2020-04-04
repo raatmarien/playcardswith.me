@@ -12,13 +12,17 @@ type Props = {
 
 export default class CardComponent extends React.Component<Props> {
     private getMyDeck() {
-        return this.props.decks.filter(
-            (d) => d.id === this.props.card.deckId)[0];
+        return this.props.decks.find(
+            (d) => d.id === this.props.card.deckId);
     }
 
     private getBackgroundColor() {
         let myDeck = this.getMyDeck();
-        return myDeck.color;
+        if (myDeck) {
+            return myDeck.color;
+        } else {
+            return "#000000";
+        }
     }
 
     public render() {
