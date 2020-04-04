@@ -17,6 +17,7 @@
     "bootstrap": "^4.4.1",
     "cards-library": "file:../library",
     "colyseus.js": "^0.12.2",
+    "node-sass": "^4.13.1",
     "randomcolor": "^0.5.4",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.0",
