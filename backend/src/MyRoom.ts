@@ -123,7 +123,7 @@ export class MyRoom extends Room {
             if (card !== undefined) {
                 //Let the player drag this card
                 let player = this.state.getPlayer(client.sessionId);
-                if (player == null) {
+                if (player === null) {
                     console.log("That player does not exist:" + client.sessionId);
                     return;
                 }
