@@ -173,7 +173,7 @@ export default class DeckComponent extends React.Component<Props, State> {
                         <Modal.Title>Deal cards</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <Form>
+                        <Form onSubmit={(e:any) => {this.dealCards(); e.preventDefault();}}>
                             <Form.Group controlId="amountToDeal">
                                 <Form.Label>Cards per player</Form.Label>
                                 <Form.Control type="number"
