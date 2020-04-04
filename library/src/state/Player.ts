@@ -16,8 +16,13 @@ export default class Player {
         this.pointer = pointer;
     }
     
-    addCardToHand(card: Card) {
-        this.hand.push(card);
+    addCardToHand(card: Card, index: number | null = null) {
+        if (index === null) {
+            this.hand.push(card);
+        } else {
+            index = Math.max(0, Math.min(index, this.hand.length - 1));
+            this.hand.splice(index, 0, card);
+        }
         return card;
     }
 
