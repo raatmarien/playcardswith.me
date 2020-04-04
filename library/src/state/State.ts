@@ -75,6 +75,10 @@ export class State {
 
         if (deck !== null) {
             let cards = this.table.removeCardsBelongingToDeck(deckId);
+            for (let i = 0; i < this.players.length; i++) {
+                cards = cards.concat(
+                    this.players[i].removeCardsBelongingToDeck(deckId));
+            }
 
             deck.addAll(cards);
         }
@@ -95,6 +99,31 @@ export class State {
             }
 
             this.decks.splice(deckIndex, 1);
+        }
+    }
+
+    public dealCards(deckId: number, amount: number,
+                     shuffleDeck: boolean) {
+        let deck = this.getDeck(deckId);
+
+        if (deck !== null) {
+            if (shuffleDeck) {
+                deck.shuffleDeck();
+            }
+
+            let totalCardsToDeal = amount * this.players.length;
+
+            if (totalCardsToDeal > deck.cards.length) {
+                console.log("Attempting to deal more cards than there "
+                    + "are from deck: ", deckId);
+                return;
+            }
+
+            for (let i = 0; i < totalCardsToDeal; i++) {
+                let card = deck.takeTopCard();
+                let player = this.players[i % this.players.length];
+                player.addCardToHand(card!);
+            }
         }
     }
 

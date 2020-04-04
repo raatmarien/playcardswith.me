@@ -1,7 +1,7 @@
 import React from "react";
-import {Deck, Card} from "cards-library";
+import {Deck, Card, Player} from "cards-library";
 import "./DeckComponent.css";
-import {DropdownButton, Dropdown} from "react-bootstrap";
+import {DropdownButton, Dropdown, Modal, Form, Button} from "react-bootstrap";
 import {DraggableCore, DraggableData} from 'react-draggable';
 import CardDragReleaseHandler, {CardLocation} from "./CardDragReleaseHandler";
 
@@ -9,10 +9,14 @@ type Props = {
     deck: Deck,
     sendMessage: (msg: any) => void,
     deckRef: any,
+    players: Player[],
     cardDragReleaseHandler: CardDragReleaseHandler,
 }
 type State = {
     draggingCard: Card | null,
+    showDealModal: boolean,
+    amountPerPlayer: number,
+    reShuffleDeck: boolean,
 }
 
 export default class DeckComponent extends React.Component<Props, State> {
@@ -21,6 +25,9 @@ export default class DeckComponent extends React.Component<Props, State> {
 
         this.state = {
             draggingCard: null,
+            showDealModal: false,
+            amountPerPlayer: 7,
+            reShuffleDeck: true,
         };
     }
 
@@ -45,6 +52,47 @@ export default class DeckComponent extends React.Component<Props, State> {
         });
     }
 
+    private getMaxDeal() {
+        return Math.floor(this.props.deck.cards.length
+            / this.props.players.length);
+    }
+
+    private resetDealModalState() {
+        this.setState({
+            amountPerPlayer: 7,
+            reShuffleDeck: true,
+        });
+    }
+
+    private setShowDealModal(show: boolean) {
+        if (show) {
+            this.resetDealModalState();
+        }
+        this.setState({ showDealModal: show });
+    }
+
+    private handleAmountPerPlayerChanged(event: any) {
+        this.setState({
+            amountPerPlayer: event.target.value
+        });
+    }
+
+    private handleReShuffleDeckChanged(event: any) {
+        this.setState({
+            reShuffleDeck: event.target.checked
+        });
+    }
+
+    private dealCards() {
+        this.props.sendMessage({
+            messageType: "deal_cards",
+            deckId: this.props.deck.id,
+            amountPerPlayer: this.state.amountPerPlayer,
+            reShuffleDeck: this.state.reShuffleDeck,
+        });
+        this.setShowDealModal(false);
+    }
+    
     private onDragStart(data: DraggableData) {
         if (this.props.deck.cards.length > 0) {
             this.props.sendMessage({
@@ -55,8 +103,8 @@ export default class DeckComponent extends React.Component<Props, State> {
             });
             this.setState({
                 draggingCard:
-                         this.props.deck.cards[
-                             this.props.deck.cards.length-1]});
+                             this.props.deck.cards[
+                                 this.props.deck.cards.length-1]});
         }
     }
 
@@ -90,9 +138,12 @@ export default class DeckComponent extends React.Component<Props, State> {
     public render() {
         return (
             <div style={{backgroundColor: this.props.deck.color }}
-                className="deck" ref={this.props.deckRef}>
+                 className="deck" ref={this.props.deckRef}>
                 <DropdownButton title="&#8942;" id="deck-menu-button"
                                 bsPrefix="custom-menu-btn">
+                    <Dropdown.Item onClick={() => this.setShowDealModal(true)}>
+                        Deal
+                    </Dropdown.Item>
                     <Dropdown.Item onClick={this.recallToThisDeck.bind(this)}>
                         Recall
                     </Dropdown.Item>
@@ -114,6 +165,43 @@ export default class DeckComponent extends React.Component<Props, State> {
                         </div>
                     </div>
                 </DraggableCore>
+
+                <Modal show={this.state.showDealModal}
+                       onHide={() => this.setShowDealModal(false)}
+                       centered >
+                    <Modal.Header closeButton>
+                        <Modal.Title>Deal cards</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form onSubmit={(e:any) => {this.dealCards(); e.preventDefault();}}>
+                            <Form.Group controlId="amountToDeal">
+                                <Form.Label>Cards per player</Form.Label>
+                                <Form.Control type="number"
+                                              min={1}
+                                              max={this.getMaxDeal()}
+                                              value={Math.min(this.getMaxDeal(),
+                       this.state.amountPerPlayer)}
+                                              onChange={this.handleAmountPerPlayerChanged.bind(this)} />
+                            </Form.Group>
+                            <Form.Group controlId="reShuffleDeck">
+                                <Form.Check
+                                    id="reShuffleDeck"
+                                    type="checkbox"
+                                    label="Shuffle deck before dealing"
+                                    checked={this.state.reShuffleDeck}
+                                    onChange={this.handleReShuffleDeckChanged.bind(this)} />
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={() => this.setShowDealModal(false)}>
+                            Cancel
+                        </Button>
+                        <Button variant="primary" onClick={() => this.dealCards()}>
+                            Deal
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         );
     }

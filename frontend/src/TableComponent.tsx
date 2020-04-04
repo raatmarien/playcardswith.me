@@ -51,6 +51,7 @@ export default class TableComponent extends React.Component<Props> {
                     decks={this.props.decks}
                     deckRefs={deckRefs}
                     sendMessage={this.props.sendMessage}
+                    players={this.props.players}
                     cardDragReleaseHandler={cardDragReleaseHandler} />
 
                 {this.props.table.locatedCards.map((locatedCard) => {
@@ -65,7 +66,8 @@ export default class TableComponent extends React.Component<Props> {
                      ;})}
                 <OtherPlayersHandsComponent
                     players={this.props.players}
-                    currentPlayerId={this.props.currentPlayerId} />
+                    currentPlayerId={this.props.currentPlayerId}
+                    decks={this.props.decks} />
             <OwnHandComponent handRef={handRef}
                               cards={this.currentPlayerHand()}
                               sendMessage={this.props.sendMessage}

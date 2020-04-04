@@ -1,6 +1,7 @@
 import { nextUID, Vector } from "../Utils";
 import Card from "./Card";
 import Table from "./Table";
+import { LocatedCard } from "..";
 
 export default class Player {
     hand: Card[];
@@ -37,6 +38,12 @@ export default class Player {
         }
     }
 
+    removeCardsBelongingToDeck(deckId: number) {
+        let removedCards = this.hand.filter((c) => c.deckId === deckId);
+        this.hand = this.hand.filter((c) => c.deckId !== deckId);
+        return removedCards;
+    }
+
     findCardInHand(cardId: number) {
         return this.hand.find(c => c.id == cardId);
     }
@@ -55,5 +62,20 @@ export default class Player {
     /** Get which card this player is dragging on the given table */
     getDraggingCard(table: Table) {
         return table.locatedCards.find(lc => lc.draggingPlayerID == this.id);
+    }
+
+    /** Make this player start dragging a certain card */
+    startDraggingCard(table: Table, locatedCard: LocatedCard) {
+        let playerDraggingCard = this.getDraggingCard(table);
+        if (playerDraggingCard !== undefined && locatedCard.draggingPlayerID === null) {
+            //The player tries to drag two cards at once,
+            //this is not allowed. The second card will be released
+            playerDraggingCard.draggingPlayerID = null;
+        }
+        
+        if (locatedCard.draggingPlayerID !== this.id) {
+            locatedCard.draggingPlayerID = this.id;
+            table.bringCardToFront(locatedCard);
+        }
     }
 }
