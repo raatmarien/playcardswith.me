@@ -36,10 +36,11 @@ export default class Table {
             locatedCard.zIndex = highestZIndex + 1;
     }
 
-    public addNewCard(card: Card, location: Vector) {
-        this.locatedCards.push(
-            new LocatedCard(card, location,
-                            this.getHighestZIndex() + 1));
+    public addNewCard(card: Card, location: Vector): LocatedCard {
+        let newLocatedCard = new LocatedCard(card, location,
+            this.getHighestZIndex() + 1);
+        this.locatedCards.push(newLocatedCard);
+        return newLocatedCard;
     }
 
     public removeCard(cardId: number) {

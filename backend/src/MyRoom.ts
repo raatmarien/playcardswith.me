@@ -132,8 +132,23 @@ export class MyRoom extends Room {
             let card = deck.takeTopCard();
 
             if (card !== undefined) {
-                this.state.table.addNewCard(
+                let locatedCard = this.state.table.addNewCard(
                     card, new Vector(message.cardX, message.cardY));
+                
+                //Let the player drag this card
+                let player = this.state.getPlayer(client.sessionId);
+                if (player == null) {
+                    console.log("That player does not exist:" + client.sessionId);
+                    return;
+                }
+                let playerDraggingCard = player.getDraggingCard(this.state.table);
+                if (playerDraggingCard !== undefined) {
+                    //The player tries to drag two cards at once,
+                    //this is not allowed. The second card will be released
+                    playerDraggingCard.draggingPlayerID = null;
+                }
+                
+                locatedCard.draggingPlayerID = client.sessionId;
             }
         } else if (message.messageType === "recall_to_deck") {
             this.state.recallToDeck(message.deckId);
