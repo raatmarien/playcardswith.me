@@ -139,6 +139,10 @@ export class MyRoom extends Room {
             this.state.recallToDeck(message.deckId);
         } else if (message.messageType === "shuffle_deck") {
             this.state.shuffleDeck(message.deckId);
+        } else if (message.messageType === "deal_cards") {
+            this.state.dealCards(message.deckId,
+                                 message.amountPerPlayer,
+                                 message.reShuffleDeck);
         } else if (message.messageType === "add_deck") {
             if ((message.amountOfEach * (message.includedCards.length
                 * message.includedSuits.length + message.includedSpecialCards.length)) > 10000) {

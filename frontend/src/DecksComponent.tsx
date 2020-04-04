@@ -1,5 +1,5 @@
 import React from "react";
-import {Deck} from "cards-library";
+import {Deck, Player} from "cards-library";
 import DeckComponent from "./DeckComponent";
 import "./DecksComponent.css";
 import {Button} from "react-bootstrap";
@@ -15,6 +15,7 @@ type Props = {
     sendMessage: (msg: any) => void,
     deckRefs: { [id: number] : React.RefObject<HTMLDivElement> },
     cardDragReleaseHandler: CardDragReleaseHandler,
+    players: Player[],
 };
 
 type State = {
@@ -185,6 +186,7 @@ export default class DecksComponent extends React.Component<Props, State> {
                             <DeckComponent deck={deck}
                                            deckRef={this.props.deckRefs[deck.id]}
                                            sendMessage={this.props.sendMessage}
+                                           players={this.props.players}
                                            cardDragReleaseHandler={this.props.cardDragReleaseHandler}/>
                         </div>)
                 }
@@ -240,10 +242,8 @@ export default class DecksComponent extends React.Component<Props, State> {
                                 <Form.Label>
                                     Amount of copies
                                 </Form.Label>
-                                <Form.Text className="text-muted">
-                                    
-                                </Form.Text>
                                 <Form.Control type="number"
+                                              min={1}
                                               value={this.state.amountOfEach}
                                               onChange={this.handleAmountOfEachChanged.bind(this)} />
                                 <Form.Text className="text-muted">

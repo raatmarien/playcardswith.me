@@ -102,6 +102,31 @@ export class State {
         }
     }
 
+    public dealCards(deckId: number, amount: number,
+                     shuffleDeck: boolean) {
+        let deck = this.getDeck(deckId);
+
+        if (deck !== null) {
+            if (shuffleDeck) {
+                deck.shuffleDeck();
+            }
+
+            let totalCardsToDeal = amount * this.players.length;
+
+            if (totalCardsToDeal > deck.cards.length) {
+                console.log("Attempting to deal more cards than there "
+                    + "are from deck: ", deckId);
+                return;
+            }
+
+            for (let i = 0; i < totalCardsToDeal; i++) {
+                let card = deck.takeTopCard();
+                let player = this.players[i % this.players.length];
+                player.addCardToHand(card!);
+            }
+        }
+    }
+
     public shuffleDeck(deckId: number) {
         let deck = this.getDeck(deckId);
 

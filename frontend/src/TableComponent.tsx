@@ -51,6 +51,7 @@ export default class TableComponent extends React.Component<Props> {
                     decks={this.props.decks}
                     deckRefs={deckRefs}
                     sendMessage={this.props.sendMessage}
+                    players={this.props.players}
                     cardDragReleaseHandler={cardDragReleaseHandler} />
 
                 {this.props.table.locatedCards.map((locatedCard) => {
