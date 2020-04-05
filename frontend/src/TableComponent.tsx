@@ -41,12 +41,13 @@ export default class TableComponent extends React.Component<Props> {
         }
 
         let handRef : React.RefObject<HTMLDivElement> = React.createRef();
+        let tableRef : React.RefObject<HTMLDivElement> = React.createRef();
 
         let cardDragReleaseHandler = new CardDragReleaseHandler(
-            this.props.sendMessage, deckRefs, handRef);
+            this.props.sendMessage, deckRefs, handRef, tableRef);
 
         return (
-            <div className="table">
+            <div className="table" ref={tableRef}>
                 <DecksComponent
                     decks={this.props.decks}
                     deckRefs={deckRefs}

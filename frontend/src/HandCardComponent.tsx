@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, Vector, Deck} from "cards-library";
+import {Card, Vector, Deck, getLocObject} from "cards-library";
 import "./CardComponent.css";
 import Draggable, { DraggableData } from "react-draggable";
 import CardComponent from "./CardComponent";
@@ -43,7 +43,8 @@ export default class TableCardComponent extends React.Component<Props, State> {
     }
 
     private onDragMove(card: Card, data: DraggableData, e: any) {
-        let loc = this.getLocObject(e);
+        let loc = getLocObject(e);
+
         if (this.props.cardDragReleaseHandler.draggedInHand(
             loc.pageX, loc.pageY)) {
             this.props.ownHand.cardDraggedInHand(
@@ -63,14 +64,6 @@ export default class TableCardComponent extends React.Component<Props, State> {
         });
     }
 
-    private getLocObject(e: any) {
-        if (e.clientX) {
-            return e;
-        } else {
-            return e.changedTouches[0];
-        }
-    }
-
     getOffset(evt:any) {
         var el = evt.target,
             x = 0,
@@ -79,15 +72,15 @@ export default class TableCardComponent extends React.Component<Props, State> {
         while (el && !isNaN(el.offsetLeft) && !isNaN(el.offsetTop)) {
             x += el.offsetLeft - el.scrollLeft;
             y += el.offsetTop - el.scrollTop;
-          el = el.offsetParent;
+            el = el.offsetParent;
         }
-      
-        let loc = this.getLocObject(evt);
+        
+        let loc = getLocObject(evt);
         x = loc.clientX - x;
         y = loc.clientY - y;
-      
+        
         return { x: x, y: y };
-      }
+    }
 
     private onDragStop(card: Card, data: DraggableData, e: any) {
         if (!this.cardRef.current) {
@@ -96,7 +89,7 @@ export default class TableCardComponent extends React.Component<Props, State> {
 
         var rect = this.cardRef.current.getBoundingClientRect();
 
-        let loc = this.getLocObject(e);
+        let loc = getLocObject(e);
         let newX = loc.pageX - loc.clientX + rect.left,
             newY = loc.pageY - loc.clientY + rect.top;
 

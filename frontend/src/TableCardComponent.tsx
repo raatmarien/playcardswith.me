@@ -1,5 +1,5 @@
 import React from 'react';
-import {LocatedCard, Player, Deck} from "cards-library";
+import {LocatedCard, Player, Deck, getLocObject} from "cards-library";
 import "./CardComponent.css";
 import Draggable, { DraggableData } from "react-draggable";
 import randomColor from "randomcolor";
@@ -73,14 +73,6 @@ export default class TableCardComponent extends React.Component<Props, State> {
         });
     }
 
-    private getLocObject(e: any) {
-        if (e.clientX) {
-            return e;
-        } else {
-            return e.changedTouches[0];
-        }
-    }
-
     private onDragStop(locatedCard: LocatedCard, data: DraggableData, e: any) {
         this.stopDrag();
 
@@ -96,7 +88,7 @@ export default class TableCardComponent extends React.Component<Props, State> {
                 });
             }
         } else {
-            let loc = this.getLocObject(e);
+            let loc = getLocObject(e);
             this.props.cardDragReleaseHandler.release(
                 this.props.locatedCard.card, CardLocation.Table,
                 loc.pageX, loc.pageY, loc.pageX, loc.pageY);

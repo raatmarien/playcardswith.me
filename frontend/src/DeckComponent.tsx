@@ -1,5 +1,5 @@
 import React from "react";
-import {Deck, Card, Player} from "cards-library";
+import {Deck, Card, Player, getLocObject} from "cards-library";
 import "./DeckComponent.css";
 import {DropdownButton, Dropdown, Modal, Form, Button} from "react-bootstrap";
 import {DraggableCore, DraggableData} from 'react-draggable';
@@ -119,15 +119,16 @@ export default class DeckComponent extends React.Component<Props, State> {
         }
     }
 
-    private onDragStop(data: DraggableData) {
+    private onDragStop(data: DraggableData, e: any) {
         this.props.sendMessage({
             messageType: "card_release"
         });
 
+        let loc = getLocObject(e);
         if (this.state.draggingCard) {
             this.props.cardDragReleaseHandler.release(
                 this.state.draggingCard!, CardLocation.Deck,
-                data.x, data.y, data.x, data.y);
+                loc.pageX, loc.pageY, data.x, data.y);
         }
 
         this.setState({
@@ -170,7 +171,7 @@ export default class DeckComponent extends React.Component<Props, State> {
                 <DraggableCore
                     onStart={(e, data) => this.onDragStart(data)}
                     onDrag={(e, data) => this.onDragMove(data)}
-                    onStop={(e, data) => this.onDragStop(data)}>
+                    onStop={(e, data) => this.onDragStop(data, e)}>
                     <div className="inner-deck" style={{backgroundColor: this.props.deck.color}}>
                         <div>
                             {this.props.deck.cards.length} cards

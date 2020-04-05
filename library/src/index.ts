@@ -5,7 +5,7 @@ import { Deck } from "./state/Deck";
 import Table from "./state/Table";
 import { State, initialState } from "./state/State";
 import Player from "./state/Player";
-import { Vector } from "./Utils";
+import { Vector, getLocObject } from "./Utils";
 
 export {
     Card,
@@ -15,6 +15,7 @@ export {
     Player,
     initialState,
     Vector,
-    LocatedCard
+    LocatedCard,
+    getLocObject,
 }
     
