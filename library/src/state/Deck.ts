@@ -32,6 +32,13 @@ export class Deck {
         this.cards.push(card);
     }
 
+    addToRandom(card: Card) {
+        card.open = false;
+        card.deckId = this.id;
+        let index = Math.floor(Math.random() * (this.cards.length + 1));
+        this.cards.splice(index, 0, card);
+    }
+
     addAll(cards: Card[]) {
         for (let card of cards) {
             this.addToTop(card);
