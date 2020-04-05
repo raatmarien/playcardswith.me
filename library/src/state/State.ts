@@ -34,9 +34,11 @@ export class State {
             // instead
             for (let i = 0; i < player.hand.length; i++) {
                 let card = player.hand[i];
-                let deck = this.getDeck(card.deckId);
-                if (deck) {
-                    deck.addToRandom(card);
+                if (card.deckId !== null) {
+                    let deck = this.getDeck(card.deckId);
+                    if (deck) {
+                        deck.addToRandom(card);
+                    }
                 }
             }
 
