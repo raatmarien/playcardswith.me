@@ -12,9 +12,30 @@ export default class RoomHelper {
         });
     }
 
+    public static rejoinOrJoinPrivateRoom(client:Colyseus.Client, roomID:string) {
+        if (sessionStorage.getItem("lastRoom") === roomID) {
+            console.log("rejoining");
+            return client.reconnect(
+                roomID,
+                sessionStorage.getItem("lastSessionId") ?? "")
+                .then((room) => {
+                    this.changeRoomIDInUrl(room.id);
+                    return room;
+                }).catch(err => {
+                    return this.joinPrivateRoom(client, roomID);
+                });
+        } else {
+            return this.joinPrivateRoom(client, roomID);
+        }
+    }
+
     public static joinPrivateRoom(client:Colyseus.Client, roomID:string) {
+
         return client.joinById(roomID).then(room => {
             this.changeRoomIDInUrl(room.id);
+
+            sessionStorage.setItem("lastRoom", room.id);
+            sessionStorage.setItem("lastSessionId", room.sessionId);
             return room;
         }).catch(reason => {
             alert("That room does not exist! Creating a new one.");
@@ -32,7 +53,7 @@ export default class RoomHelper {
             return this.createPrivateRoom(client);
         } else {
             roomId = roomId.toUpperCase()
-            return this.joinPrivateRoom(client, roomId);
+            return this.rejoinOrJoinPrivateRoom(client, roomId);
         }
     }
 }

@@ -209,12 +209,17 @@ export class MyRoom extends Room {
         }
     }
 
-    onLeave (client: Client, consented: boolean) {
+    async onLeave (client: Client, consented: boolean) {
         numberOfPeople--;
         console.log("Number of people: " + numberOfPeople);
 
-
-        this.state.removePlayer(client.id);
+        try {
+            // allow disconnected client to reconnect into this room until 20 seconds
+            await this.allowReconnection(client, 20);
+        } catch (e) {
+            // The reconnection timeout expired, remove the player:
+            this.state.removePlayer(client.id);
+        }
     }
 
     onDispose() {
