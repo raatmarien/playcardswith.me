@@ -25,3 +25,21 @@ export class Vector {
         this.y = y;
     }
 }
+
+export function getLocObject(e: any) {
+    if (e) {
+        if (e.clientX) {
+            return e;
+        } else {
+            if (e.changedTouches && e.changedTouches.length > 0) {
+                return e.changedTouches[0];
+            }
+            else {
+                return null;
+            }
+        }
+    }
+    else {
+        return null
+    }
+}

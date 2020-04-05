@@ -15,12 +15,14 @@ export default class CardDragReleaseHandler {
     private sendMessage: Sender;
     private deckRefs: DeckRefs;
     private ownHandRef: Ref;
+    private tableRef: Ref;
 
     constructor(sendMessage: Sender, deckRefs: DeckRefs,
-                ownHandRef: Ref) {
+                ownHandRef: Ref, tableRef: Ref) {
         this.sendMessage = sendMessage;
         this.deckRefs = deckRefs;
         this.ownHandRef = ownHandRef;
+        this.tableRef = tableRef;
     }
 
     private getCardDeck(card: Card) {
@@ -32,8 +34,8 @@ export default class CardDragReleaseHandler {
             return false;
         }
         let rect = ref.current.getBoundingClientRect();
-        return (x > rect.x && x < (rect.x + rect.width) &&
-                y > rect.y && y < (rect.y + rect.height));
+        return (x >= rect.x && x <= (rect.x + rect.width) &&
+                y >= rect.y && y <= (rect.y + rect.height));
     }
 
     public draggedInHand(x: number, y: number) {
@@ -66,7 +68,7 @@ export default class CardDragReleaseHandler {
                     messageType: "remove_card_from_hand",
                     cardId: card.id,
                     cardX: newCardX,
-                    cardY: newCardY,
+                    cardY: newCardY - this.tableRef.current!.getBoundingClientRect().top,
                 });
                 return true;
             } else if (currentLocation === CardLocation.Deck) {
