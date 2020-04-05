@@ -33,9 +33,16 @@ export default class App extends React.Component<Props, AppState> {
     }
 
     public componentDidMount() {
-        //For better debugging, find servers on other computers too
-        let url = new URL(window.location.href);
-        let client = new Colyseus.Client("ws://" + url.hostname + ":2567");
+        let url;
+
+        if (process.env.NODE_ENV === "production") {
+            url = "wss://playcardswith.me";
+        } else {
+            //For better debugging, find servers on other computers too
+            url = "ws://" + new URL(window.location.href).hostname + ":2567";
+        }
+
+        let client = new Colyseus.Client(url);
         RoomHelper.connect(client, this.props.roomId)
                   .then((r:Colyseus.Room) => this.onRoomJoin(r));
     }
