@@ -21,10 +21,25 @@ export class State {
     public removePlayer(id: string) {
         let index = this.getPlayerIndex(id);
         if (index !== null) {
+            let player = this.players[index];
             //Find whether this player has claimed any card. If so, unclaim it
-            let claimedCard = this.players[index].getDraggingCard(this.table);
+            let claimedCard = player.getDraggingCard(this.table);
             if (claimedCard !== undefined) {
                 claimedCard.draggingPlayerID = null;
+            }
+
+            // Return the cards from the player's hand back into their
+            // decks
+            // When we have a sink we should put it in the sink
+            // instead
+            for (let i = 0; i < player.hand.length; i++) {
+                let card = player.hand[i];
+                if (card.deckId !== null) {
+                    let deck = this.getDeck(card.deckId);
+                    if (deck) {
+                        deck.addToRandom(card);
+                    }
+                }
             }
 
             this.players.splice(index, 1);
