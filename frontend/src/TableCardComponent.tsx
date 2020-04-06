@@ -1,5 +1,5 @@
 import React from 'react';
-import {LocatedCard, Player, Deck, getLocObject} from "cards-library";
+import {LocatedCard, Player, Deck, getLocObject, countAsClick} from "cards-library";
 import "./CardComponent.css";
 import Draggable, { DraggableData } from "react-draggable";
 import randomColor from "randomcolor";
@@ -30,13 +30,6 @@ export default class TableCardComponent extends React.Component<Props, State> {
         this.state = {
             dragging: false,
         };
-    }
-
-    private countAsClick(data: DraggableData) {
-        let difX = this.startX - data.x;
-        let difY = this.startY - data.y;
-        let distSq = difX * difX + difY * difY;
-        return distSq < 100;
     }
 
     private onDragStart(locatedCard: LocatedCard, data: DraggableData) {
@@ -80,7 +73,7 @@ export default class TableCardComponent extends React.Component<Props, State> {
             messageType: "card_release"
         });
 
-        if (this.countAsClick(data)) {
+        if (countAsClick(this.startX, this.startY, data.x, data.y)) {
             if (e.type === "mouseup") {
                 this.props.sendMessage({
                     messageType: "card_turn",

@@ -21,7 +21,7 @@ export default class Player {
         if (index === null) {
             this.hand.push(card);
         } else {
-            index = Math.max(0, Math.min(index, this.hand.length - 1));
+            index = Math.max(0, Math.min(index, this.hand.length));
             this.hand.splice(index, 0, card);
         }
         return card;
