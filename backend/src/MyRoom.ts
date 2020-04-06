@@ -210,9 +210,6 @@ export class MyRoom extends Room {
     }
 
     async onLeave (client: Client, consented: boolean) {
-        numberOfPeople--;
-        console.log("Number of people: " + numberOfPeople);
-
         try {
             // allow disconnected client to reconnect into this room until 20 seconds
             await this.allowReconnection(client, 20);
@@ -220,6 +217,9 @@ export class MyRoom extends Room {
             // The reconnection timeout expired, remove the player:
             this.state.removePlayer(client.id);
         }
+
+        numberOfPeople--;
+        console.log("Number of people: " + numberOfPeople);
     }
 
     onDispose() {
