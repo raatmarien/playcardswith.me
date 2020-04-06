@@ -43,3 +43,11 @@ export function getLocObject(e: any) {
         return null
     }
 }
+
+export function countAsClick(startX: number, startY: number,
+                             endX: number, endY: number) {
+    let difX = startX - endX;
+    let difY = startY - endY;
+    let distSq = difX * difX + difY * difY;
+    return distSq < 100;
+}

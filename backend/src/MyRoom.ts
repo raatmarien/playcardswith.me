@@ -92,19 +92,25 @@ export class MyRoom extends Room {
             draggingCard.draggingPlayerID = null;
         } else if (message.messageType === "card_turn") {
             let locatedCard = this.state.table.getLocatedCard(message.cardId);
-            if (!locatedCard) {
-                console.log("Invalid card id:", message.cardId);
-                return;
+            let card = null;
+            if (locatedCard !== null) {
+                if (locatedCard.draggingPlayerID !== null &&
+                    locatedCard.draggingPlayerID !== client.sessionId) {
+                    //maybe send a message to the client?
+                    return;
+                }
+                card = locatedCard.card;
+                this.state.table.bringCardToFront(locatedCard);
             }
-            if (locatedCard.draggingPlayerID !== null &&
-                locatedCard.draggingPlayerID !== client.sessionId) {
-                //maybe send a message to the client?
-                return;
+            if (card === null) {
+                let player = this.state.getPlayer(client.sessionId);
+                if (player) {
+                    card = player.findCardInHand(message.cardId);
+                }
+            }                
+            if (card) {
+                card.open = !card.open;
             }
-            let card = locatedCard.card;
-            card.open = !card.open;
-
-            this.state.table.bringCardToFront(locatedCard);
         } else if (message.messageType === "pointer_move") {
             let player = this.state.getPlayer(message.playerId);
 
@@ -181,6 +187,7 @@ export class MyRoom extends Room {
 
             this.state.table.removeCard(message.cardId);
 
+            locatedCard.card.open = true;
             player.addCardToHand(locatedCard.card, message.index);
         } else if (message.messageType === "remove_card_from_hand") {
             //Find the player

@@ -16,7 +16,6 @@ export default class Table {
             }
         }
 
-        console.log("Invalid card id:", cardId);
         return null;
     }
 

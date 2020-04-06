@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, Vector, Deck, getLocObject} from "cards-library";
+import {Card, Vector, Deck, getLocObject, countAsClick} from "cards-library";
 import "./CardComponent.css";
 import Draggable, { DraggableData } from "react-draggable";
 import CardComponent from "./CardComponent";
@@ -24,6 +24,9 @@ type State = {
 
 export default class TableCardComponent extends React.Component<Props, State> {
     private cardRef:React.RefObject<HTMLDivElement>;
+    private startX: number = -1;
+    private startY: number = -1;
+
 
     constructor(props: Props) {
         super(props);
@@ -37,6 +40,8 @@ export default class TableCardComponent extends React.Component<Props, State> {
     }
 
     private onDragStart(card: Card, data: DraggableData) {
+        this.startX = data.x;
+        this.startY = data.y;
         this.setState({
             dragging: true,
         });
@@ -105,6 +110,15 @@ export default class TableCardComponent extends React.Component<Props, State> {
             this.props.ownHand.cardReleasedInHand(
                 card, new Vector(data.x, data.y));
         }
+        if (countAsClick(this.startX, this.startY,
+                          data.x, data.y)) {
+            if (e.type === "mouseup") {
+                this.props.sendMessage({
+                    messageType: "card_turn",
+                    cardId: this.props.card.id
+                });
+            }
+        }
     }
 
     private anyDragEvent(dragEvent: ()=>void,
@@ -114,7 +128,6 @@ export default class TableCardComponent extends React.Component<Props, State> {
 
     public render() {
         let card = this.props.card;
-        card.open = true;
 
         let styles = {
             zIndex: -1,
