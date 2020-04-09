@@ -86,14 +86,49 @@ export default class App extends React.Component<Props, AppState> {
         }
     }
 
-    private onMouseMove(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    private onMouseMove(e: React.MouseEvent<HTMLInputElement, MouseEvent>) {
         if (this.room) {
-            this.sendMessage({
-                messageType: "pointer_move",
-                playerId: this.room.sessionId,
-                pointerX: e.clientX,
-                pointerY: e.clientY,
-            });
+            let target = (e.target as HTMLElement | null);
+            // necessary? how to perform proper checks for cast?
+            if(target === null){
+                return;
+            }
+            // return variable for the loop
+            type state = "continue" | "succeed" | "halt";
+
+            let checkNode = (node: HTMLElement | null) => {
+                let stops = ["root", "hand"];
+                let halt = (node: HTMLElement)=>{
+                    let classes = node.className.split(" ");
+                    let union = new Set([...classes, ...stops]);
+                    // see if there is overlap, if so halt
+                    if(union.size !== (classes.length + stops.length))
+                        return true;
+                    return false;
+                }
+
+                if(node === null || node.className == undefined)
+                    return "halt";
+                if(halt(node))
+                    return "halt";
+                // request parent node has been found
+                if(node.className.includes("table"))
+                    return "succeed";
+                return "continue";
+            }
+
+            let state: state;
+            while((state=checkNode(target)) === "continue"){
+                target = target.parentNode as HTMLElement;
+            }
+
+            if(state === "succeed")
+                this.sendMessage({
+                    messageType: "pointer_move",
+                    playerId: this.room.sessionId,
+                    pointerX: e.clientX,
+                    pointerY: e.clientY,
+                });
         }
     }
 
