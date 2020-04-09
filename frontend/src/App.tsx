@@ -86,7 +86,7 @@ export default class App extends React.Component<Props, AppState> {
         }
     }
 
-    private onMouseMove(e: React.MouseEvent<HTMLInputElement, MouseEvent>) {
+    private onMouseMove(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
         if (this.room) {
             let target = (e.target as HTMLElement | null);
             // necessary? how to perform proper checks for cast?
@@ -107,7 +107,7 @@ export default class App extends React.Component<Props, AppState> {
                     return false;
                 }
 
-                if(node === null || node.className == undefined)
+                if(node === null || node.className === undefined)
                     return "halt";
                 if(halt(node))
                     return "halt";
