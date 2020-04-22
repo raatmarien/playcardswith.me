@@ -90,7 +90,7 @@ export default class App extends React.Component<Props, AppState> {
         if (this.room) {
             let target = (e.target as HTMLElement | null);
             // necessary? how to perform proper checks for cast?
-            if(target === null){
+            if(!(target instanceof HTMLElement)) {
                 return;
             }
             // return variable for the loop
