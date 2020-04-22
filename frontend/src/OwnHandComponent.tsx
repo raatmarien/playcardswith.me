@@ -148,7 +148,7 @@ export default class OwnHandComponent extends React.Component<Props, State> {
 
     public render() {
         return (
-            <div className="ownHand" ref={this.props.handRef}>
+            <div className="hand ownHand" ref={this.props.handRef}>
                 <p>Your hand:</p>
                 {this.state.dragCards.map((dragCard, index) => {
                      return (<HandCardComponent
