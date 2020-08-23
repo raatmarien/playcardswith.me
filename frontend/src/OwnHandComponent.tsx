@@ -18,7 +18,9 @@ type State = {
     draggedCardOutOfHand: Card | null,
 };
 
+
 export default class OwnHandComponent extends React.Component<Props, State> {
+    public static CARD_OWN_HAND_SIZE = 50;
 
     constructor(props: Props) {
         super(props);
@@ -91,7 +93,7 @@ export default class OwnHandComponent extends React.Component<Props, State> {
     
     private static draggedCardInHand(
         props: Props, draggedCard: Card, location: Vector) {
-        let index = Math.round(location.x / 100);
+        let index = Math.round(location.x / OwnHandComponent.CARD_OWN_HAND_SIZE);
         index = Math.max(index, 0);
         let dragCards = [];
         let j = 0;
@@ -125,7 +127,7 @@ export default class OwnHandComponent extends React.Component<Props, State> {
         this.props.sendMessage({
             messageType: "move_card_in_hand",
             cardId: card.id,
-            index: Math.round(location.x / 100),
+            index: Math.round(location.x / OwnHandComponent.CARD_OWN_HAND_SIZE),
         });
         this.setState({
             dragCards: OwnHandComponent.handWithNoDrags(
@@ -143,7 +145,7 @@ export default class OwnHandComponent extends React.Component<Props, State> {
     }
 
     private static locationFor(index: number) {
-        return new Vector(index * 100, 0);
+        return new Vector(index * OwnHandComponent.CARD_OWN_HAND_SIZE, 0);
     }
 
     public render() {

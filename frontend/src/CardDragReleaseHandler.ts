@@ -1,5 +1,6 @@
 import React from 'react';
 import {Card} from 'cards-library';
+import OwnHandComponent from './OwnHandComponent';
 
 type Ref = React.RefObject<HTMLDivElement>;
 type DeckRefs = { [deckId: number] : Ref };
@@ -50,7 +51,7 @@ export default class CardDragReleaseHandler {
                 this.sendMessage({
                     messageType: "add_card_to_hand",
                     cardId: card.id,
-                    index: Math.floor(x / 100),
+                    index: Math.floor(x / OwnHandComponent.CARD_OWN_HAND_SIZE),
                 });
                 return true;
             }
